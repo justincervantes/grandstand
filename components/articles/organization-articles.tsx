@@ -20,6 +20,14 @@ const OrganizationArticles = (props) => {
     const [newArticleTitle, setNewArticleTitle] = useState('');
     const { addToast } = useToast();
 
+    const updateArticles = (updatedArticleId, content, title) => {
+        const articlesCopy = articles;
+        let updatedArticle = articlesCopy.find(({ id }) => id === updatedArticleId);
+        updatedArticle.content = content;
+        updatedArticle.title = title;
+        setArticles(articlesCopy);
+    };
+
     useEffect(() => {
         const fetchArticles = async () => {
             setIsLoading(true);
@@ -159,7 +167,10 @@ const OrganizationArticles = (props) => {
                 </div>
                 <div className="col-span-10 border w-full min-h-[73vh] max-h-[73h] grid">
                     {selectedArticleId && (
-                        <ArticleEditor article={articles.find(({ id }) => id === selectedArticleId)} />
+                        <ArticleEditor
+                            article={articles.find(({ id }) => id === selectedArticleId)}
+                            updateStateArticles={updateArticles}
+                        />
                     )}
                 </div>
             </div>
