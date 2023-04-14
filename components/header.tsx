@@ -14,14 +14,14 @@ export default function Header() {
     return (
         <header>
             <ShowToast />
-            <title>Kako and Mirai</title>
+            <title>Spotlight</title>
             <link rel="icon" type="image/png" href="/favicon.ico" />
             <div className="relative bg-white">
                 <div className="mx-auto w-full px-4 sm:px-6">
                     <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
                         <div className="flex justify-start lg:w-0 lg:flex-1">
                             <a href="/">
-                                <span className="sr-only">Kako and Mirai</span>
+                                <span className="sr-only">Spotlight</span>
                                 <Image className="h-12 w-auto" src={logo} alt="Logo" />
                             </a>
                         </div>
@@ -40,12 +40,6 @@ export default function Header() {
                                     className={router.pathname === '/articles' ? activeHeading : heading}
                                 >
                                     Articles
-                                </Link>
-                                <Link
-                                    href="/organizations"
-                                    className={router.pathname === '/organizations' ? activeHeading : heading}
-                                >
-                                    Organizations
                                 </Link>
                             </nav>
                         )}

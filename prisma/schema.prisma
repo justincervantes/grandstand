@@ -39,17 +39,17 @@ model Session {
 }
 
 model User {
-  id                   String               @id @default(cuid())
-  name                 String?
-  email                String?              @unique
-  emailVerified        DateTime?
-  image                String?
-  accounts             Account[]
-  sessions             Session[]
-  articleActions       ArticleUserActions[]
-  createdArticles      Article[]            @relation("ArticleCreatedBy")
-  updatedArticles      Article[]            @relation("ArticleUpdatedBy")
-  deletedArticles      Article[]            @relation("ArticleDeletedBy")
+  id              String               @id @default(cuid())
+  name            String?
+  email           String?              @unique
+  emailVerified   DateTime?
+  image           String?
+  accounts        Account[]
+  sessions        Session[]
+  articleActions  ArticleUserActions[]
+  createdArticles Article[]            @relation("ArticleCreatedBy")
+  updatedArticles Article[]            @relation("ArticleUpdatedBy")
+  deletedArticles Article[]            @relation("ArticleDeletedBy")
 
   @@map("user")
 }
@@ -67,7 +67,6 @@ model Article {
   id              String               @id @default(cuid())
   title           String?
   content         String               @db.Text
-  organizationId  String
   createdByUserId String
   createdAt       DateTime
   updatedByUserId String?

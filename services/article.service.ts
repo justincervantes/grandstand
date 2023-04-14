@@ -11,16 +11,12 @@ export default class ArticleService extends BaseService {
 
     public createArticle = async ({
         articleTitle,
-        organizationId,
     }: {
         articleTitle: string;
         organizationId: string;
     }): Promise<Article> => {
-        // Validate - Throw if the user does not belong to the organization
-        if (!articleTitle || !organizationId) throw new Error(ErrorDictionary.INVALID_REQUEST);
-        await prisma.user.findFirstOrThrow({
-            where: { id: this.sessionUserId, organizations: { some: { id: organizationId } } },
-        });
+        // Validate
+        if (!articleTitle) throw new Error(ErrorDictionary.INVALID_REQUEST);
 
         // Action
         const article = await prisma.article.create({
@@ -29,7 +25,6 @@ export default class ArticleService extends BaseService {
                 content: '',
                 createdAt: moment.utc().format(),
                 createdBy: { connect: { id: this.sessionUserId } },
-                organization: { connect: { id: organizationId } },
                 history: {
                     create: [{ action: ModifyArticleAction.create, user: { connect: { id: this.sessionUserId } } }],
                 },
@@ -38,18 +33,11 @@ export default class ArticleService extends BaseService {
         return article;
     };
 
-    getArticles = async ({ organizationId }: { organizationId: string }): Promise<Article[]> => {
-        // Validate - Throw if the user does not belong to the organization
-        if (!organizationId) throw new Error(ErrorDictionary.INVALID_REQUEST);
-        await prisma.user.findFirstOrThrow({
-            where: { id: this.sessionUserId, organizations: { some: { id: organizationId } } },
-        });
-
-        // Action
+    getArticles = async (): Promise<Article[]> => {
         const articles = await prisma.article.findMany({
             where: {
                 deletedBy: null,
-                organizationId: organizationId,
+                createdByUserId: this.sessionUserId,
             },
         });
         return articles;
@@ -64,17 +52,6 @@ export default class ArticleService extends BaseService {
         articleTitle: string;
         content: string;
     }): Promise<Article> => {
-        // Validate - Throw if the user does not belong to the organization
-        if (!articleTitle || !articleId) throw new Error(ErrorDictionary.INVALID_REQUEST);
-        const { organizationId } = await prisma.article.findFirstOrThrow({
-            where: { id: articleId },
-            select: { organizationId: true },
-        });
-        await prisma.user.findFirstOrThrow({
-            where: { id: this.sessionUserId, organizations: { some: { id: organizationId } } },
-        });
-
-        // Action
         const article = await prisma.article.update({
             where: {
                 id: articleId,
@@ -92,19 +69,9 @@ export default class ArticleService extends BaseService {
         return article;
     };
 
-    deleteArticle = async ({
-        articleId,
-        organizationId,
-    }: {
-        articleId: string;
-        organizationId: string;
-    }): Promise<Article> => {
-        // Validate - Throw if the user does not belong to the organization
+    deleteArticle = async ({ articleId }: { articleId: string }): Promise<Article> => {
+        // Validate
         if (!articleId) throw new Error(ErrorDictionary.INVALID_REQUEST);
-        await prisma.user.findFirstOrThrow({
-            where: { id: this.sessionUserId, organizations: { some: { id: organizationId } } },
-        });
-
         // Action
         const article = await prisma.article.update({
             where: { id: articleId },
