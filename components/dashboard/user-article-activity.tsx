@@ -5,23 +5,21 @@ import { ReactNode, useEffect, useState } from 'react';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import actionDictionary from '../../lib/actionDictionary';
-import { localStorageKeys, setLocalStorageSelectedArticle } from '../../lib/localStorageKeys';
+import { setLocalStorageSelectedArticle } from '../../lib/localStorageKeys';
 
 const UserArticleActivity = () => {
     const [userActivity, setUserActivity] = useState([]);
     const { addToast } = useToast();
     const tableColumns = [
         { label: 'Article Title', value: 'title' },
-        { label: 'Organization', value: 'organizationName' },
         { label: 'Action', value: 'action' },
         { label: 'Date', value: 'date' },
     ];
     const tdStyle = 'border-b border-slate-400 p-4 pl-8 text-black hover:bg-orange-100';
     const router = useRouter();
-    const handleArticleClick = (e, organizationId, articleId) => {
+    const handleArticleClick = (e, articleId) => {
         e.preventDefault();
-        localStorage.setItem(localStorageKeys.articlesSelectedOrg, organizationId);
-        setLocalStorageSelectedArticle(articleId, organizationId);
+        setLocalStorageSelectedArticle(articleId);
         router.push('/articles');
     };
 
@@ -42,8 +40,7 @@ const UserArticleActivity = () => {
 
     const renderTableRow = (articleActivity, index): ReactNode[] => {
         const { article, action, date } = articleActivity ?? {};
-        const { deletedAt, id: articleId, title: articleTitle, organization } = article ?? {};
-        const { id: organizationId, name: organizationName } = organization ?? {};
+        const { deletedAt, id: articleId, title: articleTitle } = article ?? {};
         return tableColumns.map(({ value }): ReactNode => {
             const deletedArticlenoLinkTitle = (
                 <td className={tdStyle} key={articleTitle + index}>
@@ -54,7 +51,7 @@ const UserArticleActivity = () => {
                 <td className={tdStyle} key={articleTitle + index}>
                     <a
                         key={articleTitle + 'a' + index}
-                        onClick={(e) => handleArticleClick(e, organizationId, articleId)}
+                        onClick={(e) => handleArticleClick(e, articleId)}
                         className="underline text-blue-600 hover:text-blue-800 hover:cursor-pointer visited:text-purple-600"
                     >
                         {articleTitle}
@@ -64,11 +61,6 @@ const UserArticleActivity = () => {
             const titleValue = deletedAt ? deletedArticlenoLinkTitle : validArticleValidLinkTitle;
             const columnValues = {
                 title: titleValue,
-                organizationName: (
-                    <td className={tdStyle} key={organizationName + index}>
-                        {organizationName}
-                    </td>
-                ),
                 action: (
                     <td className={tdStyle} key={actionDictionary[action] + index}>
                         {actionDictionary[action]}
@@ -116,14 +108,7 @@ const UserArticleActivity = () => {
             {userActivity.length <= 0 && (
                 <div className="flex w-full h-full rounded-lg items-center justify-center bg-orange-100">
                     <span>
-                        Once you{' '}
-                        <a
-                            href="/organizations"
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                        >
-                            create
-                        </a>{' '}
-                        or are invited to an organization, you can start creating{' '}
+                        Once you start creating{' '}
                         <a href="/articles" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                             articles.{' '}
                         </a>{' '}
@@ -132,8 +117,7 @@ const UserArticleActivity = () => {
                         Once you post an article, this dashboard section will update to show your article history.
                         <br />
                         <br />
-                        The bottom right (where the bird is) will show a table with the most Recent Activity from your
-                        Organizations.
+                        The bottom right (where the bird is) will show a table with the most Recent Activity.
                     </span>
                 </div>
             )}
