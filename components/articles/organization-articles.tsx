@@ -31,7 +31,7 @@ const OrganizationArticles = (props) => {
         const fetchArticles = async () => {
             setIsLoading(true);
             await axios
-                .post('/api/articles/getArticles', {})
+                .post('/api/blog/getArticles', {})
                 .then((response) => setArticles(response.data.article))
                 .catch((error) => {
                     const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
@@ -56,7 +56,7 @@ const OrganizationArticles = (props) => {
         }
         setIsLoading(true);
         await axios
-            .post('/api/articles/createArticle', {
+            .post('/api/blog/createArticle', {
                 articleTitle: newArticleTitle,
             })
             .then((response) => {
@@ -68,7 +68,7 @@ const OrganizationArticles = (props) => {
                 addToast(errorMessage, 'Error');
             });
         await axios
-            .post('/api/articles/getArticles', {})
+            .post('/api/blog/getArticles', {})
             .then((response) => setArticles(response.data.article))
             .catch((error) => {
                 const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
@@ -80,7 +80,7 @@ const OrganizationArticles = (props) => {
     const deleteArticle = async ({ id: articleId }) => {
         setIsLoading(true);
         await axios
-            .post('/api/articles/deleteArticle', {
+            .post('/api/blog/deleteArticle', {
                 articleId,
             })
             .then(() => {
@@ -91,7 +91,7 @@ const OrganizationArticles = (props) => {
                 addToast(errorMessage, 'Error');
             });
         await axios
-            .post('/api/articles/getArticles', {})
+            .post('/api/blog/getArticles', {})
             .then((response) => setArticles(response.data.article))
             .catch((error) => {
                 const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');

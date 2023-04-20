@@ -20,7 +20,7 @@ const UserArticleActivity = () => {
     const handleArticleClick = (e, articleId) => {
         e.preventDefault();
         setLocalStorageSelectedArticle(articleId);
-        router.push('/articles');
+        router.push('/blog');
     };
 
     useEffect(() => {
@@ -108,9 +108,9 @@ const UserArticleActivity = () => {
             {userActivity.length <= 0 && (
                 <div className="flex w-full h-full rounded-lg items-center justify-center bg-orange-100">
                     <span>
-                        Once you start creating{' '}
-                        <a href="/articles" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                            articles.{' '}
+                        Once you start creating a{' '}
+                        <a href="/blog" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                            blog.{' '}
                         </a>{' '}
                         <br />
                         <br />

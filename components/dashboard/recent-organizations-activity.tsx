@@ -16,7 +16,7 @@ const RecentOrganizationsActivity = () => {
     const handleArticleClick = (e, articleId) => {
         e.preventDefault();
         setLocalStorageSelectedArticle(articleId);
-        router.push('/articles');
+        router.push('/blog');
     };
     const tdStyle = 'border-b border-slate-400 p-4 pl-8 text-black hover:bg-orange-100';
     const tableColumns = [

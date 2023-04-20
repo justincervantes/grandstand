@@ -23,7 +23,7 @@ const ArticleEditor = ({ article, updateStateArticles }) => {
 
     const updateArticle = async () => {
         try {
-            await axios.post('/api/articles/updateArticle', {
+            await axios.post('/api/blog/updateArticle', {
                 articleTitle: title,
                 articleId: id,
                 content,
