@@ -1,5 +1,5 @@
 import BaseService from './base.service';
-import { Organization, Article, ArticleUserActions } from '@prisma/client';
+import { Article, ArticleUserActions } from '@prisma/client';
 import prisma from '../lib/prismadb';
 
 export default class DashboardService extends BaseService {
@@ -7,35 +7,20 @@ export default class DashboardService extends BaseService {
         super(sessionToken);
     }
 
-    getRecentPosts = async (): Promise<Partial<Organization>[]> => {
-        const organizations = await prisma.organization.findMany({
+    getRecentPosts = async (): Promise<Partial<Article>[]> => {
+        const articles = await prisma.article.findMany({
             where: {
-                deletedAt: null,
-                users: {
-                    some: {
-                        id: this.sessionUserId,
-                    },
-                },
-                articles: {
-                    some: {
-                        deletedAt: null,
-                    },
-                },
+                deletedBy: null,
+                createdByUserId: this.sessionUserId,
             },
             select: {
-                name: true,
+                title: true,
+                createdAt: true,
+                updatedAt: true,
                 id: true,
-                articles: {
-                    select: {
-                        title: true,
-                        createdAt: true,
-                        updatedAt: true,
-                        id: true,
-                    },
-                },
             },
         });
-        return organizations;
+        return articles;
     };
 
     getUserArticleActions = async (): Promise<Partial<ArticleUserActions>[]> => {
@@ -49,7 +34,6 @@ export default class DashboardService extends BaseService {
                         id: true,
                         title: true,
                         deletedAt: true,
-                        organization: { select: { id: true, name: true } },
                     },
                 },
             },
@@ -62,14 +46,7 @@ export default class DashboardService extends BaseService {
         const posts = await prisma.article.findMany({
             where: {
                 deletedBy: null,
-                organization: {
-                    deletedAt: null,
-                    users: {
-                        some: {
-                            id: this.sessionUserId,
-                        },
-                    },
-                },
+                createdByUserId: this.sessionUserId,
             },
             select: {
                 createdAt: true,

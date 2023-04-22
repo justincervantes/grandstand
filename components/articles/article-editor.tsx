@@ -6,7 +6,7 @@ import { useToast } from '../../context/ToastContext';
 import TitleInput from './title-input';
 import ArticleActions from './article-actions';
 
-const ArticleEditor = ({ article }) => {
+const ArticleEditor = ({ article, updateStateArticles }) => {
     const { id, title: titleProp = '', content: contentProp = '' } = article ?? {};
     const [originalTitle, setOriginalTitle] = useState(titleProp);
     const [originalContent, setOriginalContent] = useState(contentProp);
@@ -23,13 +23,14 @@ const ArticleEditor = ({ article }) => {
 
     const updateArticle = async () => {
         try {
-            await axios.post('/api/articles/updateArticle', {
+            await axios.post('/api/blog/updateArticle', {
                 articleTitle: title,
                 articleId: id,
                 content,
             });
             setOriginalTitle(title);
             setOriginalContent(content);
+            updateStateArticles(id, content, title);
             addToast('Article successfully updated', 'Success');
         } catch (error) {
             const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');

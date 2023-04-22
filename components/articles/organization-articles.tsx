@@ -10,23 +10,28 @@ import { localStorageKeys, setLocalStorageSelectedArticle } from '../../lib/loca
 import { useToast } from '../../context/ToastContext';
 
 const OrganizationArticles = (props) => {
-    const { organization } = props ?? {};
-    const { id: organizationId } = organization ?? {};
+    const { userArticles } = props ?? {};
 
-    const [articles, setArticles] = useState([]);
+    const [articles, setArticles] = useState([userArticles]);
     const [selectedArticleId, setSelectedArticleId] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [createArticleModalIsOpen, setCreateArticleModalIsOpen] = useState(false);
     const [newArticleTitle, setNewArticleTitle] = useState('');
     const { addToast } = useToast();
 
+    const updateArticles = (updatedArticleId, content, title) => {
+        const articlesCopy = articles;
+        let updatedArticle = articlesCopy.find(({ id }) => id === updatedArticleId);
+        updatedArticle.content = content;
+        updatedArticle.title = title;
+        setArticles(articlesCopy);
+    };
+
     useEffect(() => {
         const fetchArticles = async () => {
             setIsLoading(true);
             await axios
-                .post('/api/articles/getArticles', {
-                    organizationId: organizationId,
-                })
+                .post('/api/blog/getArticles', {})
                 .then((response) => setArticles(response.data.article))
                 .catch((error) => {
                     const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
@@ -35,23 +40,14 @@ const OrganizationArticles = (props) => {
             setIsLoading(false);
         };
         fetchArticles();
-    }, [organization]);
+    }, []);
 
     useEffect(() => {
-        // Get and set SelectedArticle from localStorage
-        const organizationSelectedArticleStorage = JSON.parse(
-            localStorage.getItem(localStorageKeys.articlesSelectedArticle) || '[]',
-        );
-        // find the object holding the current organization in the array, if it exists
-        let storageObject = organizationSelectedArticleStorage.find(
-            (orgObject) => orgObject.organizationId === organizationId,
-        );
-        // const localArticleID = localStorage.getItem(localStorageKeys.articlesSelectedArticle);
-        // const activeArticle = articles.find(({ id }) => id === localArticleID);
-        if (storageObject && storageObject.articleId) {
-            setSelectedArticleId(storageObject.articleId);
+        const articleStorage = JSON.parse(localStorage.getItem(localStorageKeys.articlesSelectedArticle) || 'null');
+        if (articleStorage) {
+            setSelectedArticleId(articleStorage);
         }
-    }, [articles]);
+    }, []);
 
     const createArticle = async () => {
         if (newArticleTitle.trim().length < 3) {
@@ -60,12 +56,11 @@ const OrganizationArticles = (props) => {
         }
         setIsLoading(true);
         await axios
-            .post('/api/articles/createArticle', {
+            .post('/api/blog/createArticle', {
                 articleTitle: newArticleTitle,
-                organizationId,
             })
             .then((response) => {
-                setLocalStorageSelectedArticle(response.data.article.id, organizationId);
+                setLocalStorageSelectedArticle(response.data.article.id);
                 addToast('Successfully created article', 'Success');
             })
             .catch((error) => {
@@ -73,9 +68,7 @@ const OrganizationArticles = (props) => {
                 addToast(errorMessage, 'Error');
             });
         await axios
-            .post('/api/articles/getArticles', {
-                organizationId,
-            })
+            .post('/api/blog/getArticles', {})
             .then((response) => setArticles(response.data.article))
             .catch((error) => {
                 const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
@@ -87,9 +80,8 @@ const OrganizationArticles = (props) => {
     const deleteArticle = async ({ id: articleId }) => {
         setIsLoading(true);
         await axios
-            .post('/api/articles/deleteArticle', {
+            .post('/api/blog/deleteArticle', {
                 articleId,
-                organizationId,
             })
             .then(() => {
                 addToast('Successfully deleted article', 'Success');
@@ -99,9 +91,7 @@ const OrganizationArticles = (props) => {
                 addToast(errorMessage, 'Error');
             });
         await axios
-            .post('/api/articles/getArticles', {
-                organizationId,
-            })
+            .post('/api/blog/getArticles', {})
             .then((response) => setArticles(response.data.article))
             .catch((error) => {
                 const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
@@ -137,7 +127,7 @@ const OrganizationArticles = (props) => {
                                 key={`article-${index}`}
                                 onClick={() => {
                                     setSelectedArticleId(articleId);
-                                    setLocalStorageSelectedArticle(articleId, organizationId);
+                                    setLocalStorageSelectedArticle(articleId);
                                 }}
                                 className={`${isActive ? 'bg-orange-100 ' : ''}flex justify-between p-2`}
                             >
@@ -159,7 +149,10 @@ const OrganizationArticles = (props) => {
                 </div>
                 <div className="col-span-10 border w-full min-h-[73vh] max-h-[73h] grid">
                     {selectedArticleId && (
-                        <ArticleEditor article={articles.find(({ id }) => id === selectedArticleId)} />
+                        <ArticleEditor
+                            article={articles.find(({ id }) => id === selectedArticleId)}
+                            updateStateArticles={updateArticles}
+                        />
                     )}
                 </div>
             </div>

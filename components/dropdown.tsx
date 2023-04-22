@@ -13,7 +13,6 @@ const DropdownMenu = ({
     onOptionClick: (option: string) => void;
     value: string;
 }) => {
-
     const handleClick = (event) => {
         onOptionClick(event.target.innerHTML);
     };
@@ -22,7 +21,9 @@ const DropdownMenu = ({
         <Menu as="div" className="relative inline-block text-left">
             <div>
                 <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50  focus:ring-orange-100 focus:ring-offset-2 focus:ring-offset-gray-100">
-                    {value || placeholder}
+                    {value || placeholder || (
+                        <img src="https://cdn-icons-png.flaticon.com/512/4254/4254068.png" width={15} height={15} />
+                    )}
                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
                 </Menu.Button>
             </div>
@@ -36,7 +37,7 @@ const DropdownMenu = ({
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 z-10 mt-2 w-32 sm:w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                         {options.map((option, index) => (
                             <Menu.Item key={`dropdown-item-${index}`}>

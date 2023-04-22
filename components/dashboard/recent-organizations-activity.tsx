@@ -4,24 +4,22 @@ import { useToast } from '../../context/ToastContext';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useRouter } from 'next/router';
-import { localStorageKeys, setLocalStorageSelectedArticle } from '../../lib/localStorageKeys';
+import { setLocalStorageSelectedArticle } from '../../lib/localStorageKeys';
 import Image from 'next/image';
 import logo from '/public/logo.png';
 
 const RecentOrganizationsActivity = () => {
-    const [organizations, setOrganizations] = useState([]);
+    const [articles, setArticles] = useState([]);
     const router = useRouter();
     const { addToast } = useToast();
 
-    const handleArticleClick = (e, organizationId, articleId) => {
+    const handleArticleClick = (e, articleId) => {
         e.preventDefault();
-        localStorage.setItem(localStorageKeys.articlesSelectedOrg, organizationId);
-        setLocalStorageSelectedArticle(articleId, organizationId);
-        router.push('/articles');
+        setLocalStorageSelectedArticle(articleId);
+        router.push('/blog');
     };
     const tdStyle = 'border-b border-slate-400 p-4 pl-8 text-black hover:bg-orange-100';
     const tableColumns = [
-        { label: 'Organization', value: 'organization' },
         { label: 'Title', value: 'title' },
         { label: 'Date Created/Modified', value: 'date' },
     ];
@@ -31,14 +29,8 @@ const RecentOrganizationsActivity = () => {
             await axios
                 .post('/api/dashboard/getRecentPosts')
                 .then((response) => {
-                    const organizations = response.data.organizations;
-                    const organizationsWithOrderedArticles = organizations.map((organization) => ({
-                        ...organization,
-                        articles: organization.articles.sort(
-                            (a, b) => moment(b.createdAt).unix() - moment(a.createdAt).unix(),
-                        ),
-                    }));
-                    setOrganizations(organizationsWithOrderedArticles);
+                    const retrievedArticles = response.data.articles;
+                    setArticles(retrievedArticles);
                 })
                 .catch((error) => {
                     const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
@@ -50,7 +42,7 @@ const RecentOrganizationsActivity = () => {
 
     return (
         <div className="h-full w-full">
-            {organizations.length > 0 && (
+            {articles.length > 0 && (
                 <div>
                     <h1 className="font-medium pt-4 text-3xl">Recent Activity in your Organizations</h1>
                     <br />
@@ -68,16 +60,14 @@ const RecentOrganizationsActivity = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {organizations.map((organization, index) => {
-                                const { name: organizationName, id: organizationId, articles } = organization ?? {};
-                                const [{ title: articleTitle, createdAt, id: articleId }] = articles;
+                            {articles.map((article, index) => {
+                                const { title: articleTitle, createdAt, id: articleId } = article;
                                 const formattedArticleCreatedAtDate = moment.utc(createdAt).format('YYYY-MM-DD');
                                 return (
                                     <tr key={`tbody-row-${index}`}>
-                                        <td className={tdStyle}>{organizationName}</td>
                                         <td className={tdStyle}>
                                             <a
-                                                onClick={(e) => handleArticleClick(e, organizationId, articleId)}
+                                                onClick={(e) => handleArticleClick(e, articleId)}
                                                 className="underline text-blue-600 hover:text-blue-800 hover:cursor-pointer visited:text-purple-600"
                                             >
                                                 <span>{`${articleTitle}`}</span>
@@ -91,7 +81,7 @@ const RecentOrganizationsActivity = () => {
                     </table>
                 </div>
             )}
-            {organizations.length <= 0 && <Image className="h-48 w-auto" src={logo} alt="Logo" />}
+            {articles.length <= 0 && <Image className="h-48 w-auto" src={logo} alt="Logo" />}
         </div>
     );
 };

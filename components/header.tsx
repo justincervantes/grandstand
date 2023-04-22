@@ -1,53 +1,65 @@
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import logo from '../public/logo.png';
 import ShowToast from '../components/toast';
+import DropdownMenu from '../components/dropdown';
 
 export default function Header() {
     const { data: session } = useSession();
-
     const router = useRouter();
     const heading = 'text-base font-medium text-gray-500 hover:text-gray-900';
     const activeHeading = `${heading} text-gray-900`;
     return (
         <header>
             <ShowToast />
-            <title>Kako and Mirai</title>
+            <title>Spotlight</title>
             <link rel="icon" type="image/png" href="/favicon.ico" />
             <div className="relative bg-white">
                 <div className="mx-auto w-full px-4 sm:px-6">
-                    <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-                        <div className="flex justify-start lg:w-0 lg:flex-1">
+                    <div className="flex md:flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+                        <div className="block justify-start lg:w-0 lg:flex-1">
                             <a href="/">
-                                <span className="sr-only">Kako and Mirai</span>
+                                <span className="sr-only">Spotlight</span>
                                 <Image className="h-12 w-auto" src={logo} alt="Logo" />
                             </a>
                         </div>
 
                         {session && (
-                            <nav className="space-x-10 md:flex">
-                                <Link
-                                    href="/dashboard"
-                                    className={router.pathname === '/dashboard' ? activeHeading : heading}
-                                >
-                                    Dashboard
-                                </Link>
-
-                                <Link
-                                    href="/articles"
-                                    className={router.pathname === '/articles' ? activeHeading : heading}
-                                >
-                                    Articles
-                                </Link>
-                                <Link
-                                    href="/organizations"
-                                    className={router.pathname === '/organizations' ? activeHeading : heading}
-                                >
-                                    Organizations
-                                </Link>
-                            </nav>
+                            <div className="block items-center justify-end md:flex">
+                                <div className="flex md:hidden text-center items-center">
+                                    <DropdownMenu
+                                        placeholder=""
+                                        options={['About Me', 'Projects', 'Blog']}
+                                        onOptionClick={(option) => {
+                                            router.push(`/${option.replace(/ /, '').toLowerCase()}`);
+                                        }}
+                                        value={''}
+                                    />
+                                </div>
+                                <nav className="space-x-10 hidden md:flex">
+                                    <Link
+                                        href="/dashboard"
+                                        className={router.pathname === '/dashboard' ? activeHeading : heading}
+                                    >
+                                        About Me
+                                    </Link>
+                                    <Link
+                                        href="/dashboard"
+                                        className={router.pathname === '/dashboard' ? activeHeading : heading}
+                                    >
+                                        Projects
+                                    </Link>
+                                    <Link
+                                        href="/blog"
+                                        className={router.pathname === '/blog' ? activeHeading : heading}
+                                    >
+                                        Blog
+                                    </Link>
+                                </nav>
+                            </div>
                         )}
                         {!session && (
                             <div className="items-center justify-end md:flex md:flex-1 lg:w-0">
@@ -72,17 +84,21 @@ export default function Header() {
                             </div>
                         )}
                         {session && (
-                            <div className="items-center justify-end md:flex md:flex-1 lg:w-0">
-                                Welcome, {session.user.name}!
-                                <button
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        signOut();
-                                    }}
-                                    className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-orange-400 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                                >
-                                    Sign Out
-                                </button>
+                            <div className="block items-center justify-end md:flex">
+                                <div className="block items-center justify-end md:flex">
+                                    <span className="text-xs pb-1 md:pb-0 ml-1 md:text-base block md:flex">
+                                        Welcome, {session.user.name}!
+                                    </span>
+                                    <button
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            signOut();
+                                        }}
+                                        className="float-right ml-2 md:ml-8 whitespace-nowrap rounded-md border border-transparent bg-orange-400 px-2 md:px-4 py-1 md:py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                                    >
+                                        Sign Out
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>
