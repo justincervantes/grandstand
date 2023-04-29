@@ -28,7 +28,7 @@ export default function Header() {
 
                         {session && (
                             <div className="block items-center justify-end md:flex">
-                                <div className="flex md:hidden text-center items-center">
+                                {/* <div className="flex md:hidden text-center items-center">
                                     <DropdownMenu
                                         placeholder=""
                                         options={['About Me', 'Projects', 'Blog']}
@@ -37,7 +37,7 @@ export default function Header() {
                                         }}
                                         value={''}
                                     />
-                                </div>
+                                </div> */}
                                 <nav className="space-x-10 hidden md:flex">
                                     <Link
                                         href="/about-me"

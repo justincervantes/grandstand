@@ -1,23 +1,26 @@
 import { Formik, Form, Field } from 'formik';
+import axios from 'axios';
 import { FormikValues, FormikHelpers } from 'formik/dist/types';
 
 const AboutMe = () => {
     const handleSubmit = async (values, helpers) => {
+        console.log('values', values);
+        const result = await axios.post('/api/dashboard/getUserArticleActions', {});
         return Promise.resolve();
     };
 
     return (
         <div>
             <h1 className="mb-5">About Me</h1>
-            <Formik initialValues={undefined} onSubmit={handleSubmit}>
+            <Formik initialValues={{}} onSubmit={handleSubmit}>
                 <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4">
                     <div>
-                        <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
+                        <label htmlFor="userName" className="block text-gray-700 text-sm font-bold mb-2">
                             Name
                         </label>
                         <Field
                             type="text"
-                            name="name"
+                            name="userName"
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         ></Field>
                     </div>
