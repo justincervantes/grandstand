@@ -27,21 +27,38 @@ export default function Header() {
                         </div>
 
                         {session && (
-                            <nav className="space-x-10 md:flex">
-                                <Link
-                                    href="/dashboard"
-                                    className={router.pathname === '/dashboard' ? activeHeading : heading}
-                                >
-                                    Dashboard
-                                </Link>
-
-                                <Link
-                                    href="/articles"
-                                    className={router.pathname === '/articles' ? activeHeading : heading}
-                                >
-                                    Articles
-                                </Link>
-                            </nav>
+                            <div className="block items-center justify-end md:flex">
+                                <div className="flex md:hidden text-center items-center">
+                                    <DropdownMenu
+                                        placeholder=""
+                                        options={['About Me', 'Projects', 'Blog']}
+                                        onOptionClick={(option) => {
+                                            router.push(`/${option.replace(/ /, '-').toLowerCase()}`);
+                                        }}
+                                        value={''}
+                                    />
+                                </div>
+                                <nav className="space-x-10 hidden md:flex">
+                                    <Link
+                                        href="/about-me"
+                                        className={router.pathname === '/about-me' ? activeHeading : heading}
+                                    >
+                                        About Me
+                                    </Link>
+                                    <Link
+                                        href="/projects"
+                                        className={router.pathname === '/projects' ? activeHeading : heading}
+                                    >
+                                        Projects
+                                    </Link>
+                                    <Link
+                                        href="/blog"
+                                        className={router.pathname === '/blog' ? activeHeading : heading}
+                                    >
+                                        Blog
+                                    </Link>
+                                </nav>
+                            </div>
                         )}
                         {!session && (
                             <div className="items-center justify-end md:flex md:flex-1 lg:w-0">
