@@ -7,7 +7,7 @@ CREATE TABLE `user_details` (
     `profileGitHubUrl` VARCHAR(191) NOT NULL,
     `profileLinkedInUrl` VARCHAR(191) NOT NULL,
     `profileTwitterUrl` VARCHAR(191) NOT NULL,
-    `profileGInstagramUrl` VARCHAR(191) NOT NULL,
+    `profileInstagramUrl` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `user_details_userId_key`(`userId`),
     PRIMARY KEY (`id`)
