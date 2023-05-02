@@ -64,30 +64,10 @@ const AboutMe = () => {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         ></Field>
                     </div>
-                    <div>
-                        <label htmlFor="profileTwitterUrl" className="block text-gray-700 text-sm font-bold mb-2">
-                            Twitter
-                        </label>
-                        <Field
-                            type="text"
-                            name="profileTwitterUrl"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        ></Field>
-                    </div>
-                    <div>
-                        <label htmlFor="profileInstagramUrl" className="block text-gray-700 text-sm font-bold mb-2">
-                            Instagram
-                        </label>
-                        <Field
-                            type="text"
-                            name="profileInstagramUrl"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        ></Field>
-                    </div>
                     <div className="flex justify-end">
                         <button
                             type="submit"
-                            className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            className="mt-2 px-4 py-2 font-bold rounded bg-orange-400 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:shadow-outline"
                         >
                             Submit
                         </button>
