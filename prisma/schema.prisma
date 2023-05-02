@@ -103,9 +103,7 @@ model UserDetails {
   imageUrl        String?
   userName        String?
   profileGitHubUrl   String?              
-  profileLinkedInUrl String?              
-  profileTwitterUrl  String?              
-  profileInstagramUrl   String?          
+  profileLinkedInUrl String?                       
 
   @@map("user_details")
 }
