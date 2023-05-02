@@ -62,7 +62,7 @@ export default function Header() {
                             </div>
                         )}
                         {!session && (
-                            <div className="items-center justify-center md:justify-end flex flex-1 lg:w-0 order-last">
+                            <div className="items-center justify-end flex flex-1 lg:w-0 order-last">
                                 <button
                                     onClick={(e) => {
                                         e.preventDefault();
