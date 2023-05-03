@@ -20,7 +20,7 @@ export default function Header() {
             <div className="relative bg-white">
                 <div className="mx-auto w-full px-4 sm:px-6">
                     <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-                        <div className="flex justify-start lg:w-0 lg:flex-1">
+                        <div className="justify-start lg:w-0 lg:flex-1 order-2 hidden md:flex md:order-first">
                             <a href="/">
                                 <span className="sr-only">Spotlight</span>
                                 <Image className="h-12 w-auto" src={logo} alt="Logo" />
@@ -28,7 +28,8 @@ export default function Header() {
                         </div>
 
                         {session && (
-                            <div className="block items-center justify-end md:flex">
+                            <div className="block items-center justify-end md:flex order-first">
+
                                 <div className="flex md:hidden text-center items-center">
                                     <DropdownMenu
                                         placeholder=""
@@ -62,7 +63,7 @@ export default function Header() {
                             </div>
                         )}
                         {!session && (
-                            <div className="items-center justify-end md:flex md:flex-1 lg:w-0">
+                            <div className="items-center justify-center md:justify-end flex flex-1 lg:w-0 order-last">
                                 <button
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -85,7 +86,7 @@ export default function Header() {
                         )}
                         {session && (
                             <div className="items-center justify-end md:flex md:flex-1 lg:w-0">
-                                Welcome, {session.user.name}!
+                                <div className="hidden md:inline">Welcome, {session.user.name}!</div>
                                 <button
                                     onClick={(e) => {
                                         e.preventDefault();
