@@ -5,7 +5,7 @@ import OrganizationArticles from '../components/articles/organization-articles';
 import prisma from '../lib/prismadb';
 import { localStorageKeys } from '../lib/localStorageKeys';
 
-const Articles = (props) => {
+const Blog = (props) => {
     const { articles = [] } = props;
     const [isLoading, setIsLoading] = useState(false);
 
@@ -14,7 +14,7 @@ const Articles = (props) => {
     return (
         <React.Fragment>
             <div className="flex justify-between whitespace-nowrap mb-3">
-                <h1 className="font-medium text-xl pl-2">Articles</h1>
+                <h1 className="font-medium text-xl pl-2">Blog</h1>
             </div>
             <div className="max-h-[73npm run decoration-violet-50vh] min-h-[73vh]">
                 <OrganizationArticles userArticles={articles} />
@@ -23,7 +23,7 @@ const Articles = (props) => {
     );
 };
 
-export default Articles;
+export default Blog;
 
 export async function getServerSideProps(context) {
     const session = await getSession(context);

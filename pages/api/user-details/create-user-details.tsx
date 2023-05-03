@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import establishService from '../../../lib/establishService';
-import ArticleService from '../../../services/article.service';
+import ArticleService from '../../../services/blog.service';
 import prisma from '../../../lib/prismadb';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
