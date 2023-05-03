@@ -107,7 +107,6 @@ model UserDetails {
   profileLinkedInUrl  String?
   profileTwitterUrl   String?
   profileInstagramUrl String?
-  // userLinks           UserLink[]
 
   @@map("user_details")
 }
@@ -126,6 +125,7 @@ model UserProject {
   mostUnique      String?
   whyBuilt        String?
   techStack       String?
+    @@map("user_project")
 }
 
 enum ModifyArticleAction {
