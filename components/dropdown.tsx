@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, Bars3Icon } from '@heroicons/react/20/solid';
+import { Bars3Icon } from '@heroicons/react/20/solid';
 
 const DropdownMenu = ({
     placeholder = '',
@@ -22,7 +22,8 @@ const DropdownMenu = ({
             <div>
                 <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-orange-400 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700  focus:ring-orange-100 focus:ring-offset-2 focus:ring-offset-gray-100">
                     {value || placeholder}
-                    <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                    <Bars3Icon className="h-6 w-6 text-gray-500" aria-hidden="true" />
+
                 </Menu.Button>
             </div>
 
@@ -35,7 +36,8 @@ const DropdownMenu = ({
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+
                     <div className="py-1">
                         {options.map((option, index) => (
                             <Menu.Item key={`dropdown-item-${index}`}>

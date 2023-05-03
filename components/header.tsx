@@ -29,6 +29,7 @@ export default function Header() {
 
                         {session && (
                             <div className="block items-center justify-end md:flex order-first">
+
                                 <div className="flex md:hidden text-center items-center">
                                     <DropdownMenu
                                         placeholder=""
