@@ -10,10 +10,10 @@ Preferably set up your own MySQL server locally, I've set up an AWS RDS instance
 
 ### Contributing
 
-Contributions are welcome, in order to contribute you'll need developer configurations which can be obtained by emailing Justin (contact details below). The prod branch is main, and the development branch is dev. Do not touch main. When working on features, cut a branch off of dev called feat/name_of_feature_you_are_working_on. When you are done, make a pull request and tag Justin Cervantes or Evan Morrow to review your work. Do not push commits directly to dev. 
+Contributions are welcome, in order to contribute you'll need developer configurations which can be obtained by emailing Justin (contact details below). The prod branch is main, and the development branch is dev. Do not touch main. When working on features, cut a branch off of dev called feat/name_of_feature_you_are_working_on. When you are done, make a pull request and tag Justin Cervantes or Evan Morrow to review your work. Do not push commits directly to dev.  Once a feature is complete put an x in the todo item [X] to mark it off. Also, if starting a work item, put your name beside it in the readme.
 
 ## To do
-- [] Re-introduce the hamburger menu
+- [X] Re-introduce the hamburger menu
 - [] Delete the UserActions model and get everything regression functional
 - [] Update userDetails model to only require 2 links: LinkedIn and GitHub 
 - [] Update the About Me page to match the links from above
