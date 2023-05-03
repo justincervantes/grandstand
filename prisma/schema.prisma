@@ -41,7 +41,7 @@ model Session {
 model User {
   id              String               @id @default(cuid())
   name            String?
-  userDetails     UserDetails?          
+  userDetails     UserDetails?
   email           String?              @unique
   emailVerified   DateTime?
   image           String?
@@ -51,6 +51,7 @@ model User {
   createdArticles Article[]            @relation("ArticleCreatedBy")
   updatedArticles Article[]            @relation("ArticleUpdatedBy")
   deletedArticles Article[]            @relation("ArticleDeletedBy")
+  UserProject     UserProject[]
 
   @@map("user")
 }
@@ -96,28 +97,39 @@ model Article {
 }
 
 model UserDetails {
-  id              String              @id @default(cuid())
-  userId          String? @unique 
-  description     String?             
-  user            User?               @relation(fields: [userId], references: [id])
-  imageUrl        String?
-  userName        String?
-  profileGitHubUrl   String?              
-  profileLinkedInUrl String?              
-  profileTwitterUrl  String?              
-  profileInstagramUrl   String?          
+  id                  String  @id @default(cuid())
+  userId              String  @unique
+  description         String?
+  user                User    @relation(fields: [userId], references: [id])
+  imageUrl            String?
+  userName            String?
+  profileGitHubUrl    String?
+  profileLinkedInUrl  String?
+  profileTwitterUrl   String?
+  profileInstagramUrl String?
 
   @@map("user_details")
 }
 
-
-
-
+model UserProject {
+  id              String  @id @default(cuid())
+  userId          String  @unique
+  user            User    @relation(fields: [userId], references: [id])
+  title           String
+  description     String?
+  imageUrl        String?
+  applicationUrl  String?
+  gitHubUrl       String?
+  mostProudOf     String?
+  mostInteresting String?
+  mostUnique      String?
+  whyBuilt        String?
+  techStack       String?
+    @@map("user_project")
+}
 
 enum ModifyArticleAction {
   create
   update
   delete
 }
-
- 
