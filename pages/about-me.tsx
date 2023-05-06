@@ -11,10 +11,10 @@ const AboutMe = () => {
 
     return (
         <div>
-            <h1 className="mb-5">About Me</h1>
             <Formik initialValues={{}} onSubmit={handleSubmit}>
-                <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4">
+                <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 max-w-3xl mx-auto">
                     <div>
+                        <h1 className="font-medium text-xl pl-2 mb-2 text-center">About Me</h1>
                         <label htmlFor="userName" className="block text-gray-700 text-sm font-bold mb-2">
                             Name
                         </label>
@@ -29,7 +29,9 @@ const AboutMe = () => {
                             Description
                         </label>
                         <Field
-                            type="textarea"
+                            type="text"
+                            component="textarea"
+                            rows={2}
                             name="description"
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         ></Field>
