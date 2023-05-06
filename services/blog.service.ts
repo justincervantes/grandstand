@@ -1,4 +1,4 @@
-import { Article, ModifyArticleAction } from '@prisma/client';
+import { Article } from '@prisma/client';
 import moment from 'moment';
 import ErrorDictionary from '../lib/errorDictionary';
 import BaseService from './base.service';
@@ -9,12 +9,7 @@ export default class ArticleService extends BaseService {
         super(sessionToken);
     }
 
-    public createArticle = async ({
-        articleTitle,
-    }: {
-        articleTitle: string;
-        organizationId: string;
-    }): Promise<Article> => {
+    public createArticle = async ({ articleTitle }: { articleTitle: string }): Promise<Article> => {
         // Validate
         if (!articleTitle) throw new Error(ErrorDictionary.INVALID_REQUEST);
 
@@ -24,10 +19,7 @@ export default class ArticleService extends BaseService {
                 title: articleTitle,
                 content: '',
                 createdAt: moment.utc().format(),
-                createdBy: { connect: { id: this.sessionUserId } },
-                history: {
-                    create: [{ action: ModifyArticleAction.create, user: { connect: { id: this.sessionUserId } } }],
-                },
+                userId: this.sessionUserId,
             },
         });
         return article;
@@ -36,8 +28,8 @@ export default class ArticleService extends BaseService {
     getArticles = async (): Promise<Article[]> => {
         const articles = await prisma.article.findMany({
             where: {
-                deletedBy: null,
-                createdByUserId: this.sessionUserId,
+                deletedAt: null,
+                userId: this.sessionUserId,
             },
         });
         return articles;
@@ -60,10 +52,6 @@ export default class ArticleService extends BaseService {
                 content: content,
                 title: articleTitle,
                 updatedAt: moment.utc().format(),
-                updatedBy: { connect: { id: this.sessionUserId } },
-                history: {
-                    create: [{ action: ModifyArticleAction.update, user: { connect: { id: this.sessionUserId } } }],
-                },
             },
         });
         return article;
@@ -77,10 +65,6 @@ export default class ArticleService extends BaseService {
             where: { id: articleId },
             data: {
                 deletedAt: moment.utc().toDate(),
-                deletedBy: { connect: { id: this.sessionUserId } },
-                history: {
-                    create: [{ action: ModifyArticleAction.delete, user: { connect: { id: this.sessionUserId } } }],
-                },
             },
         });
         return article;
