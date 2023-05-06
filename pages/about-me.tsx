@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
-import { FormikValues, FormikHelpers } from 'formik/dist/types';
+import * as yup from 'yup';
+import { stringify } from 'querystring';
 
 const AboutMe = () => {
     const handleSubmit = async (values, helpers) => {
@@ -9,9 +10,14 @@ const AboutMe = () => {
         return Promise.resolve();
     };
 
+    const validationSchema = () =>
+        yup.object().shape({
+            name: yup.string().trim().required('Please enter a name'),
+        });
+
     return (
         <div>
-            <Formik initialValues={{}} onSubmit={handleSubmit}>
+            <Formik initialValues={{}} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 max-w-3xl mx-auto">
                     <div>
                         <h1 className="font-medium text-xl pl-2 mb-2 text-center">About Me</h1>
