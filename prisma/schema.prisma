@@ -41,13 +41,15 @@ model Session {
 model User {
   id            String        @id @default(cuid())
   name          String?
-  userDetails   UserDetails?
   email         String?       @unique
   emailVerified DateTime?
   image         String?
+  description         String?
+  gitHubUrl    String?
+  linkedInUrl  String?
   accounts      Account[]
   sessions      Session[]
-  userProjects  UserProject[]
+  projects Project[]
   articles      Article[]
 
   @@map("user")
@@ -63,37 +65,22 @@ model VerificationToken {
 }
 
 model Article {
-  id              String    @id @default(cuid())
-  userId          String    @unique
-  user            User      @relation(fields: [userId], references: [id])
-  title           String?
-  content         String    @db.Text
-  createdAt       DateTime
-  updatedAt       DateTime?
-  deletedAt       DateTime?
+  id        String    @id @default(cuid())
+  userId    String    
+  user      User      @relation(fields: [userId], references: [id])
+  title     String?
+  content   String    @db.Text
+  createdAt DateTime
+  updatedAt DateTime?
+  deletedAt DateTime?
 
   @@map("article")
 }
 
-model UserDetails {
-  id                  String  @id @default(cuid())
-  userId              String  @unique
-  description         String?
-  user                User    @relation(fields: [userId], references: [id])
-  imageUrl            String?
-  userName            String?
-  profileGitHubUrl    String?
-  profileLinkedInUrl  String?
-  profileTwitterUrl   String?
-  profileInstagramUrl String?
-
-  @@map("user_details")
-}
-
-model UserProject {
-  id              String  @id @default(cuid())
-  userId          String  @unique
-  user            User    @relation(fields: [userId], references: [id])
+model Project {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
   title           String
   description     String?
   imageUrl        String?
@@ -104,12 +91,7 @@ model UserProject {
   mostUnique      String?
   whyBuilt        String?
   techStack       String?
+  deletedAt       DateTime?
 
   @@map("user_project")
-}
-
-enum ModifyArticleAction {
-  create
-  update
-  delete
 }

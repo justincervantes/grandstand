@@ -35,6 +35,9 @@ CREATE TABLE `user` (
     `email` VARCHAR(191) NULL,
     `emailVerified` DATETIME(3) NULL,
     `image` VARCHAR(191) NULL,
+    `description` VARCHAR(191) NULL,
+    `gitHubUrl` VARCHAR(191) NULL,
+    `linkedInUrl` VARCHAR(191) NULL,
 
     UNIQUE INDEX `user_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -60,23 +63,6 @@ CREATE TABLE `article` (
     `updatedAt` DATETIME(3) NULL,
     `deletedAt` DATETIME(3) NULL,
 
-    UNIQUE INDEX `article_userId_key`(`userId`),
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `user_details` (
-    `id` VARCHAR(191) NOT NULL,
-    `userId` VARCHAR(191) NOT NULL,
-    `description` VARCHAR(191) NULL,
-    `imageUrl` VARCHAR(191) NULL,
-    `userName` VARCHAR(191) NULL,
-    `profileGitHubUrl` VARCHAR(191) NULL,
-    `profileLinkedInUrl` VARCHAR(191) NULL,
-    `profileTwitterUrl` VARCHAR(191) NULL,
-    `profileInstagramUrl` VARCHAR(191) NULL,
-
-    UNIQUE INDEX `user_details_userId_key`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -94,8 +80,8 @@ CREATE TABLE `user_project` (
     `mostUnique` VARCHAR(191) NULL,
     `whyBuilt` VARCHAR(191) NULL,
     `techStack` VARCHAR(191) NULL,
+    `deletedAt` DATETIME(3) NULL,
 
-    UNIQUE INDEX `user_project_userId_key`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -107,9 +93,6 @@ ALTER TABLE `session` ADD CONSTRAINT `session_userId_fkey` FOREIGN KEY (`userId`
 
 -- AddForeignKey
 ALTER TABLE `article` ADD CONSTRAINT `article_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `user_details` ADD CONSTRAINT `user_details_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `user_project` ADD CONSTRAINT `user_project_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

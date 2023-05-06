@@ -1,11 +1,15 @@
-import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
+import { Formik, Form, Field } from 'formik';
 import { get } from 'lodash';
+import { getSession } from 'next-auth/react';
 import { useToast } from '../context/ToastContext';
+import React, { useEffect, useState } from 'react';
+import ProjectsSidebar from '../components/projects/projects-sidebar';
 
-const Projects = () => {
+const Projects = (props) => {
+    const { projects = [] } = props;
     const { addToast } = useToast();
-    const handleSubmit = async (values, helpers) => {
+    const handleSubmit = async (values) => {
         const {
             title,
             description,
@@ -38,8 +42,8 @@ const Projects = () => {
     };
 
     return (
-        <div>
-            <h1 className="font-medium text-xl pl-2 mb-2 text-center">Projects</h1>
+        <div className="flex justify-between whitespace-nowrap">
+            <ProjectsSidebar userProjects={projects} />
             <Formik
                 initialValues={{
                     title: '',
@@ -56,6 +60,7 @@ const Projects = () => {
                 onSubmit={handleSubmit}
             >
                 <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 max-w-3xl mx-auto">
+                    <h1 className="font-medium text-xl pl-2 mb-2 text-center">Project Input</h1>
                     <div>
                         <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
                             Project Title:
@@ -195,3 +200,32 @@ const Projects = () => {
 };
 
 export default Projects;
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/home',
+            },
+        };
+    }
+    const currentUserEmail = session.user.email;
+
+    const projects = await prisma.user.findFirstOrThrow({
+        where: {
+            email: currentUserEmail,
+        },
+        select: {
+            userProjects: {
+                where: {
+                    deletedAt: null,
+                },
+            },
+        },
+    });
+    const { userProjects } = projects;
+    return {
+        props: { projects: JSON.parse(JSON.stringify(userProjects)) },
+    };
+}
