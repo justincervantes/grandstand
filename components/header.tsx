@@ -29,7 +29,6 @@ export default function Header() {
 
                         {session && (
                             <div className="block items-center justify-end md:flex order-first">
-
                                 <div className="flex md:hidden text-center items-center">
                                     <DropdownMenu
                                         placeholder=""
@@ -92,7 +91,7 @@ export default function Header() {
                                         e.preventDefault();
                                         signOut();
                                     }}
-                                    className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-orange-400 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                                    className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-black px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                                 >
                                     Sign Out
                                 </button>
