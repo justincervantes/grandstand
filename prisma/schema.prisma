@@ -39,34 +39,18 @@ model Session {
 }
 
 model User {
-  id              String               @id @default(cuid())
-  name            String?
-  userDetails     UserDetails?
-  email           String?              @unique
-  emailVerified   DateTime?
-  image           String?
-  accounts        Account[]
-  sessions        Session[]
-  articleActions  ArticleUserActions[]
-  createdArticles Article[]            @relation("ArticleCreatedBy")
-  updatedArticles Article[]            @relation("ArticleUpdatedBy")
-  deletedArticles Article[]            @relation("ArticleDeletedBy")
-  UserProject     UserProject[]
+  id            String        @id @default(cuid())
+  name          String?
+  userDetails   UserDetails?
+  email         String?       @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  userProjects  UserProject[]
+  articles      Article[]
 
   @@map("user")
-}
-
-model ArticleUserActions {
-  id              String              @id @default(cuid())
-  articleId       String
-  userId          String
-  date            DateTime            @default(now())
-  action          ModifyArticleAction
-  contentSnapshot String?
-  article         Article             @relation(fields: [articleId], references: [id])
-  user            User                @relation(fields: [userId], references: [id])
-
-  @@map("article_action")
 }
 
 model VerificationToken {
@@ -79,19 +63,14 @@ model VerificationToken {
 }
 
 model Article {
-  id              String               @id @default(cuid())
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id])
   title           String?
-  content         String               @db.Text
-  createdByUserId String
+  content         String    @db.Text
   createdAt       DateTime
-  updatedByUserId String?
   updatedAt       DateTime?
-  deletedByUserId String?
   deletedAt       DateTime?
-  history         ArticleUserActions[]
-  createdBy       User                 @relation(name: "ArticleCreatedBy", fields: [createdByUserId], references: [id])
-  updatedBy       User?                @relation(name: "ArticleUpdatedBy", fields: [updatedByUserId], references: [id])
-  deletedBy       User?                @relation(name: "ArticleDeletedBy", fields: [deletedByUserId], references: [id])
 
   @@map("article")
 }
