@@ -10,35 +10,10 @@ const Projects = (props) => {
     const { projects = [] } = props;
     const { addToast } = useToast();
     const handleSubmit = async (values) => {
-        const {
-            title,
-            description,
-            imageUrl,
-            applicationUrl,
-            gitHubUrl,
-            mostProudOf,
-            mostInteresting,
-            mostUnique,
-            whyBuilt,
-            techStack,
-        } = values;
-        await axios
-            .post('/api/projects/createUserProject', {
-                title,
-                description,
-                imageUrl,
-                applicationUrl,
-                gitHubUrl,
-                mostProudOf,
-                mostInteresting,
-                mostUnique,
-                whyBuilt,
-                techStack,
-            })
-            .catch((error) => {
-                const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
-                addToast(errorMessage, 'Error');
-            });
+        await axios.post('/api/projects/createUserProject', values).catch((error) => {
+            const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
+            addToast(errorMessage, 'Error');
+        });
     };
 
     return (
@@ -212,20 +187,20 @@ export async function getServerSideProps(context) {
     }
     const currentUserEmail = session.user.email;
 
-    const projects = await prisma.user.findFirstOrThrow({
+    const userProjects = await prisma.user.findFirstOrThrow({
         where: {
             email: currentUserEmail,
         },
         select: {
-            userProjects: {
+            projects: {
                 where: {
                     deletedAt: null,
                 },
             },
         },
     });
-    const { userProjects } = projects;
+    const { projects } = userProjects;
     return {
-        props: { projects: JSON.parse(JSON.stringify(userProjects)) },
+        props: { projects: JSON.parse(JSON.stringify(projects)) },
     };
 }
