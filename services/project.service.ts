@@ -1,5 +1,5 @@
 import BaseService from './base.service';
-import { UserProject } from '@prisma/client';
+import { Project } from '@prisma/client';
 import prisma from '../lib/prismadb';
 import ErrorDictionary from '../lib/errorDictionary';
 import moment from 'moment';
@@ -7,18 +7,7 @@ export default class ProjectService extends BaseService {
     constructor(sessionToken) {
         super(sessionToken);
     }
-    public createUserProject = async ({
-        title,
-        description,
-        imageUrl,
-        applicationUrl,
-        gitHubUrl,
-        mostProudOf,
-        mostInteresting,
-        mostUnique,
-        whyBuilt,
-        techStack,
-    }: {
+    public createUserProject = async (values: {
         title: string;
         description?: string;
         imageUrl?: string;
@@ -29,20 +18,11 @@ export default class ProjectService extends BaseService {
         mostUnique?: string;
         whyBuilt?: string;
         techStack?: string;
-    }): Promise<UserProject> => {
-        const userProject = await prisma.userProject.create({
+    }): Promise<Project> => {
+        const userProject = await prisma.project.create({
             data: {
                 userId: this.sessionUserId,
-                title,
-                description,
-                imageUrl,
-                applicationUrl,
-                gitHubUrl,
-                mostProudOf,
-                mostInteresting,
-                mostUnique,
-                whyBuilt,
-                techStack,
+                ...values,
             },
         });
         return userProject;
@@ -50,7 +30,7 @@ export default class ProjectService extends BaseService {
     public deleteUserProject = async ({ projectId }: { projectId: string }): Promise<UserProject> => {
         if (!projectId) throw new Error(ErrorDictionary.INVALID_REQUEST);
 
-        const userProject = await prisma.userProject.update({
+        const userProject = await prisma.project.update({
             where: { id: projectId },
             data: {
                 deletedAt: moment.utc().toDate(),
