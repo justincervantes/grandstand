@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { getSession } from 'next-auth/react';
 import Loading from '../components/loading';
 import OrganizationArticles from '../components/articles/organization-articles';
 import prisma from '../lib/prismadb';
-import { localStorageKeys } from '../lib/localStorageKeys';
 
 const Blog = (props) => {
     const { articles = [] } = props;
@@ -40,7 +39,7 @@ export async function getServerSideProps(context) {
             email: currentUserEmail,
         },
         select: {
-            createdArticles: true,
+            articles: true,
         },
     });
     return {
