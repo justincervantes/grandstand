@@ -1,4 +1,4 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
 import * as yup from 'yup';
 import { stringify } from 'querystring';
@@ -12,23 +12,32 @@ const AboutMe = () => {
 
     const validationSchema = () =>
         yup.object().shape({
-            name: yup.string().trim().required('Please enter a name'),
+            userName: yup.string().trim().length(3, 'Must be greater than 3 chars').required('Please enter a name'),
         });
+
+    const fields = [{ name: 'userName' }, { name: 'description', component: 'textarea', rows: 2 }];
 
     return (
         <div>
-            <Formik initialValues={{}} onSubmit={handleSubmit} validationSchema={validationSchema()}>
+            <Formik initialValues={{ userName: '' }} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 max-w-3xl mx-auto">
-                    <div>
+                    <div className="mb-2">
                         <h1 className="font-medium text-xl pl-2 mb-2 text-center">About Me</h1>
-                        <label htmlFor="userName" className="block text-gray-700 text-sm font-bold mb-2">
-                            Name
-                        </label>
-                        <Field
-                            type="text"
-                            name="userName"
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        ></Field>
+                        {fields.map((field) => {
+                            <>
+                                <label htmlFor="userName" className="block text-gray-700 text-sm font-bold mb-2">
+                                    Name
+                                </label>
+                                <Field
+                                    type="text"
+                                    name="userName"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                ></Field>
+                                <ErrorMessage name="userName">
+                                    {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
+                                </ErrorMessage>
+                            </>;
+                        })}
                     </div>
                     <div>
                         <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">
