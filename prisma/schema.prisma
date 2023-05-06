@@ -63,14 +63,14 @@ model VerificationToken {
 }
 
 model Article {
-  id              String    @id @default(cuid())
-  userId          String    @unique
-  user            User      @relation(fields: [userId], references: [id])
-  title           String?
-  content         String    @db.Text
-  createdAt       DateTime
-  updatedAt       DateTime?
-  deletedAt       DateTime?
+  id        String    @id @default(cuid())
+  userId    String    @unique
+  user      User      @relation(fields: [userId], references: [id])
+  title     String?
+  content   String    @db.Text
+  createdAt DateTime
+  updatedAt DateTime?
+  deletedAt DateTime?
 
   @@map("article")
 }
@@ -91,9 +91,9 @@ model UserDetails {
 }
 
 model UserProject {
-  id              String  @id @default(cuid())
+  id              String    @id @default(cuid())
   userId          String
-  user            User    @relation(fields: [userId], references: [id])
+  user            User      @relation(fields: [userId], references: [id])
   title           String
   description     String?
   imageUrl        String?
@@ -104,6 +104,7 @@ model UserProject {
   mostUnique      String?
   whyBuilt        String?
   techStack       String?
+  deletedAt       DateTime?
 
   @@map("user_project")
 }

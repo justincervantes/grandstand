@@ -211,15 +211,21 @@ export async function getServerSideProps(context) {
         };
     }
     const currentUserEmail = session.user.email;
-    const projects = await prisma.user.findFirst({
+
+    const projects = await prisma.user.findFirstOrThrow({
         where: {
             email: currentUserEmail,
         },
         select: {
-            userProjects: true,
+            userProjects: {
+                where: {
+                    deletedAt: null,
+                },
+            },
         },
     });
+    const { userProjects } = projects;
     return {
-        props: { projects: JSON.parse(JSON.stringify(projects)) },
+        props: { projects: JSON.parse(JSON.stringify(userProjects)) },
     };
 }

@@ -94,8 +94,8 @@ CREATE TABLE `user_project` (
     `mostUnique` VARCHAR(191) NULL,
     `whyBuilt` VARCHAR(191) NULL,
     `techStack` VARCHAR(191) NULL,
+    `deletedAt` DATETIME(3) NULL,
 
-    UNIQUE INDEX `user_project_userId_key`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

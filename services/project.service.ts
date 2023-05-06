@@ -1,7 +1,8 @@
 import BaseService from './base.service';
 import { UserProject } from '@prisma/client';
 import prisma from '../lib/prismadb';
-
+import ErrorDictionary from '../lib/errorDictionary';
+import moment from 'moment';
 export default class ProjectService extends BaseService {
     constructor(sessionToken) {
         super(sessionToken);
@@ -42,6 +43,17 @@ export default class ProjectService extends BaseService {
                 mostUnique,
                 whyBuilt,
                 techStack,
+            },
+        });
+        return userProject;
+    };
+    public deleteUserProject = async ({ projectId }: { projectId: string }): Promise<UserProject> => {
+        if (!projectId) throw new Error(ErrorDictionary.INVALID_REQUEST);
+
+        const userProject = await prisma.userProject.update({
+            where: { id: projectId },
+            data: {
+                deletedAt: moment.utc().toDate(),
             },
         });
         return userProject;
