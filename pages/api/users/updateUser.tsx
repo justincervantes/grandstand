@@ -1,15 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import establishService from '../../../lib/establishService';
-import ArticleService from '../../../services/blog.service';
-import prisma from '../../../lib/prismadb';
+import UserService from '../../../services/user.service';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const submission = { ...req.body.values };
-
-        console.log(submission);
-        await prisma.userDetails.create({ data: req.body.values });
-        res.json({ status: '200' });
+        const projectService = await establishService(UserService, req.cookies['next-auth.session-token']);
+        const project = await projectService.updateUser(req.body.values);
+        res.json({ status: '200', project });
     } catch ({ message }) {
         res.status(400).json({ errorMessage: message });
     }
