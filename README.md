@@ -14,9 +14,9 @@ Contributions are welcome, in order to contribute you'll need developer configur
 
 ## To do
 - [X] Re-introduce the hamburger menu
-- [ ] Delete the UserActions model and get everything regression functional
-- [ ] Update userDetails model to only require 2 links: LinkedIn and GitHub 
-- [ ] Update the About Me page to match the links from above
+- [X] Delete the UserActions model and get everything regression functional
+- [X] Update userDetails model to only require 2 links: LinkedIn and GitHub 
+- [X] Update the About Me page to match the links from above
 - [ ] Update the Projects page to have a create new project functionality, perhaps expandable
 - [ ] Update the frontend validation rules for About Me and Projects (install yup, see npmjs.com)
 - [ ] Create a projects model which has a 1-m relationship to users
