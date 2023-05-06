@@ -113,7 +113,7 @@ model UserDetails {
 
 model UserProject {
   id              String  @id @default(cuid())
-  userId          String  @unique
+  userId          String
   user            User    @relation(fields: [userId], references: [id])
   title           String
   description     String?
@@ -125,7 +125,8 @@ model UserProject {
   mostUnique      String?
   whyBuilt        String?
   techStack       String?
-    @@map("user_project")
+
+  @@map("user_project")
 }
 
 enum ModifyArticleAction {
