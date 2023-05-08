@@ -67,7 +67,7 @@ CREATE TABLE `article` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `user_project` (
+CREATE TABLE `project` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `title` VARCHAR(191) NOT NULL,
@@ -79,6 +79,7 @@ CREATE TABLE `user_project` (
     `mostInteresting` VARCHAR(191) NULL,
     `mostUnique` VARCHAR(191) NULL,
     `whyBuilt` VARCHAR(191) NULL,
+    `codeSnippet` VARCHAR(191) NULL,
     `techStack` VARCHAR(191) NULL,
     `deletedAt` DATETIME(3) NULL,
 
@@ -95,4 +96,4 @@ ALTER TABLE `session` ADD CONSTRAINT `session_userId_fkey` FOREIGN KEY (`userId`
 ALTER TABLE `article` ADD CONSTRAINT `article_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `user_project` ADD CONSTRAINT `user_project_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `project` ADD CONSTRAINT `project_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

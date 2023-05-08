@@ -39,17 +39,17 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?       @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-  description         String?
-  gitHubUrl    String?
-  linkedInUrl  String?
+  description   String?
+  gitHubUrl     String?
+  linkedInUrl   String?
   accounts      Account[]
   sessions      Session[]
-  projects Project[]
+  projects      Project[]
   articles      Article[]
 
   @@map("user")
@@ -66,7 +66,7 @@ model VerificationToken {
 
 model Article {
   id        String    @id @default(cuid())
-  userId    String    
+  userId    String
   user      User      @relation(fields: [userId], references: [id])
   title     String?
   content   String    @db.Text
@@ -90,6 +90,7 @@ model Project {
   mostInteresting String?
   mostUnique      String?
   whyBuilt        String?
+  codeSnippet     String?
   techStack       String?
   deletedAt       DateTime?
 
