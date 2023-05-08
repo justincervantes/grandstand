@@ -93,5 +93,5 @@ model Project {
   techStack       String?
   deletedAt       DateTime?
 
-  @@map("user_project")
+  @@map("project")
 }
