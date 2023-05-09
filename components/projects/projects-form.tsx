@@ -3,6 +3,9 @@ import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 const ProjectsForm = (props) => {
     const {
         handleSubmit,
+        setUpdateExisting,
+        updateExisting,
+        clearFormStateValues,
         title,
         description,
         imageUrl,
@@ -33,141 +36,174 @@ const ProjectsForm = (props) => {
             onSubmit={handleSubmit}
             enableReinitialize
         >
-            <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 max-w-3xl mx-auto">
-                <h1 className="font-medium text-xl pl-2 mb-2 text-center">Project Input</h1>
-                <div>
-                    <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        Project Title:
-                    </label>
-                    <Field
-                        type="text"
-                        name="title"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        Project Description:
-                    </label>
-                    <Field
-                        type="text"
-                        component="textarea"
-                        rows={2}
-                        name="description"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="imageUrl" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        Project Image Link:
-                    </label>
-                    <Field
-                        type="text"
-                        name="imageUrl"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="applicationUrl" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        Link to Application:
-                    </label>
-                    <Field
-                        type="text"
-                        name="applicationUrl"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="gitHubUrl" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        GitHub Link:
-                    </label>
-                    <Field
-                        type="text"
-                        name="gitHubUrl"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="mostProudOf" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        What are you most proud of about this project?
-                    </label>
-                    <Field
-                        type="text"
-                        component="textarea"
-                        rows={2}
-                        name="mostProudOf"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="mostInteresting" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        What is the most interesting aspect about this project?
-                    </label>
-                    <Field
-                        type="text"
-                        component="textarea"
-                        rows={2}
-                        name="mostInteresting"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="mostUnique" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        What is the most unique aspect about this project?
-                    </label>
-                    <Field
-                        type="text"
-                        component="textarea"
-                        rows={2}
-                        name="mostUnique"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="whyBuilt" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        What motivated you to build this project?
-                    </label>
-                    <Field
-                        type="text"
-                        component="textarea"
-                        rows={2}
-                        name="whyBuilt"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="codeSnippet" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        Code snippet, language of code snippet, and description of code snippet:
-                    </label>
-                    <Field
-                        type="text"
-                        component="textarea"
-                        rows={2}
-                        name="codeSnippet"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div>
-                    <label htmlFor="techStack" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
-                        Project Tech Stack:
-                    </label>
-                    <Field
-                        type="text"
-                        component="textarea"
-                        rows={2}
-                        name="techStack"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    ></Field>
-                </div>
-                <div className="flex justify-end">
-                    <button
-                        type="submit"
-                        className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                        Submit
-                    </button>
-                </div>
-            </Form>
+            {({ setFieldValue, resetForm }) => {
+                return (
+                    <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 mx-auto md:max-w-lg md:ml-[calc(202px+((100vw-770px)/2))] lg:max-w-3xl lg:ml-[calc(202px+((100vw-800px)/2))]">
+                        <h1 className="font-medium text-xl pl-2 mb-2 text-center">Project Entry Form</h1>
+                        {updateExisting && <p className="text-center font-medium text-m">Editing Existing Project</p>}
+                        {!updateExisting && <p className="text-center font-medium text-m">Creating New Project</p>}
+                        {updateExisting && (
+                            <button
+                                className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50 text-gray-700 shadow-sm justify-center items-center border-gray-300 bg-white"
+                                type="reset"
+                                onClick={() => {
+                                    setUpdateExisting(false);
+                                    clearFormStateValues();
+                                    resetForm();
+                                }}
+                            >
+                                Create New Project
+                            </button>
+                        )}
+                        {!updateExisting && (
+                            <button
+                                className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50 text-gray-700 shadow-sm justify-center items-center border-gray-300 bg-white"
+                                type="reset"
+                                onClick={() => {
+                                    setUpdateExisting(false);
+                                }}
+                            >
+                                Reset Form
+                            </button>
+                        )}
+                        <div>
+                            <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                Project Title:
+                            </label>
+                            <Field
+                                type="text"
+                                name="title"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                Project Description:
+                            </label>
+                            <Field
+                                type="text"
+                                component="textarea"
+                                rows={2}
+                                name="description"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label htmlFor="imageUrl" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                Project Image Link:
+                            </label>
+                            <Field
+                                type="text"
+                                name="imageUrl"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label htmlFor="applicationUrl" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                Link to Application:
+                            </label>
+                            <Field
+                                type="text"
+                                name="applicationUrl"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label htmlFor="gitHubUrl" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                GitHub Link:
+                            </label>
+                            <Field
+                                type="text"
+                                name="gitHubUrl"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label htmlFor="mostProudOf" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                What are you most proud of about this project?
+                            </label>
+                            <Field
+                                type="text"
+                                component="textarea"
+                                rows={2}
+                                name="mostProudOf"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="mostInteresting"
+                                className="block text-gray-700 text-sm font-bold mb-1 mt-2"
+                            >
+                                What is the most interesting aspect about this project?
+                            </label>
+                            <Field
+                                type="text"
+                                component="textarea"
+                                rows={2}
+                                name="mostInteresting"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label htmlFor="mostUnique" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                What is the most unique aspect about this project?
+                            </label>
+                            <Field
+                                type="text"
+                                component="textarea"
+                                rows={2}
+                                name="mostUnique"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label htmlFor="whyBuilt" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                What motivated you to build this project?
+                            </label>
+                            <Field
+                                type="text"
+                                component="textarea"
+                                rows={2}
+                                name="whyBuilt"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label htmlFor="codeSnippet" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                Code snippet, language of code snippet, and description of code snippet:
+                            </label>
+                            <Field
+                                type="text"
+                                component="textarea"
+                                rows={2}
+                                name="codeSnippet"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div>
+                            <label htmlFor="techStack" className="block text-gray-700 text-sm font-bold mb-1 mt-2">
+                                Project Tech Stack:
+                            </label>
+                            <Field
+                                type="text"
+                                component="textarea"
+                                rows={2}
+                                name="techStack"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            ></Field>
+                        </div>
+                        <div className="flex justify-end">
+                            <button
+                                type="submit"
+                                className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </Form>
+                );
+            }}
         </Formik>
     );
 };
