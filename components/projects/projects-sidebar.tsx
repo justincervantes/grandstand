@@ -1,5 +1,3 @@
-import Button from '../button';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useToast } from '../../context/ToastContext';
 import { get } from 'lodash';
@@ -7,9 +5,11 @@ import { get } from 'lodash';
 const ProjectsSidebar = (props) => {
     const {
         projects = [],
+        selectedProjectId,
         setProjectsSidebar,
         setUpdateExisting,
         setSelectedProjectId,
+        clearFormStateValues,
         setTitle,
         setDescription,
         setImageUrl,
@@ -52,6 +52,8 @@ const ProjectsSidebar = (props) => {
         await axios
             .post('/api/projects/deleteProject', { projectId })
             .then((response) => {
+                clearFormStateValues();
+                setUpdateExisting(false);
                 addToast('Successfully deleted project', 'Success');
             })
             .catch((error) => {
@@ -68,15 +70,15 @@ const ProjectsSidebar = (props) => {
     };
 
     return (
-        <div className="min-h-[73vh] max-h-[73vh]">
+        <div className="md:fixed">
             <div className="grid grid-flow-col grid-cols-2 p-1 h-full">
-                <div className="col-span-2 border rounded-lg flex flex-col overflow-y-auto h-[73vh] scrollbar-thin scrollbar-h-1.5 scrollbar-thumb-gray-200 scrollbar-thumb-rounded">
-                    <div className="p-2">
-                        <Button handleClick={() => setUpdateExisting(false)}>Create New Project</Button>
-                    </div>
+                <div className="col-span-2 border rounded-lg flex flex-col overflow-y-auto max-w-md	md:w-[182px] h-fit mx-auto md:mx-0 md:h-[calc(100vh-138px)] scrollbar-thin scrollbar-h-1.5 scrollbar-thumb-gray-200 scrollbar-thumb-rounded">
+                    <p className="text-center font-medium text-m">Uploaded Projects</p>
+                    <p className="text-center font-medium text-m">Select to Edit</p>
+                    <p className="text-center md:hidden">Project Entry Form Below</p>
                     {projects.map((project, index) => {
                         const { title, id: projectId } = project;
-                        // const isActive = projectId === selectedProjectId;
+                        const isActive = projectId === selectedProjectId;
                         return (
                             <div
                                 key={`article-${index}`}
@@ -85,15 +87,20 @@ const ProjectsSidebar = (props) => {
                                     setSelectedProjectId(projectId);
                                     loadProject(projectId);
                                 }}
-                                className=" border rounded-lg m-1 text-center"
-                                // {`${isActive ? 'bg-orange-100 ' : ''}flex justify-between p-2`}
+                                className={`${
+                                    isActive ? 'bg-slate-200 ' : ''
+                                } border rounded-lg m-1 text-center flex justify-between p-2`}
                             >
                                 <div className="grid grow-cols-2">
                                     <div className="px-1 truncate ...">{title}</div>
                                 </div>
                                 <div className="flex justify-center">
                                     <button
-                                        onClick={() => deleteProject(projectId)}
+                                        onClick={() => {
+                                            if (window.confirm('Delete Project?')) {
+                                                deleteProject(projectId);
+                                            }
+                                        }}
                                         className="rounded hover:bg-red-600 hover:text-white px-1 h-fit"
                                     >
                                         Delete

@@ -25,6 +25,21 @@ const Projects = (props) => {
     const [codeSnippet, setCodeSnippet] = useState('');
     const [techStack, setTechStack] = useState('');
 
+    const clearFormStateValues = () => {
+        setSelectedProjectId(null);
+        setTitle('');
+        setDescription('');
+        setImageUrl('');
+        setApplicationUrl('');
+        setGitHubUrl('');
+        setMostProudOf('');
+        setMostInteresting('');
+        setMostUnique('');
+        setWhyBuilt('');
+        setCodeSnippet('');
+        setTechStack('');
+    };
+
     const handleSubmit = async (values, actions) => {
         let projectId = selectedProjectId;
         if (!updateExisting) {
@@ -67,12 +82,14 @@ const Projects = (props) => {
     };
 
     return (
-        <div className="flex justify-between whitespace-nowrap">
+        <div className="md:flex md:justify-between md:whitespace-nowrap">
             <ProjectsSidebar
                 projects={projects}
+                selectedProjectId={selectedProjectId}
                 setProjectsSidebar={setProjectsSidebar}
                 setUpdateExisting={setUpdateExisting}
                 setSelectedProjectId={setSelectedProjectId}
+                clearFormStateValues={clearFormStateValues}
                 setTitle={setTitle}
                 setDescription={setDescription}
                 setImageUrl={setImageUrl}
@@ -87,6 +104,10 @@ const Projects = (props) => {
             />
             <ProjectsForm
                 handleSubmit={handleSubmit}
+                setUpdateExisting={setUpdateExisting}
+                updateExisting={updateExisting}
+                setSelectedProjectId={setSelectedProjectId}
+                clearFormStateValues={clearFormStateValues}
                 title={title}
                 description={description}
                 imageUrl={imageUrl}
