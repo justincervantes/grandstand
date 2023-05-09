@@ -13,22 +13,24 @@ Preferably set up your own MySQL server locally, I've set up an AWS RDS instance
 Contributions are welcome, in order to contribute you'll need developer configurations which can be obtained by emailing Justin (contact details below). The prod branch is main, and the development branch is dev. Do not touch main. When working on features, cut a branch off of dev called feat/name_of_feature_you_are_working_on. When you are done, make a pull request and tag Justin Cervantes or Evan Morrow to review your work. Do not push commits directly to dev.  Once a feature is complete put an x in the todo item [X] to mark it off. Also, if starting a work item, put your name beside it in the readme.
 
 ## To do
+- [ ] Update frontend validation rules for projects (use yup)
+- [ ] Add a slug to About Me (spotlight.dev/<slug> (investigate Next JS Dynamic Routing)
+- [ ] Create a home page with vector images which can be toggled based on theme instead of using a picture of a logo
+- [ ] Create a component for project inputs which should enable you to set a project title, set a project description, set a project image link, set a project hosted link, set a project github link, set a project code snippet and description, set text cards that answer (what are you most proud of, what is most interesting about this, what is unique about this, why did you do this).
+- [ ] Projects should show a project input form, with a button do add a new project input form for adding multiple projects
+- [ ] Blogs (to be done by Evan or Justin)
+- [ ] Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
+- [ ] Design a sample user's website
+- [X] Update the frontend validation rules for About Me (install yup, see npmjs.com)
+- [X] Update color scheme (Light and Dark - https://iansutherland.ca/) and remove the logo
+- [X] Create a new logo
+- [X] Create a projects model which has a 1-m relationship to users
 - [X] Re-introduce the hamburger menu
 - [X] Delete the UserActions model and get everything regression functional
 - [X] Update userDetails model to only require 2 links: LinkedIn and GitHub 
 - [X] Update the About Me page to match the links from above
-- [ ] Update the Projects page to have a create new project functionality, perhaps expandable
-- [ ] Update the frontend validation rules for About Me and Projects (install yup, see npmjs.com)
-- [ ] Create a projects model which has a 1-m relationship to users
-- [ ] Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
-- [ ] Add a slug to About Me (spotlight.dev/<slug> (investigate Next JS Dynamic Routing)
-- [ ] Update color scheme (Light and Dark - https://iansutherland.ca/) and remove the logo
-- [X] Create a new logo
-- [ ] Create a component for project inputs which should enable you to set a project title, set a project description, set a project image link, set a project hosted link, set a project github link, set a project code snippet and description, set text cards that answer (what are you most proud of, what is most interesting about this, what is unique about this, why did you do this).
-- [ ] Projects should show a project input form, with a button do add a new project input form for adding multiple projects
-- [ ] Blogs (to be done by Evan or Justin)
-
-
+- [X] Update the Projects page to have a create new project functionality, perhaps expandable
+  
 Contact Information
 Justin Cervantes
 cervantes.jfa@gmail.com
