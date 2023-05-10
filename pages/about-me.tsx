@@ -63,10 +63,10 @@ const AboutMe = ({ user }) => {
                 <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 max-w-3xl mx-auto">
                     <div>
                         <h1 className="font-medium text-xl pl-2 mb-2 text-center">About Me</h1>
-                        {fields.map((field) => {
+                        {fields.map((field, index) => {
                             const { label, name, component, rows } = field ?? {};
                             return (
-                                <div className="mb-2">
+                                <div className="mb-2" key={index}>
                                     <label htmlFor={name} className="block text-gray-700 text-sm font-bold mb-2">
                                         {label}
                                     </label>
