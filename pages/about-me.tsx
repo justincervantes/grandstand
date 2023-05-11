@@ -56,7 +56,13 @@ const AboutMe = ({ user }) => {
     return (
         <div>
             <Formik
-                initialValues={{ userName: name, description, imageUrl: image, gitHubUrl, linkedInUrl }}
+                initialValues={{
+                    userName: name,
+                    description: description || '',
+                    imageUrl: image || '',
+                    gitHubUrl: gitHubUrl || '',
+                    linkedInUrl: linkedInUrl || '',
+                }}
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema()}
             >
