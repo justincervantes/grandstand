@@ -1,16 +1,16 @@
-import Router from 'next/router';
-
 const Portfolio = ({ user }) => {
-    console.log('user', user);
-    return <div>Hello world</div>;
+    return (
+        <div>
+            {user.name}
+            {user.description}
+        </div>
+    );
 };
 
 export default Portfolio;
 
 export async function getServerSideProps(context) {
-    const slug = context?.query?.slug[0];
-
-    console.log('slug', slug);
+    const slug = context?.query?.slug;
     const user = await prisma.user.findFirstOrThrow({
         where: {
             slug,
