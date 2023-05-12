@@ -13,14 +13,15 @@ Preferably set up your own MySQL server locally, I've set up an AWS RDS instance
 Contributions are welcome, in order to contribute you'll need developer configurations which can be obtained by emailing Justin (contact details below). The prod branch is main, and the development branch is dev. Do not touch main. When working on features, cut a branch off of dev called feat/name_of_feature_you_are_working_on. When you are done, make a pull request and tag Justin Cervantes or Evan Morrow to review your work. Do not push commits directly to dev.  Once a feature is complete put an x in the todo item [X] to mark it off. Also, if starting a work item, put your name beside it in the readme.
 
 ## To do
-- [ ] Add a slug to About Me (spotlight.dev/<slug> (investigate Next JS Dynamic Routing) - In Progress
 - [ ] Create a home page with vector images which can be toggled based on theme instead of using a picture of a logo
 - [ ] Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
 - [ ] Design a sample user's website
 - [ ] Change the color theme of articles pages and components to black / gray
 - [ ] Wrap the whole application in a theme context to switch between two pallettes and add a button to toggle between themes (light/dark)
 - [ ] Add a preview field for the code snippet in projects (requires installation of tailwind typography plugin)
+- [ ] Have a validation in the backend and or frontend which stops a user from saving 'home', 'about-me', 'projects', or 'blog' as their slug  
   
+- [X] Add a slug to About Me (spotlight.dev/<slug> (investigate Next JS Dynamic Routing) - In Progress  
 - [X] Projects should show a project input form, with a button do add a new project input form for adding multiple projects
 - [X] Update frontend validation rules for projects (use yup)
 - [X] Blogs (to be done by Evan or Justin)
