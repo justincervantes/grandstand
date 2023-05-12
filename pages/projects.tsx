@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import { get } from 'lodash';
 import { getSession } from 'next-auth/react';
 import { useToast } from '../context/ToastContext';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ProjectsSidebar from '../components/projects/projects-sidebar';
 import ProjectsForm from '../components/projects/projects-form';
+import EditingLayout from '../components/layout';
 
 const Projects = (props) => {
     const { projectsProp = [] } = props;
@@ -45,7 +45,7 @@ const Projects = (props) => {
         if (!updateExisting) {
             await axios
                 .post('/api/projects/createProject', values)
-                .then((response) => {
+                .then(() => {
                     addToast('Successfully created project', 'Success');
                 })
                 .catch((error) => {
@@ -82,45 +82,47 @@ const Projects = (props) => {
     };
 
     return (
-        <div className="md:flex md:justify-between md:whitespace-nowrap">
-            <ProjectsSidebar
-                projects={projects}
-                selectedProjectId={selectedProjectId}
-                setProjectsSidebar={setProjectsSidebar}
-                setUpdateExisting={setUpdateExisting}
-                setSelectedProjectId={setSelectedProjectId}
-                clearFormStateValues={clearFormStateValues}
-                setTitle={setTitle}
-                setDescription={setDescription}
-                setImageUrl={setImageUrl}
-                setApplicationUrl={setApplicationUrl}
-                setGitHubUrl={setGitHubUrl}
-                setMostProudOf={setMostProudOf}
-                setMostInteresting={setMostInteresting}
-                setMostUnique={setMostUnique}
-                setWhyBuilt={setWhyBuilt}
-                setCodeSnippet={setCodeSnippet}
-                setTechStack={setTechStack}
-            />
-            <ProjectsForm
-                handleSubmit={handleSubmit}
-                setUpdateExisting={setUpdateExisting}
-                updateExisting={updateExisting}
-                setSelectedProjectId={setSelectedProjectId}
-                clearFormStateValues={clearFormStateValues}
-                title={title}
-                description={description}
-                imageUrl={imageUrl}
-                applicationUrl={applicationUrl}
-                gitHubUrl={gitHubUrl}
-                mostProudOf={mostProudOf}
-                mostInteresting={mostInteresting}
-                mostUnique={mostUnique}
-                whyBuilt={whyBuilt}
-                codeSnippet={codeSnippet}
-                techStack={techStack}
-            />
-        </div>
+        <EditingLayout>
+            <div className="md:flex md:justify-between md:whitespace-nowrap">
+                <ProjectsSidebar
+                    projects={projects}
+                    selectedProjectId={selectedProjectId}
+                    setProjectsSidebar={setProjectsSidebar}
+                    setUpdateExisting={setUpdateExisting}
+                    setSelectedProjectId={setSelectedProjectId}
+                    clearFormStateValues={clearFormStateValues}
+                    setTitle={setTitle}
+                    setDescription={setDescription}
+                    setImageUrl={setImageUrl}
+                    setApplicationUrl={setApplicationUrl}
+                    setGitHubUrl={setGitHubUrl}
+                    setMostProudOf={setMostProudOf}
+                    setMostInteresting={setMostInteresting}
+                    setMostUnique={setMostUnique}
+                    setWhyBuilt={setWhyBuilt}
+                    setCodeSnippet={setCodeSnippet}
+                    setTechStack={setTechStack}
+                />
+                <ProjectsForm
+                    handleSubmit={handleSubmit}
+                    setUpdateExisting={setUpdateExisting}
+                    updateExisting={updateExisting}
+                    setSelectedProjectId={setSelectedProjectId}
+                    clearFormStateValues={clearFormStateValues}
+                    title={title}
+                    description={description}
+                    imageUrl={imageUrl}
+                    applicationUrl={applicationUrl}
+                    gitHubUrl={gitHubUrl}
+                    mostProudOf={mostProudOf}
+                    mostInteresting={mostInteresting}
+                    mostUnique={mostUnique}
+                    whyBuilt={whyBuilt}
+                    codeSnippet={codeSnippet}
+                    techStack={techStack}
+                />
+            </div>
+        </EditingLayout>
     );
 };
 

@@ -4,9 +4,10 @@ import axios from 'axios';
 import * as yup from 'yup';
 import { useToast } from '../context/ToastContext';
 import { getSession } from 'next-auth/react';
+import EditingLayout from '../components/layout';
 
 const AboutMe = ({ user }) => {
-    const { name, description, image, gitHubUrl, linkedInUrl } = user ?? {};
+    const { name, slug, description, image, gitHubUrl, linkedInUrl } = user ?? {};
     const { addToast } = useToast();
     const router = useRouter();
 
@@ -23,6 +24,7 @@ const AboutMe = ({ user }) => {
     const validationSchema = () =>
         yup.object().shape({
             userName: yup.string().trim().min(2, 'Must be greater than 2 chars').required('Please enter a name'),
+            slug: yup.string().trim().min(2, 'Must be greater than 2 chars').required('Please enter a name'),
             description: yup
                 .string()
                 .trim()
@@ -47,6 +49,7 @@ const AboutMe = ({ user }) => {
 
     const fields = [
         { label: 'Display Name', name: 'userName' },
+        { label: 'Spotlight Slug (Path)', name: 'slug' },
         { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
         { label: 'Image URL', name: 'imageUrl' },
         { label: 'GitHub URL', name: 'gitHubUrl' },
@@ -54,10 +57,11 @@ const AboutMe = ({ user }) => {
     ];
 
     return (
-        <div>
+        <EditingLayout>
             <Formik
                 initialValues={{
                     userName: name,
+                    slug: slug || '',
                     description: description || '',
                     imageUrl: image || '',
                     gitHubUrl: gitHubUrl || '',
@@ -100,7 +104,7 @@ const AboutMe = ({ user }) => {
                     </div>
                 </Form>
             </Formik>
-        </div>
+        </EditingLayout>
     );
 };
 

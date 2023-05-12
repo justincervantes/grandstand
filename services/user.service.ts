@@ -10,13 +10,14 @@ export default class UserService extends BaseService {
     }
 
     public updateUser = async (values): Promise<User> => {
-        const { userName, description, imageUrl, gitHubUrl, linkedInUrl } = values;
+        const { userName, slug, description, imageUrl, gitHubUrl, linkedInUrl } = values;
         const updatedUser = await prisma.user.update({
             where: {
                 id: this.sessionUserId,
             },
             data: {
                 name: userName,
+                slug,
                 description,
                 image: imageUrl,
                 gitHubUrl,
