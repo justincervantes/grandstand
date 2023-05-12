@@ -39,6 +39,8 @@ Contributions are welcome, in order to contribute you'll need developer configur
     
 ## Parking lot
 - [ ] Change the stack text input to a chip input (array of strings in the backend)
+- [ ] Drag and drop or up/down arrows to prioritize project display order
+- [ ] Carousel for displaying projects for higher resolution viewers - https://www.material-tailwind.com/docs/react/carousel
 
 Contact Information
 Justin Cervantes
