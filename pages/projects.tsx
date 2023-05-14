@@ -59,6 +59,7 @@ const Projects = (props) => {
                     const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
                     addToast(errorMessage, 'Error');
                 });
+            clearFormStateValues();
             actions.resetForm();
         } else {
             await axios
@@ -77,6 +78,7 @@ const Projects = (props) => {
                     const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
                     addToast(errorMessage, 'Error');
                 });
+            clearFormStateValues();
             actions.resetForm();
         }
     };
