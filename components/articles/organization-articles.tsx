@@ -137,7 +137,11 @@ const OrganizationArticles = (props) => {
                                 </div>
                                 <div className="flex items-center">
                                     <button
-                                        onClick={() => deleteArticle(article)}
+                                        onClick={() => {
+                                            if (window.confirm('Delete Project?')) {
+                                                deleteArticle(article);
+                                            }
+                                        }}
                                         className="rounded hover:bg-red-600 hover:text-white px-1 h-fit"
                                     >
                                         Delete
