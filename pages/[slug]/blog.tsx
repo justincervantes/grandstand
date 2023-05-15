@@ -1,13 +1,25 @@
+import { useRouter } from 'next/router';
+import moment from 'moment';
 const Blog = ({ user }) => {
     const { articles } = user;
+    const router = useRouter();
     return (
-        <div>
+        <div className="text-center">
+            <p className="text-xl my-2 font-bold md:text-2xl">{`${user.name}'s Blog`}</p>
+            <p className="text-gray-500 text-lg cursor-pointer" onClick={() => router.back()}>
+                Return to Profile
+            </p>
             {articles.map((article, index) => {
+                const { title, content, createdAt } = article;
                 return (
-                    <div key={index}>
-                        <div key={index}>{article.title}</div>
-                        <div key={index}>{article.content}</div>
-                        <div key={index}>{article.createdAt}</div>
+                    <div className="border bg-gray-50 shadow-lg rounded-3xl max-w-3xl mx-auto p-2 my-4" key={index}>
+                        <div className="text-xl my-2 font-bold md:text-2xl" key={index}>
+                            {title}
+                        </div>
+                        <div key={index}>Uploaded {moment.utc(createdAt).format('L')}</div>
+                        <div className="text-gray-500 text-lg" key={index}>
+                            {content}
+                        </div>
                     </div>
                 );
             })}
