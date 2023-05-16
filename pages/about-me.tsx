@@ -24,7 +24,29 @@ const AboutMe = ({ user }) => {
     const validationSchema = () =>
         yup.object().shape({
             userName: yup.string().trim().min(2, 'Must be greater than 2 chars').required('Please enter a name'),
-            slug: yup.string().trim().min(2, 'Must be greater than 2 chars').required('Please enter a name'),
+            slug: yup
+                .string()
+                .trim()
+                .min(2, 'Must be greater than 2 chars')
+                .max(26, 'Cannot be more than 26 chars')
+                .required('Please enter a name')
+                .matches(/^[-, A-Za-z0-9]+$/, 'Slug cannot use any special characters other than the hyphen (-)')
+                .test('invalidSlugs', 'Invalid Slug Name', function (slug) {
+                    const invalidSlugs = [
+                        'admin',
+                        'null',
+                        'god',
+                        'spotlight',
+                        'home',
+                        'about-me',
+                        'blog',
+                        'projects',
+                        'project',
+                        'blogs',
+                        'aboutme',
+                    ];
+                    return !invalidSlugs.includes(slug.trim().toLowerCase());
+                }),
             description: yup
                 .string()
                 .trim()
