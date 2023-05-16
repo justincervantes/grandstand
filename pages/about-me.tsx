@@ -32,7 +32,19 @@ const AboutMe = ({ user }) => {
                 .required('Please enter a name')
                 .matches(/^[-, A-Za-z0-9]+$/, 'Slug cannot use any special characters other than the hyphen (-)')
                 .test('invalidSlugs', 'Invalid Slug Name', function (slug) {
-                    const invalidSlugs = ['admin', 'null', 'god', 'spotlight'];
+                    const invalidSlugs = [
+                        'admin',
+                        'null',
+                        'god',
+                        'spotlight',
+                        'home',
+                        'about-me',
+                        'blog',
+                        'projects',
+                        'project',
+                        'blogs',
+                        'aboutme',
+                    ];
                     return !invalidSlugs.includes(slug.trim().toLowerCase());
                 }),
             description: yup
