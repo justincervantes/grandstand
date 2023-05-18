@@ -4,6 +4,7 @@ const ErrorDictionary = {
     NO_SESSION_TOKEN_PROVIDED: 'No session token was received',
     UNAUTHENTICATED: 'No session token or related user was detected',
     INVALID_REQUEST: 'The request is missing required parameters',
+    INVALID_SLUG: 'The provided slug is invalid or already in use',
 };
 
 export default ErrorDictionary;

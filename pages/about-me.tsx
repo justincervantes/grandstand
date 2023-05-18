@@ -17,7 +17,7 @@ const AboutMe = ({ user }) => {
             addToast('Successfully updated details', 'Success');
             router.reload();
         } catch (error) {
-            addToast(error, 'Error');
+            addToast(error?.response?.data?.errorMessage, 'Error');
         }
     };
 
