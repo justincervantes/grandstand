@@ -43,7 +43,7 @@ model User {
   name          String?
   email         String?   @unique
   emailVerified DateTime?
-  slug        String? @unique
+  slug          String?   @unique
   image         String?
   description   String?
   gitHubUrl     String?
@@ -84,6 +84,7 @@ model Project {
   user            User      @relation(fields: [userId], references: [id])
   title           String
   description     String?
+  dateRange       String?
   imageUrl        String?
   applicationUrl  String?
   gitHubUrl       String?

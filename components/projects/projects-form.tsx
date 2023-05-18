@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
 const ProjectsForm = (props) => {
@@ -9,6 +9,7 @@ const ProjectsForm = (props) => {
         clearFormStateValues,
         title,
         description,
+        dateRange,
         imageUrl,
         applicationUrl,
         gitHubUrl,
@@ -28,6 +29,7 @@ const ProjectsForm = (props) => {
                 .trim()
                 .min(5, 'Must be greater than 5 characters')
                 .required('Please enter a description about your project'),
+            dateRange: yup.string().trim().min(3, 'Must be greater than 3 characters'),
             imageUrl: yup.string().trim().url('Please provide a full http/https URL'),
             applicationUrl: yup.string().trim().url('Please provide a full http/https URL'),
             gitHubUrl: yup.string().trim().url('Please provide a full http/https URL'),
@@ -41,6 +43,7 @@ const ProjectsForm = (props) => {
     const fields = [
         { label: 'Title', name: 'title' },
         { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
+        { label: 'Date Range', name: 'dateRange' },
         { label: 'Image URL', name: 'imageUrl' },
         { label: 'Application URL', name: 'applicationUrl' },
         { label: 'GitHub URL', name: 'gitHubUrl' },
@@ -77,6 +80,7 @@ const ProjectsForm = (props) => {
             initialValues={{
                 title,
                 description,
+                dateRange,
                 imageUrl,
                 applicationUrl,
                 gitHubUrl,

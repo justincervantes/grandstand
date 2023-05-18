@@ -15,6 +15,7 @@ const Projects = (props) => {
     const [selectedProjectId, setSelectedProjectId] = useState();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [dateRange, setDateRange] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [applicationUrl, setApplicationUrl] = useState('');
     const [gitHubUrl, setGitHubUrl] = useState('');
@@ -29,6 +30,7 @@ const Projects = (props) => {
         setSelectedProjectId(null);
         setTitle('');
         setDescription('');
+        setDateRange('');
         setImageUrl('');
         setApplicationUrl('');
         setGitHubUrl('');
@@ -65,7 +67,7 @@ const Projects = (props) => {
             await axios
                 .post('/api/projects/updateProject', { projectId, values })
                 .then((response) => {
-                    addToast('Successfully created project', 'Success');
+                    addToast('Successfully updated project', 'Success');
                 })
                 .catch((error) => {
                     const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
@@ -95,6 +97,7 @@ const Projects = (props) => {
                     clearFormStateValues={clearFormStateValues}
                     setTitle={setTitle}
                     setDescription={setDescription}
+                    setDateRange={setDateRange}
                     setImageUrl={setImageUrl}
                     setApplicationUrl={setApplicationUrl}
                     setGitHubUrl={setGitHubUrl}
@@ -113,6 +116,7 @@ const Projects = (props) => {
                     clearFormStateValues={clearFormStateValues}
                     title={title}
                     description={description}
+                    dateRange={dateRange}
                     imageUrl={imageUrl}
                     applicationUrl={applicationUrl}
                     gitHubUrl={gitHubUrl}
