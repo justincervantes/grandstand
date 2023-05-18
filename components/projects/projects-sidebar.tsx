@@ -12,6 +12,7 @@ const ProjectsSidebar = (props) => {
         clearFormStateValues,
         setTitle,
         setDescription,
+        setDateRange,
         setImageUrl,
         setApplicationUrl,
         setGitHubUrl,
@@ -25,6 +26,7 @@ const ProjectsSidebar = (props) => {
     const { addToast } = useToast();
 
     const loadProject = async (projectId) => {
+        clearFormStateValues();
         setSelectedProjectId(projectId);
         setUpdateExisting(true);
         await axios
@@ -32,6 +34,7 @@ const ProjectsSidebar = (props) => {
             .then((response) => {
                 setTitle(response.data.project.title);
                 setDescription(response.data.project.description);
+                setDateRange(response.data.project.dateRange);
                 setImageUrl(response.data.project.imageUrl);
                 setApplicationUrl(response.data.project.applicationUrl);
                 setGitHubUrl(response.data.project.gitHubUrl);

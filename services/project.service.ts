@@ -10,6 +10,7 @@ export default class ProjectService extends BaseService {
     public createProject = async (values: {
         title: string;
         description?: string;
+        dateRange?: string;
         imageUrl?: string;
         applicationUrl?: string;
         gitHubUrl?: string;
@@ -58,6 +59,7 @@ export default class ProjectService extends BaseService {
         values: {
             title: string;
             description?: string;
+            dateRange?: string;
             imageUrl?: string;
             applicationUrl?: string;
             gitHubUrl?: string;
@@ -69,7 +71,6 @@ export default class ProjectService extends BaseService {
             techStack?: string;
         };
     }): Promise<Project> => {
-
         if (!projectId) throw new Error(ErrorDictionary.INVALID_REQUEST);
 
         const userProject = await prisma.project.update({
