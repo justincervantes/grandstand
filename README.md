@@ -16,7 +16,6 @@ Contributions are welcome, in order to contribute you'll need developer configur
 - [ ] Protect about me from users submitting special characters in slugs other than a hyphen, and set a max length of 26
 - [ ] Create a home page with vector images which can be toggled based on theme instead of using a picture of a logo
 - [ ] Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
-- [ ] Design a sample user's website
 - [ ] Change the color theme of articles pages and components to black / gray
 - [ ] Wrap the whole application in a theme context to switch between two pallettes and add a button to toggle between themes (light/dark)
 - [ ] Add a preview field for the code snippet in projects (requires installation of tailwind typography plugin)
@@ -36,6 +35,7 @@ Contributions are welcome, in order to contribute you'll need developer configur
 - [X] Update userDetails model to only require 2 links: LinkedIn and GitHub 
 - [X] Update the About Me page to match the links from above
 - [X] Update the Projects page to have a create new project functionality, perhaps expandable
+  - [X] Design a sample user's website
     
 ## Parking lot
 - [ ] Change the stack text input to a chip input (array of strings in the backend)
