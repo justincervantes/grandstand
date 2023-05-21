@@ -104,7 +104,7 @@ const ProjectsForm = (props) => {
         >
             {({ setFieldValue, resetForm }) => {
                 return (
-                    <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 mx-auto md:max-w-lg md:ml-[calc(202px+((100vw-666px)/2))] lg:w-[32rem] lg:ml-[calc(202px+((100vw-730px)/2))]">
+                    <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 mx-auto md:w-[28rem] md:ml-[calc(202px+((100vw-696px)/2))] lg:w-[32rem] lg:ml-[calc(202px+((100vw-730px)/2))]">
                         <h1 className="font-medium text-xl pl-2 mb-2 text-center">Project Entry Form</h1>
                         {updateExisting && <p className="text-center font-medium text-m">Editing Existing Project</p>}
                         {!updateExisting && <p className="text-center font-medium text-m">Creating New Project</p>}
@@ -175,7 +175,7 @@ const ProjectsForm = (props) => {
                                 Code Snippet Preview
                             </label>
                             <div
-                                className="prose prose-gray p-1"
+                                className="prose prose-gray p-1 overflow-x-auto	"
                                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(codeSnippetPreview)) }}
                             />
                         </div>
