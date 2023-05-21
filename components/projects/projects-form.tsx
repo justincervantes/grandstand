@@ -1,5 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import React, { useState, useEffect } from 'react';
+import DOMPurify from 'isomorphic-dompurify';
+import { marked } from 'marked';
 
 const ProjectsForm = (props) => {
     const {
@@ -17,9 +20,19 @@ const ProjectsForm = (props) => {
         mostInteresting,
         mostUnique,
         whyBuilt,
-        codeSnippet,
         techStack,
+        codeSnippet,
     } = props;
+
+    const [codeSnippetPreview, setCodeSnippetPreview] = useState(codeSnippet);
+
+    useEffect(() => {
+        setCodeSnippetPreview(codeSnippet);
+    }, [codeSnippet]);
+
+    const onCodeSnippetChange = (e) => {
+        setCodeSnippetPreview(e.target.value);
+    };
 
     const validationSchema = () =>
         yup.object().shape({
@@ -37,8 +50,8 @@ const ProjectsForm = (props) => {
             mostInteresting: yup.string().trim().min(5, 'Must be greater than 5 characters'),
             mostUnique: yup.string().trim().min(5, 'Must be greater than 5 characters'),
             whyBuilt: yup.string().trim().min(5, 'Must be greater than 5 characters'),
-            codeSnippet: yup.string().trim().min(5, 'Must be greater than 5 characters'),
             techStack: yup.string().trim().min(5, 'Must be greater than 5 characters'),
+            codeSnippet: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         });
     const fields = [
         { label: 'Title', name: 'title' },
@@ -66,12 +79,6 @@ const ProjectsForm = (props) => {
             rows: 2,
         },
         { label: 'What motivated you to build this project?', name: 'whyBuilt', component: 'textarea', rows: 2 },
-        {
-            label: 'Favourite code snippet, language, and description:',
-            name: 'codeSnippet',
-            component: 'textarea',
-            rows: 2,
-        },
         { label: 'Project Tech Stack:', name: 'techStack' },
     ];
 
@@ -88,8 +95,8 @@ const ProjectsForm = (props) => {
                 mostInteresting,
                 mostUnique,
                 whyBuilt,
-                codeSnippet,
                 techStack,
+                codeSnippet,
             }}
             onSubmit={handleSubmit}
             validationSchema={validationSchema()}
@@ -147,6 +154,31 @@ const ProjectsForm = (props) => {
                                 </div>
                             );
                         })}
+                        <div className="mb-2">
+                            <label htmlFor="codeSnippet" className="block text-gray-700 text-sm font-bold mb-2">
+                                Favourite code snippet, language, and description:
+                            </label>
+                            <Field
+                                type="text"
+                                name="codeSnippet"
+                                component="textarea"
+                                rows={2}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                onKeyUp={onCodeSnippetChange}
+                            ></Field>
+                            <ErrorMessage name="codeSnippet">
+                                {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
+                            </ErrorMessage>
+                        </div>
+                        <div className="mb-2">
+                            <label htmlFor="codeSnippetPreview" className="block text-gray-700 text-sm font-bold mb-2">
+                                Code Snippet Preview
+                            </label>
+                            <div
+                                className="prose prose-gray p-1"
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(codeSnippetPreview)) }}
+                            />
+                        </div>
                         <div className="flex justify-end">
                             <button
                                 type="submit"
