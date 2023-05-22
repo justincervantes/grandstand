@@ -45,7 +45,7 @@ model User {
   emailVerified DateTime?
   slug          String?   @unique
   image         String?
-  description   String?
+  description   String?   @db.Text
   gitHubUrl     String?
   linkedInUrl   String?
   accounts      Account[]
@@ -82,17 +82,17 @@ model Project {
   userId          String
   user            User      @relation(fields: [userId], references: [id])
   title           String
-  description     String?
+  description     String?   @db.Text
   dateRange       String?
   imageUrl        String?
   applicationUrl  String?
   gitHubUrl       String?
-  mostProudOf     String?
-  mostInteresting String?
-  mostUnique      String?
-  whyBuilt        String?
-  codeSnippet     String?
-  techStack       String?
+  mostProudOf     String?   @db.Text
+  mostInteresting String?   @db.Text
+  mostUnique      String?   @db.Text
+  whyBuilt        String?   @db.Text
+  codeSnippet     String?   @db.Text
+  techStack       String?   @db.Text
   deletedAt       DateTime?
 
   @@map("project")
