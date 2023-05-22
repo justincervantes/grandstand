@@ -14,7 +14,7 @@ export default class UserService extends BaseService {
             'admin',
             'null',
             'god',
-            'spotlight',
+            'grandstand',
             'home',
             'about-me',
             'blog',

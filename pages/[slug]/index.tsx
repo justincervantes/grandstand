@@ -1,3 +1,5 @@
+import { redirect } from 'next/dist/server/api-utils';
+
 const Portfolio = ({ user }) => {
     const { image, name, description, slug, gitHubUrl, linkedInUrl } = user ?? {};
     return (
@@ -35,11 +37,15 @@ export default Portfolio;
 
 export async function getServerSideProps(context) {
     const slug = context?.query?.slug;
-    const user = await prisma.user.findFirstOrThrow({
+    const user = await prisma.user.findFirst({
         where: {
             slug,
         },
     });
+    if (!user)
+        return {
+            redirect: { destination: '/404' },
+        };
     return {
         props: { user: JSON.parse(JSON.stringify(user)) },
     };

@@ -52,7 +52,6 @@ model User {
   sessions      Session[]
   projects      Project[]
   articles      Article[]
-
   @@map("user")
 }
 

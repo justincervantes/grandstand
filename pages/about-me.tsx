@@ -36,7 +36,7 @@ const AboutMe = ({ user }) => {
                         'admin',
                         'null',
                         'god',
-                        'spotlight',
+                        'grandstand',
                         'home',
                         'about-me',
                         'blog',
@@ -71,7 +71,7 @@ const AboutMe = ({ user }) => {
 
     const fields = [
         { label: 'Display Name', name: 'userName' },
-        { label: 'Spotlight Slug (Path)', name: 'slug' },
+        { label: 'Grandstand Slug (Path)', name: 'slug' },
         { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
         { label: 'Image URL', name: 'imageUrl' },
         { label: 'GitHub URL', name: 'gitHubUrl' },

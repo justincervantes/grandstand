@@ -15,14 +15,14 @@ export default function Header() {
     return (
         <header>
             <ShowToast />
-            <title>Spotlight</title>
+            <title>Grandstand</title>
             <link rel="icon" type="image/png" href="/favicon.ico" />
             <div className="relative bg-white">
                 <div className="mx-auto w-full px-4 sm:px-6">
                     <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
                         <div className="justify-start lg:w-0 lg:flex-1 order-2 hidden md:flex md:order-first">
                             <a href="/">
-                                <span className="sr-only">Spotlight</span>
+                                <span className="sr-only">Grandstand</span>
                                 <Image className="h-12 w-auto" src={logo} alt="Logo" />
                             </a>
                         </div>
