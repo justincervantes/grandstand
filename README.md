@@ -14,28 +14,33 @@ Contributions are welcome, in order to contribute you'll need developer configur
 
 ## To do
 
--   [ ] Protect about me from users submitting special characters in slugs other than a hyphen, and set a max length of 26
--   [ ] Create a home page with vector images which can be toggled based on theme instead of using a picture of a logo
--   [ ] Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
--   [ ] Change the color theme of articles pages and components to black / gray
--   [ ] Wrap the whole application in a theme context to switch between two pallettes and add a button to toggle between themes (light/dark)
--   [ ] Add a preview field for the code snippet in projects (requires installation of tailwind typography plugin)
--   [ ] Have a validation in the backend and or frontend which stops a user from saving 'home', 'about-me', 'projects', or 'blog' as their slug
--   [x] Add a slug to About Me (grandstand.dev/<slug> (investigate Next JS Dynamic Routing) - In Progress
--   [x] Projects should show a project input form, with a button do add a new project input form for adding multiple projects
--   [x] Update frontend validation rules for projects (use yup)
--   [x] Blogs (to be done by Evan or Justin)
--   [x] Create a component for project inputs which should enable you to set a project title, set a project description, set a project image link, set a project hosted link, set a project github link, set a project code snippet and description, set text cards that answer (what are you most proud of, what is most interesting about this, what is unique about this, why did you do this).
--   [x] Update the frontend validation rules for About Me (install yup, see npmjs.com)
--   [x] Update color scheme (Light and Dark - https://iansutherland.ca/) and remove the logo
--   [x] Create a new logo
--   [x] Create a projects model which has a 1-m relationship to users
--   [x] Re-introduce the hamburger menu
--   [x] Delete the UserActions model and get everything regression functional
--   [x] Update userDetails model to only require 2 links: LinkedIn and GitHub
--   [x] Update the About Me page to match the links from above
--   [x] Update the Projects page to have a create new project functionality, perhaps expandable
-    -   [x] Design a sample user's website
+- Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
+Blog
+- Style a table of content in the customer side (reference Monica Lent and Medium)
+- Each blog article must be its own page  
+- Work on rendering blog content in the customer side so that we use Tailwind Typography plugin
+- slugs to be lowercase-trim (not set, we do this on the backend on update), need a slug column
+- We need a published state (new column)
+- We need to enforce title, slug, picture link, etc and validate in order to publish
+- Add a counter on views to track how many views each article has (new column)
+- In the getServerSide props of the article page, we need to increment views whenever the page loads
+- Fix colors in admin side
+
+Projects
+- Style into a table format (again look at Monica Lent and Medium) and highlight name, description, tech stack, what you're proud of, thumbnail?
+- Style the code snippets using Typography in customer side
+- Add a slug for each project (title should be unique on each project to a user) (new col)
+- Each project should be its own page
+- Dropdown to select on mobile UI in admin side
+- Review on UX of sidebar in admin side
+- New column for views (increment in getServerSideProps)
+
+NavBar
+- Better UI for navigating home or to other pages for customer page
+
+Main page
+- We have to stop showing icons if something does not exist (no LI url)
+- Enable optional links that still get validates (check formik docs)
 
 ## Parking lot
 
