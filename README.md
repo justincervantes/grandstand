@@ -1,6 +1,6 @@
-# spotlight
+# grandstand
 
-A tool web application that builds and hosts developer portfolio pages. 
+A tool web application that builds and hosts developer portfolio pages.
 
 ## Setup and Contributing
 
@@ -10,10 +10,9 @@ Preferably set up your own MySQL server locally, I've set up an AWS RDS instance
 
 ### Contributing
 
-Contributions are welcome, in order to contribute you'll need developer configurations which can be obtained by emailing Justin (contact details below). The prod branch is main, and the development branch is dev. Do not touch main. When working on features, cut a branch off of dev called feat/name_of_feature_you_are_working_on. When you are done, make a pull request and tag Justin Cervantes or Evan Morrow to review your work. Do not push commits directly to dev.  Once a feature is complete put an x in the todo item [X] to mark it off. Also, if starting a work item, put your name beside it in the readme.
+Contributions are welcome, in order to contribute you'll need developer configurations which can be obtained by emailing Justin (contact details below). The prod branch is main, and the development branch is dev. Do not touch main. When working on features, cut a branch off of dev called feat/name_of_feature_you_are_working_on. When you are done, make a pull request and tag Justin Cervantes or Evan Morrow to review your work. Do not push commits directly to dev. Once a feature is complete put an x in the todo item [X] to mark it off. Also, if starting a work item, put your name beside it in the readme.
 
 ## To do
-
 
 - Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
 Blog
@@ -43,12 +42,11 @@ Main page
 - We have to stop showing icons if something does not exist (no LI url)
 - Enable optional links that still get validates (check formik docs)
 
-
-    
 ## Parking lot
-- [ ] Change the stack text input to a chip input (array of strings in the backend)
-- [ ] Drag and drop or up/down arrows to prioritize project display order
-- [ ] Carousel for displaying projects for higher resolution viewers - https://www.material-tailwind.com/docs/react/carousel
+
+-   [ ] Change the stack text input to a chip input (array of strings in the backend)
+-   [ ] Drag and drop or up/down arrows to prioritize project display order
+-   [ ] Carousel for displaying projects for higher resolution viewers - https://www.material-tailwind.com/docs/react/carousel
 
 Contact Information
 Justin Cervantes
