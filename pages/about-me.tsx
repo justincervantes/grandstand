@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { useToast } from '../context/ToastContext';
 import { getSession } from 'next-auth/react';
 import EditingLayout from '../components/layout';
+import { invalidSlugs } from '../lib/slugDictionary';
 
 const AboutMe = ({ user }) => {
     const { name, slug, description, image, gitHubUrl, linkedInUrl } = user ?? {};
@@ -32,19 +33,6 @@ const AboutMe = ({ user }) => {
                 .required('Please enter a name')
                 .matches(/^[-, A-Za-z0-9]+$/, 'Slug cannot use any special characters other than the hyphen (-)')
                 .test('invalidSlugs', 'Invalid Slug Name', function (slug) {
-                    const invalidSlugs = [
-                        'admin',
-                        'null',
-                        'god',
-                        'grandstand',
-                        'home',
-                        'about-me',
-                        'blog',
-                        'projects',
-                        'project',
-                        'blogs',
-                        'aboutme',
-                    ];
                     return !invalidSlugs.includes(slug.trim().toLowerCase());
                 }),
             description: yup
@@ -60,13 +48,14 @@ const AboutMe = ({ user }) => {
             gitHubUrl: yup
                 .string()
                 .trim()
-                .url('Please provide a full http/https URL')
-                .required('Please enter a link to your GitHub page'),
+                .matches(
+                    /^(http(s?):\/\/)?(www\.)?github\.([a-z])+\/([A-Za-z0-9]{1,})+\/?$/i,
+                    'Invalid GitHub user URL',
+                ),
             linkedInUrl: yup
                 .string()
                 .trim()
-                .url('Please provide a full http/https URL')
-                .required('Please enter a link to your LinkedIn page'),
+                .matches(/^(http(s)?:\/\/)?([\w]+\.)?linkedin\.com\/(pub|in|profile)/, 'Invalid LinkedIn user URL'),
         });
 
     const fields = [

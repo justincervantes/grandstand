@@ -85,7 +85,6 @@ export default function Header() {
                         )}
                         {session && (
                             <div className="items-center justify-end md:flex md:flex-1 lg:w-0">
-                                <div className="hidden md:inline">Welcome, {session.user.name}!</div>
                                 <button
                                     onClick={(e) => {
                                         e.preventDefault();
