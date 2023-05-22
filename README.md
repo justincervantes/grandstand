@@ -15,6 +15,8 @@ Contributions are welcome, in order to contribute you'll need developer configur
 ## To do
 
 - Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
+- New page to preview your site (add an Iframe)
+
 Blog
 - Style a table of content in the customer side (reference Monica Lent and Medium)
 - Each blog article must be its own page  
