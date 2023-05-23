@@ -23,8 +23,10 @@ const Projects = (props) => {
     const [mostInteresting, setMostInteresting] = useState('');
     const [mostUnique, setMostUnique] = useState('');
     const [whyBuilt, setWhyBuilt] = useState('');
-    const [codeSnippet, setCodeSnippet] = useState('');
     const [techStack, setTechStack] = useState('');
+    const [codeSnippet, setCodeSnippet] = useState('');
+    const [codeSnippetLanguage, setCodeSnippetLanguage] = useState('');
+    const [codeSnippetPreview, setCodeSnippetPreview] = useState(codeSnippet);
 
     const clearFormStateValues = () => {
         setSelectedProjectId(null);
@@ -38,8 +40,10 @@ const Projects = (props) => {
         setMostInteresting('');
         setMostUnique('');
         setWhyBuilt('');
-        setCodeSnippet('');
         setTechStack('');
+        setCodeSnippet('');
+        setCodeSnippetLanguage('');
+        setCodeSnippetPreview('');
     };
 
     const handleSubmit = async (values, actions) => {
@@ -105,8 +109,9 @@ const Projects = (props) => {
                     setMostInteresting={setMostInteresting}
                     setMostUnique={setMostUnique}
                     setWhyBuilt={setWhyBuilt}
-                    setCodeSnippet={setCodeSnippet}
                     setTechStack={setTechStack}
+                    setCodeSnippet={setCodeSnippet}
+                    setCodeSnippetLanguage={setCodeSnippetLanguage}
                 />
                 <ProjectsForm
                     handleSubmit={handleSubmit}
@@ -124,8 +129,11 @@ const Projects = (props) => {
                     mostInteresting={mostInteresting}
                     mostUnique={mostUnique}
                     whyBuilt={whyBuilt}
-                    codeSnippet={codeSnippet}
                     techStack={techStack}
+                    codeSnippet={codeSnippet}
+                    codeSnippetLanguage={codeSnippetLanguage}
+                    codeSnippetPreview={codeSnippetPreview}
+                    setCodeSnippetPreview={setCodeSnippetPreview}
                 />
             </div>
         </EditingLayout>

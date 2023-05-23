@@ -1,8 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import React, { useState, useEffect } from 'react';
-import DOMPurify from 'isomorphic-dompurify';
-import { marked } from 'marked';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 
 const ProjectsForm = (props) => {
     const {
@@ -22,9 +21,10 @@ const ProjectsForm = (props) => {
         whyBuilt,
         techStack,
         codeSnippet,
+        codeSnippetLanguage,
+        codeSnippetPreview,
+        setCodeSnippetPreview,
     } = props;
-
-    const [codeSnippetPreview, setCodeSnippetPreview] = useState(codeSnippet);
 
     useEffect(() => {
         setCodeSnippetPreview(codeSnippet);
@@ -32,6 +32,16 @@ const ProjectsForm = (props) => {
 
     const onCodeSnippetChange = (e) => {
         setCodeSnippetPreview(e.target.value);
+    };
+
+    const [codeSnippetPreviewLanguage, setCodeSnippetPreviewLanguage] = useState('');
+
+    useEffect(() => {
+        setCodeSnippetPreviewLanguage(codeSnippetLanguage);
+    }, [codeSnippetLanguage]);
+
+    const onSnippetLanguageClick = (e) => {
+        setCodeSnippetPreviewLanguage(e.currentTarget.value);
     };
 
     const validationSchema = () =>
@@ -97,6 +107,7 @@ const ProjectsForm = (props) => {
                 whyBuilt,
                 techStack,
                 codeSnippet,
+                codeSnippetLanguage,
             }}
             onSubmit={handleSubmit}
             validationSchema={validationSchema()}
@@ -171,13 +182,48 @@ const ProjectsForm = (props) => {
                             </ErrorMessage>
                         </div>
                         <div className="mb-2">
+                            <label htmlFor="codeSnippetLanguage" className="block text-gray-700 text-sm font-bold mb-2">
+                                Favourite code snippet, language, and description:
+                            </label>
+                            <Field
+                                name="codeSnippetLanguage"
+                                as="select"
+                                className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                onClick={onSnippetLanguageClick}
+                            >
+                                <option value="" label="Select a language">
+                                    Select a language
+                                </option>
+                                <option value="c">C</option>
+                                <option value="cLike">C-Like</option>
+                                <option value="css">CSS</option>
+                                <option value="go">Go</option>
+                                <option value="html">HTML</option>
+                                <option value="java">Java</option>
+                                <option value="javascript">Javascript</option>
+                                <option value="kotlin">Kotlin</option>
+                                <option value="matlab">MatLab</option>
+                                <option value="other">Other</option>
+                                <option value="perl">Perl</option>
+                                <option value="php">PHP</option>
+                                <option value="python">Python</option>
+                                <option value="r">R</option>
+                                <option value="ruby">Ruby</option>
+                                <option value="rust">Rust</option>
+                                <option value="sql">SQL</option>
+                                <option value="swift">Swift</option>
+                            </Field>
+                            <ErrorMessage name="codeSnippetLanguage">
+                                {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
+                            </ErrorMessage>
+                        </div>
+                        <div className="mb-2">
                             <label htmlFor="codeSnippetPreview" className="block text-gray-700 text-sm font-bold mb-2">
                                 Code Snippet Preview
                             </label>
-                            <div
-                                className="prose prose-gray p-1 overflow-x-auto	"
-                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(codeSnippetPreview)) }}
-                            />
+                            <SyntaxHighlighter language={codeSnippetPreviewLanguage}>
+                                {codeSnippetPreview}
+                            </SyntaxHighlighter>
                         </div>
                         <div className="flex justify-end">
                             <button

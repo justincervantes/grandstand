@@ -20,8 +20,9 @@ const ProjectsSidebar = (props) => {
         setMostInteresting,
         setMostUnique,
         setWhyBuilt,
-        setCodeSnippet,
         setTechStack,
+        setCodeSnippet,
+        setCodeSnippetLanguage,
     } = props ?? {};
     const { addToast } = useToast();
 
@@ -42,8 +43,9 @@ const ProjectsSidebar = (props) => {
                 setMostInteresting(response.data.project.mostInteresting);
                 setMostUnique(response.data.project.mostUnique);
                 setWhyBuilt(response.data.project.whyBuilt);
-                setCodeSnippet(response.data.project.codeSnippet);
                 setTechStack(response.data.project.techStack);
+                setCodeSnippet(response.data.project.codeSnippet);
+                setCodeSnippetLanguage(response.data.project.codeSnippetLanguage);
             })
             .catch((error) => {
                 const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
@@ -55,7 +57,6 @@ const ProjectsSidebar = (props) => {
         await axios
             .post('/api/projects/deleteProject', { projectId })
             .then((response) => {
-                clearFormStateValues();
                 setUpdateExisting(false);
                 addToast('Successfully deleted project', 'Success');
             })
@@ -70,6 +71,7 @@ const ProjectsSidebar = (props) => {
                 const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
                 addToast(errorMessage, 'Error');
             });
+        clearFormStateValues();
     };
 
     return (
