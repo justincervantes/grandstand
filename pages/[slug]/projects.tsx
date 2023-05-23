@@ -1,4 +1,6 @@
 import { useRouter } from 'next/router';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+
 const Projects = ({ user }) => {
     const { projects } = user;
     const router = useRouter();
@@ -21,8 +23,9 @@ const Projects = ({ user }) => {
                     mostInteresting,
                     mostUnique,
                     whyBuilt,
-                    codeSnippet,
                     techStack,
+                    codeSnippet,
+                    codeSnippetLanguage,
                 } = project;
                 return (
                     <div className="border bg-gray-50 shadow-lg rounded-3xl max-w-3xl mx-auto p-2 my-4" key={index}>
@@ -73,9 +76,12 @@ const Projects = ({ user }) => {
                             </p>
                         )}
                         {codeSnippet && (
-                            <p className="text-gray-500 text-lg">
-                                <span className="font-bold">Project code snippet:</span> {codeSnippet}
-                            </p>
+                            <div>
+                                <p className="text-gray-500 text-lg">
+                                    <span className="font-bold">Project code snippet:</span>
+                                </p>
+                                <SyntaxHighlighter language={codeSnippetLanguage}>{codeSnippet}</SyntaxHighlighter>
+                            </div>
                         )}
                         {techStack && (
                             <p className="text-gray-500 text-lg">

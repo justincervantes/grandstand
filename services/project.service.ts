@@ -18,8 +18,9 @@ export default class ProjectService extends BaseService {
         mostInteresting?: string;
         mostUnique?: string;
         whyBuilt?: string;
-        codeSnippet?: string;
         techStack?: string;
+        codeSnippet?: string;
+        codeSnippetLanguage?: string;
     }): Promise<Project> => {
         const userProject = await prisma.project.create({
             data: {
@@ -67,8 +68,9 @@ export default class ProjectService extends BaseService {
             mostInteresting?: string;
             mostUnique?: string;
             whyBuilt?: string;
-            codeSnippet?: string;
             techStack?: string;
+            codeSnippet?: string;
+            codeSnippetLanguage?: string;
         };
     }): Promise<Project> => {
         if (!projectId) throw new Error(ErrorDictionary.INVALID_REQUEST);

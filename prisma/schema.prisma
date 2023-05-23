@@ -78,22 +78,24 @@ model Article {
 }
 
 model Project {
-  id              String    @id @default(cuid())
-  userId          String
-  user            User      @relation(fields: [userId], references: [id])
-  title           String
-  description     String?   @db.Text
-  dateRange       String?
-  imageUrl        String?
-  applicationUrl  String?
-  gitHubUrl       String?
-  mostProudOf     String?   @db.Text
-  mostInteresting String?   @db.Text
-  mostUnique      String?   @db.Text
-  whyBuilt        String?   @db.Text
-  codeSnippet     String?   @db.Text
-  techStack       String?   @db.Text
-  deletedAt       DateTime?
+  id                  String    @id @default(cuid())
+  userId              String
+  user                User      @relation(fields: [userId], references: [id])
+  title               String
+  description         String?   @db.Text
+  dateRange           String?
+  imageUrl            String?
+  applicationUrl      String?
+  gitHubUrl           String?
+  mostProudOf         String?   @db.Text
+  mostInteresting     String?   @db.Text
+  mostUnique          String?   @db.Text
+  whyBuilt            String?   @db.Text
+  techStack           String?   @db.Text
+  codeSnippet         String?   @db.Text
+  codeSnippetLanguage String?
+  views               String?
+  deletedAt           DateTime?
 
   @@map("project")
 }
