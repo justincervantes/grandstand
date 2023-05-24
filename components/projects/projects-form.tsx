@@ -91,6 +91,27 @@ const ProjectsForm = (props) => {
         { label: 'What motivated you to build this project?', name: 'whyBuilt', component: 'textarea', rows: 2 },
         { label: 'Project Tech Stack:', name: 'techStack' },
     ];
+    const selectOptions = [
+        { value: '', label: 'Select a language' },
+        { value: 'c', label: 'C' },
+        { value: 'cLike', label: 'CLike' },
+        { value: 'css', label: 'CSS' },
+        { value: 'go', label: 'Go' },
+        { value: 'html', label: 'HTML' },
+        { value: 'java', label: 'Java' },
+        { value: 'javascript', label: 'Javascript' },
+        { value: 'kotlin', label: 'Kotlin' },
+        { value: 'matlab', label: 'MatLab' },
+        { value: 'other', label: 'Other' },
+        { value: 'perl', label: 'Perl' },
+        { value: 'php', label: 'PHP' },
+        { value: 'python', label: 'Python' },
+        { value: 'r', label: 'R' },
+        { value: 'ruby', label: 'Ruby' },
+        { value: 'rust', label: 'Rust' },
+        { value: 'sql', label: 'SQL' },
+        { value: 'swift', label: 'Swift' },
+    ];
 
     return (
         <Formik
@@ -191,27 +212,9 @@ const ProjectsForm = (props) => {
                                 className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 onClick={onSnippetLanguageClick}
                             >
-                                <option value="" label="Select a language">
-                                    Select a language
-                                </option>
-                                <option value="c">C</option>
-                                <option value="cLike">C-Like</option>
-                                <option value="css">CSS</option>
-                                <option value="go">Go</option>
-                                <option value="html">HTML</option>
-                                <option value="java">Java</option>
-                                <option value="javascript">Javascript</option>
-                                <option value="kotlin">Kotlin</option>
-                                <option value="matlab">MatLab</option>
-                                <option value="other">Other</option>
-                                <option value="perl">Perl</option>
-                                <option value="php">PHP</option>
-                                <option value="python">Python</option>
-                                <option value="r">R</option>
-                                <option value="ruby">Ruby</option>
-                                <option value="rust">Rust</option>
-                                <option value="sql">SQL</option>
-                                <option value="swift">Swift</option>
+                                {selectOptions.map((option, index) => {
+                                    return <option value={option.value} label={option.label} />;
+                                })}
                             </Field>
                             <ErrorMessage name="codeSnippetLanguage">
                                 {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
