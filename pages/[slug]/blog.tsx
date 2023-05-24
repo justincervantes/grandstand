@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import DOMPurify from 'isomorphic-dompurify';
+import { marked } from 'marked';
 const Blog = ({ user }) => {
     const { articles } = user;
     const router = useRouter();
@@ -17,9 +19,11 @@ const Blog = ({ user }) => {
                             {title}
                         </div>
                         <div key={index}>Uploaded {moment.utc(createdAt).format('L')}</div>
-                        <div className="text-gray-500 text-lg" key={index}>
-                            {content}
-                        </div>
+                        <div
+                            key={index}
+                            className="text-gray-500 text-lg prose prose-gray p-1 max-h-full min-h-full overflow-y-auto max-w-none"
+                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(content)) }}
+                        />
                     </div>
                 );
             })}
