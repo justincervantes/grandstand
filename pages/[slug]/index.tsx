@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-
+import { ArticleState } from '@prisma/client';
 const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects: boolean; hasArticles: boolean }) => {
     const { image, name, description, slug, gitHubUrl, linkedInUrl } = user ?? {};
     return (
@@ -72,6 +72,7 @@ export async function getServerSideProps(context) {
             where: {
                 userId: user.id,
                 deletedAt: null,
+                state: ArticleState.Published,
             },
         }),
     ]);
