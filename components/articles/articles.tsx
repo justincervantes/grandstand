@@ -9,7 +9,7 @@ import Button from '../button';
 import { localStorageKeys, setLocalStorageSelectedArticle } from '../../lib/localStorageKeys';
 import { useToast } from '../../context/ToastContext';
 
-const OrganizationArticles = (props) => {
+const Articles = (props) => {
     const { userArticles } = props ?? {};
 
     const [articles, setArticles] = useState([userArticles]);
@@ -129,7 +129,7 @@ const OrganizationArticles = (props) => {
                                     setSelectedArticleId(articleId);
                                     setLocalStorageSelectedArticle(articleId);
                                 }}
-                                className={`${isActive ? 'bg-orange-100 ' : ''}flex justify-between p-2`}
+                                className={`${isActive ? 'bg-slate-100 ' : ''}flex justify-between p-2`}
                             >
                                 <div className="grid grow-cols-12">
                                     <div className="truncate ...">{title}</div>
@@ -164,4 +164,4 @@ const OrganizationArticles = (props) => {
     );
 };
 
-export default OrganizationArticles;
+export default Articles;

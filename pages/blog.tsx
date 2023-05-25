@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getSession } from 'next-auth/react';
 import Loading from '../components/loading';
-import OrganizationArticles from '../components/articles/organization-articles';
+import OrganizationArticles from '../components/articles/articles';
 import prisma from '../lib/prismadb';
 import EditingLayout from '../components/layout';
 

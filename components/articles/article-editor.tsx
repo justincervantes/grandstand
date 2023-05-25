@@ -40,7 +40,7 @@ const ArticleEditor = ({ article, updateStateArticles }) => {
 
     if (!article)
         return (
-            <div className="w-full max-h-[72.8vh] min-h-[72.8vh] flex justify-center items-center bg-orange-50">
+            <div className="w-full max-h-[72.8vh] min-h-[72.8vh] flex justify-center items-center bg-gray-200">
                 Select or create an article
             </div>
         );
