@@ -1,4 +1,4 @@
-import { Article } from '@prisma/client';
+import { Article, ArticleState } from '@prisma/client';
 import moment from 'moment';
 import ErrorDictionary from '../lib/errorDictionary';
 import BaseService from './base.service';
@@ -20,6 +20,7 @@ export default class ArticleService extends BaseService {
                 content: '',
                 createdAt: moment.utc().format(),
                 userId: this.sessionUserId,
+                state: ArticleState.Draft,
             },
         });
         return article;
@@ -52,6 +53,24 @@ export default class ArticleService extends BaseService {
                 content: content,
                 title: articleTitle,
                 updatedAt: moment.utc().format(),
+            },
+        });
+        return article;
+    };
+
+    setArticleState = async ({
+        articleId,
+        articleState,
+    }: {
+        articleId: string;
+        articleState: ArticleState;
+    }): Promise<Article> => {
+        const article = await prisma.article.update({
+            where: {
+                id: articleId,
+            },
+            data: {
+                state: articleState,
             },
         });
         return article;
