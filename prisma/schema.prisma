@@ -70,6 +70,7 @@ model Article {
   user      User      @relation(fields: [userId], references: [id])
   title     String?
   content   String    @db.Text
+  state     ArticleState @default(Published)
   createdAt DateTime
   updatedAt DateTime?
   deletedAt DateTime?
@@ -95,7 +96,18 @@ model Project {
   codeSnippet         String?   @db.Text
   codeSnippetLanguage String?
   views               String?
+  state               ProjectState  @default(Published)
   deletedAt           DateTime?
 
   @@map("project")
+}
+
+enum ArticleState {
+  Draft
+  Published
+}
+
+enum ProjectState {
+  Draft
+  Published
 }
