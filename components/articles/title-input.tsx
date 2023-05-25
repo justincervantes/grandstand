@@ -1,4 +1,4 @@
-import { PencilSquareIcon, QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
+import { PencilSquareIcon } from '@heroicons/react/20/solid';
 
 const TextInput = ({ className: classesFromProps = '', value, setValue, placeholder = '' }) => {
     const classProps = ` ${classesFromProps}`;
@@ -12,9 +12,6 @@ const TextInput = ({ className: classesFromProps = '', value, setValue, placehol
                 onChange={(e) => setValue(e.target.value)}
                 className={className}
             />
-            <a href="https://www.npmjs.com/package/marked">
-                <QuestionMarkCircleIcon className="h-6 w-6 mt-3 mr-2" />
-            </a>
             <PencilSquareIcon className="h-6 w-6 mt-3 mr-2" />
         </label>
     );

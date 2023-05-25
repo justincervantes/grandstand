@@ -40,8 +40,30 @@ const ArticleEditor = ({ article, updateStateArticles }) => {
 
     if (!article)
         return (
-            <div className="w-full max-h-[72.8vh] min-h-[72.8vh] flex justify-center items-center bg-gray-200">
-                Select or create an article
+            <div className="w-full max-h-[72.8vh] min-h-[72.8vh] flex text-center justify-center items-center bg-gray-200">
+                <div className="block">
+                    <span className="font-medium text-xl text-gray-700">Select or create an article</span>
+                    <br />
+                    <br />
+                    <span className="font-medium text-base text-gray-700">
+                        This blog uses the npm marked package to translate Markdown into html which is styled using
+                        Tailwind Typography.
+                        <br />
+                        <br />
+                        When editing, the panel on the right will show how your text will be displayed on your Blog.
+                        <br />
+                        <br />A full list of the Markdown formatting options is available{' '}
+                        <a
+                            href="https://www.npmjs.com/package/marked"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline text-blue-600 hover:text-blue-800 hover:cursor-pointer visited:text-purple-600"
+                        >
+                            here
+                        </a>
+                        .
+                    </span>
+                </div>
             </div>
         );
     return (
