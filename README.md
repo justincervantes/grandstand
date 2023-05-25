@@ -14,35 +14,30 @@ Contributions are welcome, in order to contribute you'll need developer configur
 
 ## To do
 
-- Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
-- New page to preview your site (add an Iframe)
+-   Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
+-   New page to preview your site (add an Iframe)
 
 Blog
-- Style a table of content in the customer side (reference Monica Lent and Medium)
-- Each blog article must be its own page  
-- Work on rendering blog content in the customer side so that we use Tailwind Typography plugin
-- slugs to be lowercase-trim (not set, we do this on the backend on update), need a slug column
-- We need a published state (new column)
-- We need to enforce title, slug, picture link, etc and validate in order to publish
-- Add a counter on views to track how many views each article has (new column)
-- In the getServerSide props of the article page, we need to increment views whenever the page loads
-- Fix colors in admin side
+
+-   Style a table of content in the customer side (reference Monica Lent and Medium)
+-   Each blog article must be its own page
+-   Work on rendering blog content in the customer side so that we use Tailwind Typography plugin
+-   slugs to be lowercase-trim (not set, we do this on the backend on update), need a slug column
+-   We need to enforce title, slug, picture link, etc and validate in order to publish
+-   In the getServerSide props of the article page, we need to increment views whenever the page loads
 
 Projects
-- Style into a table format (again look at Monica Lent and Medium) and highlight name, description, tech stack, what you're proud of, thumbnail?
-- Style the code snippets using Typography in customer side
-- Add a slug for each project (title should be unique on each project to a user) (new col)
-- Each project should be its own page
-- Dropdown to select on mobile UI in admin side
-- Review on UX of sidebar in admin side
-- New column for views (increment in getServerSideProps)
+
+-   Style into a table format (again look at Monica Lent and Medium) and highlight name, description, tech stack, what you're proud of, thumbnail?
+-   Style the code snippets using Typography in customer side
+-   Add a slug for each project (title should be unique on each project to a user) (new col)
+-   Each project should be its own page
+-   Dropdown to select on mobile UI in admin side
+-   Review on UX of sidebar in admin side
 
 NavBar
-- Better UI for navigating home or to other pages for customer page
 
-Main page
-- We have to stop showing icons if something does not exist (no LI url)
-- Enable optional links that still get validates (check formik docs)
+-   Better UI for navigating home or to other pages for customer page
 
 ## Parking lot
 

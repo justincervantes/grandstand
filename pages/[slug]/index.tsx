@@ -1,6 +1,6 @@
-import { redirect } from 'next/dist/server/api-utils';
+import { User } from '@prisma/client';
 
-const Portfolio = ({ user, projects, blogArticles }) => {
+const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects: boolean; hasArticles: boolean }) => {
     const { image, name, description, slug, gitHubUrl, linkedInUrl } = user ?? {};
     return (
         <div className="text-center flex h-screen">
@@ -9,7 +9,7 @@ const Portfolio = ({ user, projects, blogArticles }) => {
                 <p className="text-3xl font-bold md:text-4xl">{name}</p>
                 <p className="text-gray-500 text-lg">{description}</p>
                 <div className="flex justify-center">
-                    {projects && (
+                    {hasProjects && (
                         <a href={`${slug}/projects`}>
                             <img
                                 className="w-8 h-8 m-4"
@@ -17,7 +17,7 @@ const Portfolio = ({ user, projects, blogArticles }) => {
                             ></img>
                         </a>
                     )}
-                    {blogArticles && (
+                    {hasArticles && (
                         <a href={`${slug}/blog`}>
                             <img
                                 className="w-8 h-8 m-4"
@@ -51,33 +51,35 @@ export default Portfolio;
 
 export async function getServerSideProps(context) {
     const slug = context?.query?.slug;
-    const user = await prisma.user.findFirst({
+    const user: User = await prisma.user.findFirst({
         where: {
             slug,
         },
     });
-
-    const projects = await prisma.project.count({
-        where: {
-            userId: user.id,
-            deletedAt: null,
-        },
-    });
-    const blogArticles = await prisma.article.count({
-        where: {
-            userId: user.id,
-            deletedAt: null,
-        },
-    });
-    if (!user)
+    if (!user) {
         return {
             redirect: { destination: '/404' },
         };
+    }
+    const [projectCount, articlesCount] = await Promise.all([
+        prisma.project.count({
+            where: {
+                userId: user.id,
+                deletedAt: null,
+            },
+        }),
+        prisma.article.count({
+            where: {
+                userId: user.id,
+                deletedAt: null,
+            },
+        }),
+    ]);
     return {
         props: {
             user: JSON.parse(JSON.stringify(user)),
-            projects: projects > 0 ? true : false,
-            blogArticles: blogArticles > 0 ? true : false,
+            hasProjects: projectCount > 0 ? true : false,
+            hasArticles: articlesCount > 0 ? true : false,
         },
     };
 }
