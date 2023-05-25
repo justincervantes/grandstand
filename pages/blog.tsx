@@ -4,6 +4,7 @@ import Loading from '../components/loading';
 import OrganizationArticles from '../components/articles/organization-articles';
 import prisma from '../lib/prismadb';
 import EditingLayout from '../components/layout';
+import { QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
 
 const Blog = (props) => {
     const { articles = [] } = props;
@@ -13,8 +14,19 @@ const Blog = (props) => {
 
     return (
         <EditingLayout>
-            <div className="flex justify-between whitespace-nowrap mb-3">
+            <div className="flex whitespace-nowrap mb-3">
                 <h1 className="font-medium text-xl pl-2">Blog</h1>
+                <div className="group flex relative">
+                    <a href="https://www.npmjs.com/package/marked" target="_blank" rel="noopener noreferrer">
+                        <QuestionMarkCircleIcon className="h-7 w-7 ml-4" />
+                    </a>
+                    <span
+                        className="group-hover:opacity-100 transition-opacity bg-gray-900 px-1 text-sm text-gray-100 rounded-md absolute left-1/2 
+                -translate-x-1/2 -translate-y-12 opacity-0 m-4 mx-auto"
+                    >
+                        Markdown Documentation
+                    </span>
+                </div>
             </div>
             <div className="max-h-[73npm run decoration-violet-50vh] min-h-[73vh]">
                 <OrganizationArticles userArticles={articles} />
