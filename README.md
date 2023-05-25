@@ -23,11 +23,8 @@ Blog
 -   Each blog article must be its own page
 -   Work on rendering blog content in the customer side so that we use Tailwind Typography plugin
 -   slugs to be lowercase-trim (not set, we do this on the backend on update), need a slug column
--   We need a published state (new column)
 -   We need to enforce title, slug, picture link, etc and validate in order to publish
--   Add a counter on views to track how many views each article has (new column)
 -   In the getServerSide props of the article page, we need to increment views whenever the page loads
--   Fix colors in admin side
 
 Projects
 
@@ -37,7 +34,6 @@ Projects
 -   Each project should be its own page
 -   Dropdown to select on mobile UI in admin side
 -   Review on UX of sidebar in admin side
--   New column for views (increment in getServerSideProps)
 
 NavBar
 
