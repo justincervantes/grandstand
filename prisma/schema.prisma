@@ -69,12 +69,16 @@ model Article {
   userId    String
   user      User      @relation(fields: [userId], references: [id])
   title     String?
+  imageUrl  String?
+  slug      String?
   content   String    @db.Text
   state     ArticleState @default(Published)
+  views     Int?           @default(0)
   createdAt DateTime
   updatedAt DateTime?
   deletedAt DateTime?
-
+  
+  @@unique([userId, title])
   @@map("article")
 }
 
@@ -83,6 +87,7 @@ model Project {
   userId              String
   user                User      @relation(fields: [userId], references: [id])
   title               String
+  slug                String?
   description         String?   @db.Text
   dateRange           String?
   imageUrl            String?
@@ -95,10 +100,11 @@ model Project {
   techStack           String?   @db.Text
   codeSnippet         String?   @db.Text
   codeSnippetLanguage String?
-  views               String?
+  views               Int?       @default(0)
   state               ProjectState  @default(Published)
   deletedAt           DateTime?
 
+  @@unique([userId, title])
   @@map("project")
 }
 
