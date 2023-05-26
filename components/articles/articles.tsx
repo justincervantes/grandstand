@@ -21,11 +21,12 @@ const Articles = (props) => {
     const { addToast } = useToast();
     const responsiveTextSize = 'lg:text-base sm:text-sm text-xs';
 
-    const updateArticles = (updatedArticleId, content, title) => {
+    const updateArticles = (updatedArticleId, content, title, image) => {
         const articlesCopy = articles;
         let updatedArticle = articlesCopy.find(({ id }) => id === updatedArticleId);
         updatedArticle.content = content;
         updatedArticle.title = title;
+        updatedArticle.imageUrl = image;
         setArticles(articlesCopy);
     };
 

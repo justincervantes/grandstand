@@ -18,6 +18,7 @@ export default class ArticleService extends BaseService {
             data: {
                 title: articleTitle,
                 content: '',
+                imageUrl: '',
                 createdAt: moment.utc().format(),
                 userId: this.sessionUserId,
                 state: ArticleState.Draft,
@@ -39,10 +40,12 @@ export default class ArticleService extends BaseService {
     updateArticle = async ({
         articleId,
         articleTitle,
+        imageUrl,
         content,
     }: {
         articleId: string;
         articleTitle: string;
+        imageUrl: string;
         content: string;
     }): Promise<Article> => {
         const article = await prisma.article.update({
@@ -52,6 +55,7 @@ export default class ArticleService extends BaseService {
             data: {
                 content: content,
                 title: articleTitle,
+                imageUrl,
                 updatedAt: moment.utc().format(),
             },
         });
