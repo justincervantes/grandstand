@@ -13,18 +13,13 @@ const Blog = ({ user }) => {
                 Return to Profile
             </p>
             {articles.map((article, index) => {
-                const { title, content, createdAt } = article;
+                const { title, createdAt } = article;
                 return (
                     <div className="border bg-gray-50 shadow-lg rounded-3xl max-w-3xl mx-auto p-2 my-4" key={index}>
                         <div className="text-xl my-2 font-bold md:text-2xl" key={index}>
-                            {title}
+                            <a href={`blog/${title}`}>{title}</a>
                         </div>
-                        <div key={index}>Uploaded {moment.utc(createdAt).format('L')}</div>
-                        <div
-                            key={index}
-                            className="text-gray-500 text-lg prose prose-gray p-1 max-h-full min-h-full overflow-y-auto max-w-none"
-                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(content)) }}
-                        />
+                        <div key={index}>{moment.utc(createdAt).format('L')}</div>
                     </div>
                 );
             })}
