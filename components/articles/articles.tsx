@@ -166,7 +166,7 @@ const Articles = (props) => {
                                                 deleteArticle(article);
                                             }
                                         }}
-                                        className={`rounded hover:bg-red-600 hover:text-white px-1 h-fit`}
+                                        className="rounded hover:bg-red-600 hover:text-white px-1 h-fit"
                                     >
                                         <span className={responsiveTextSize}>Delete</span>
                                     </button>
@@ -177,7 +177,7 @@ const Articles = (props) => {
                                                     setArticleState(articleId, ArticleState.Draft);
                                                 }
                                             }}
-                                            className={`rounded hover:bg-purple-600 hover:text-white px-1 h-fit`}
+                                            className="rounded hover:bg-purple-600 hover:text-white px-1 h-fit"
                                         >
                                             <span className={responsiveTextSize}>Set as Draft</span>
                                         </button>
