@@ -8,15 +8,15 @@ const Article = ({ article, user }: { article: Article; user: User }) => {
     const router = useRouter();
     const { title, content, imageUrl, createdAt } = article ?? {};
     return (
-        <div className="text-center">
-            <div className="m-auto">
+        <div className="text-center h-full">
+            <div className="m-auto max-w-4xl h-full bg-gray-100 bg-fixed">
                 <p className="text-xl my-2 font-bold md:text-2xl">{`${user.name}'s Blog`}</p>
                 <p className="text-gray-500 text-lg cursor-pointer" onClick={() => router.back()}>
                     Return to Profile
                 </p>
                 <p className="text-3xl font-bold md:text-4xl">{title}</p>
-                <p className="text-gray-500 text-lg">Published on {moment.utc(createdAt).format('L')}</p>
-                {/* <img className="mx-auto mb-5 rounded-full w-64 w-64" src={imageUrl}></img> */}
+                <p className="text-gray-500 text-lg">{moment.utc(createdAt).format('L')}</p>
+                <img className="mx-auto mb-5 rounded-md w-72 h-72" src={imageUrl}></img>
                 <div className="flex justify-center">
                     <div
                         className="prose prose-gray p-1 max-h-full min-h-full overflow-y-auto max-w-none"
@@ -54,6 +54,18 @@ export async function getServerSideProps(context) {
             redirect: { destination: '/404' },
         };
     }
+
+    await prisma.article.update({
+        where: {
+            id: article.id,
+        },
+        data: {
+            views: {
+                increment: 1,
+            },
+        },
+    });
+
     return {
         props: {
             article: JSON.parse(JSON.stringify(article)),

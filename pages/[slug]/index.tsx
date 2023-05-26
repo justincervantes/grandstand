@@ -5,7 +5,7 @@ const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects
     return (
         <div className="text-center flex h-screen">
             <div className="m-auto">
-                <img className="mx-auto mb-5 rounded-full w-64 w-64" src={image}></img>
+                <img className="mx-auto mb-5 rounded-full w-64 h-64" src={image}></img>
                 <p className="text-3xl font-bold md:text-4xl">{name}</p>
                 <p className="text-gray-500 text-lg">{description}</p>
                 <div className="flex justify-center">

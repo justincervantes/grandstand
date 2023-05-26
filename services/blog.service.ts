@@ -13,11 +13,14 @@ export default class ArticleService extends BaseService {
         // Validate
         if (!articleTitle) throw new Error(ErrorDictionary.INVALID_REQUEST);
 
+        console.log(articleTitle);
+
         // Action
         const article = await prisma.article.create({
             data: {
                 title: articleTitle,
                 content: '',
+                slug: '',
                 imageUrl: '',
                 createdAt: moment.utc().format(),
                 userId: this.sessionUserId,
@@ -42,10 +45,12 @@ export default class ArticleService extends BaseService {
         articleTitle,
         imageUrl,
         content,
+        slug,
     }: {
         articleId: string;
         articleTitle: string;
         imageUrl: string;
+        slug: string;
         content: string;
     }): Promise<Article> => {
         const article = await prisma.article.update({
@@ -56,6 +61,7 @@ export default class ArticleService extends BaseService {
                 content: content,
                 title: articleTitle,
                 imageUrl,
+                slug,
                 updatedAt: moment.utc().format(),
             },
         });

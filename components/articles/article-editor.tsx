@@ -5,42 +5,60 @@ import MarkdownEditor from './MarkdownEditor/markdown-editor';
 import { useToast } from '../../context/ToastContext';
 import TitleInput from './title-input';
 import ImageInput from './image-input';
+import SlugInput from './slug-input';
 import ArticleActions from './article-actions';
+import ErrorDictionary from '../../lib/errorDictionary';
 
 const ArticleEditor = ({ article, updateStateArticles }) => {
-    const { id, title: titleProp = '', imageUrl: imageProp = '', content: contentProp = '' } = article ?? {};
+    const {
+        id,
+        title: titleProp = '',
+        imageUrl: imageProp = '',
+        slug: slugProp = '',
+        content: contentProp = '',
+    } = article ?? {};
     const [originalTitle, setOriginalTitle] = useState(titleProp);
     const [originalImage, setOriginalImage] = useState(imageProp);
+    const [originalSlug, setOriginalSlug] = useState(slugProp);
     const [originalContent, setOriginalContent] = useState(contentProp);
     const [title, setTitle] = useState(titleProp);
     const [image, setImage] = useState(imageProp ?? '');
+    const [slug, setSlug] = useState(slugProp ?? '');
     const [content, setContent] = useState(contentProp);
     const { addToast } = useToast();
     useEffect(() => {
         setTitle(titleProp);
         setImage(imageProp);
+        setSlug(slugProp);
         setContent(contentProp);
         setOriginalTitle(titleProp);
         setOriginalImage(imageProp);
+        setOriginalSlug(slugProp);
         setOriginalContent(contentProp);
     }, [article]);
 
     const updateArticle = async () => {
-        try {
-            await axios.post('/api/articles/updateArticle', {
-                articleTitle: title,
-                imageUrl: image,
-                articleId: id,
-                content,
-            });
-            setOriginalTitle(title);
-            setOriginalImage(image);
-            setOriginalContent(content);
-            updateStateArticles(id, content, title, image);
-            addToast('Article successfully updated', 'Success');
-        } catch (error) {
-            const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
-            addToast(errorMessage, 'Error');
+        if (slug.match(/^[-, a-z]+$/)) {
+            try {
+                await axios.post('/api/articles/updateArticle', {
+                    articleId: id,
+                    articleTitle: title,
+                    imageUrl: image,
+                    slug,
+                    content,
+                });
+                setOriginalTitle(title);
+                setOriginalImage(image);
+                setOriginalSlug(slug);
+                setOriginalContent(content);
+                updateStateArticles(id, content, title, image, slug);
+                addToast('Article successfully updated', 'Success');
+            } catch (error) {
+                const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
+                addToast(errorMessage, 'Error');
+            }
+        } else {
+            addToast(ErrorDictionary.INVALID_SLUG, 'Error');
         }
     };
 
@@ -81,12 +99,23 @@ const ArticleEditor = ({ article, updateStateArticles }) => {
                 setValue={setImage}
                 className="m-2 w-5/6 text-xl"
             />
+            <SlugInput
+                placeholder="Enter a unique Url for your article (composed only of lowercase letters and hyphens)"
+                value={slug}
+                setValue={setSlug}
+                className="m-2 w-5/6 text-xl"
+            />
             <MarkdownEditor content={content} setContent={setContent} />
             <ArticleActions
                 handlePreview={() => console.log('Preview')}
                 handleSave={updateArticle}
                 isPreviewDisabled={!title || !content}
-                isSaveDisabled={originalContent === content && originalTitle === title && originalImage === image}
+                isSaveDisabled={
+                    originalContent === content &&
+                    originalTitle === title &&
+                    originalImage === image &&
+                    originalSlug === slug
+                }
             />
         </div>
     );

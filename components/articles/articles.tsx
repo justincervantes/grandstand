@@ -21,12 +21,13 @@ const Articles = (props) => {
     const { addToast } = useToast();
     const responsiveTextSize = 'lg:text-base sm:text-sm text-xs';
 
-    const updateArticles = (updatedArticleId, content, title, image) => {
+    const updateArticles = (updatedArticleId, content, title, image, slug) => {
         const articlesCopy = articles;
         let updatedArticle = articlesCopy.find(({ id }) => id === updatedArticleId);
         updatedArticle.content = content;
         updatedArticle.title = title;
         updatedArticle.imageUrl = image;
+        updatedArticle.slug = slug;
         setArticles(articlesCopy);
     };
 
@@ -149,8 +150,9 @@ const Articles = (props) => {
                     </div>
 
                     {articles.map((article, index) => {
-                        const { title, id: articleId, createdAt, state } = article;
+                        const { title, id: articleId, createdAt, state, slug, imageUrl } = article;
                         const isActive = articleId === selectedArticleId;
+                        const validToPublish = slug && imageUrl;
                         return (
                             <div
                                 key={`article-${index}`}
@@ -187,7 +189,7 @@ const Articles = (props) => {
                                                 <span className={responsiveTextSize}>Set as Draft</span>
                                             </button>
                                         )}
-                                        {state == 'Draft' && (
+                                        {state == 'Draft' && validToPublish && (
                                             <button
                                                 onClick={() => {
                                                     if (window.confirm('Publish Article?')) {
@@ -195,6 +197,16 @@ const Articles = (props) => {
                                                     }
                                                 }}
                                                 className={`${sideBarButtonStyling} hover:bg-green-600 mt-1`}
+                                            >
+                                                <span className={responsiveTextSize}>Publish</span>
+                                            </button>
+                                        )}
+                                        {state == 'Draft' && !validToPublish && (
+                                            <button
+                                                onClick={() => {
+                                                    addToast('Valid url and image are required to publish', 'Error');
+                                                }}
+                                                className={`${sideBarButtonStyling} hover:bg-red-600 mt-1`}
                                             >
                                                 <span className={responsiveTextSize}>Publish</span>
                                             </button>
