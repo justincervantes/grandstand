@@ -11,7 +11,7 @@ export default function Header() {
 
     const router = useRouter();
     const heading = 'text-base font-medium text-gray-500 hover:text-gray-900';
-    const activeHeading = `${heading} text-gray-900`;
+    const activeHeading = `${heading} text-gray-900 bold`;
     return (
         <header>
             <ShowToast />
@@ -57,6 +57,12 @@ export default function Header() {
                                         className={router.pathname === '/blog' ? activeHeading : heading}
                                     >
                                         Blog
+                                    </Link>
+                                    <Link
+                                        href="/preview"
+                                        className={router.pathname === '/preview' ? activeHeading : heading}
+                                    >
+                                        Preview
                                     </Link>
                                 </nav>
                             </div>
