@@ -1,6 +1,6 @@
 import { PhotoIcon } from '@heroicons/react/20/solid';
 
-const TextInput = ({ className: classesFromProps = '', value, setValue, placeholder = '' }) => {
+const ImageInput = ({ className: classesFromProps = '', value, setValue, placeholder = '' }) => {
     const classProps = ` ${classesFromProps}`;
     const className = `focus:outline-0 text-m ${classProps}`.trim();
     return (
@@ -17,4 +17,4 @@ const TextInput = ({ className: classesFromProps = '', value, setValue, placehol
     );
 };
 
-export default TextInput;
+export default ImageInput;
