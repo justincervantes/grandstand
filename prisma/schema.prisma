@@ -52,6 +52,7 @@ model User {
   sessions      Session[]
   projects      Project[]
   articles      Article[]
+
   @@map("user")
 }
 
@@ -65,43 +66,43 @@ model VerificationToken {
 }
 
 model Article {
-  id        String    @id @default(cuid())
+  id        String       @id @default(cuid())
   userId    String
-  user      User      @relation(fields: [userId], references: [id])
+  user      User         @relation(fields: [userId], references: [id])
   title     String?
   imageUrl  String?
   slug      String?
-  content   String    @db.Text
+  content   String       @db.Text
   state     ArticleState @default(Published)
-  views     Int?           @default(0)
+  views     Int?         @default(0)
   createdAt DateTime
   updatedAt DateTime?
   deletedAt DateTime?
-  
+
   @@unique([userId, title])
   @@map("article")
 }
 
 model Project {
-  id                  String    @id @default(cuid())
+  id                  String       @id @default(cuid())
   userId              String
-  user                User      @relation(fields: [userId], references: [id])
+  user                User         @relation(fields: [userId], references: [id])
   title               String
   slug                String?
-  description         String?   @db.Text
+  description         String?      @db.Text
   dateRange           String?
   imageUrl            String?
   applicationUrl      String?
   gitHubUrl           String?
-  mostProudOf         String?   @db.Text
-  mostInteresting     String?   @db.Text
-  mostUnique          String?   @db.Text
-  whyBuilt            String?   @db.Text
-  techStack           String?   @db.Text
-  codeSnippet         String?   @db.Text
+  mostProudOf         String?      @db.Text
+  mostInteresting     String?      @db.Text
+  mostUnique          String?      @db.Text
+  whyBuilt            String?      @db.Text
+  techStack           String?      @db.Text
+  codeSnippet         String?      @db.Text
   codeSnippetLanguage String?
-  views               Int?       @default(0)
-  state               ProjectState  @default(Published)
+  views               Int?         @default(0)
+  state               ProjectState @default(Published)
   deletedAt           DateTime?
 
   @@unique([userId, title])
