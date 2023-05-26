@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { getSession } from 'next-auth/react';
 import Loading from '../components/loading';
-import OrganizationArticles from '../components/articles/articles';
+import Articles from '../components/articles/articles';
 import prisma from '../lib/prismadb';
 import EditingLayout from '../components/layout';
 import { QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
@@ -29,7 +29,7 @@ const Blog = (props) => {
                 </div>
             </div>
             <div className="max-h-[73npm run decoration-violet-50vh] min-h-[73vh]">
-                <OrganizationArticles userArticles={articles} />
+                <Articles userArticles={articles} />
             </div>
         </EditingLayout>
     );
@@ -52,7 +52,7 @@ export async function getServerSideProps(context) {
             email: currentUserEmail,
         },
         select: {
-            articles: true,
+            articles: { where: { deletedAt: null } },
         },
     });
     return {

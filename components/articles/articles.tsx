@@ -8,6 +8,7 @@ import Loading from '../loading';
 import Button from '../button';
 import { localStorageKeys, setLocalStorageSelectedArticle } from '../../lib/localStorageKeys';
 import { useToast } from '../../context/ToastContext';
+import { ArticleState } from '@prisma/client';
 
 const Articles = (props) => {
     const { userArticles } = props ?? {};
@@ -18,6 +19,7 @@ const Articles = (props) => {
     const [createArticleModalIsOpen, setCreateArticleModalIsOpen] = useState(false);
     const [newArticleTitle, setNewArticleTitle] = useState('');
     const { addToast } = useToast();
+    const responsiveTextSize = 'lg:text-base sm:text-sm text-xs';
 
     const updateArticles = (updatedArticleId, content, title) => {
         const articlesCopy = articles;
@@ -99,6 +101,29 @@ const Articles = (props) => {
             });
         setIsLoading(false);
     };
+    const setArticleState = async (articleId: string, articleState: ArticleState) => {
+        setIsLoading(true);
+        await axios
+            .post('/api/articles/setArticleState', {
+                articleId,
+                articleState,
+            })
+            .then(() => {
+                addToast('Successfully updated article', 'Success');
+            })
+            .catch((error) => {
+                const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
+                addToast(errorMessage, 'Error');
+            });
+        await axios
+            .post('/api/articles/getArticles', {})
+            .then((response) => setArticles(response.data.article))
+            .catch((error) => {
+                const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
+                addToast(errorMessage, 'Error');
+            });
+        setIsLoading(false);
+    };
 
     if (isLoading) return <Loading />;
 
@@ -120,7 +145,7 @@ const Articles = (props) => {
                     </div>
 
                     {articles.map((article, index) => {
-                        const { title, id: articleId, createdAt } = article;
+                        const { title, id: articleId, createdAt, state } = article;
                         const isActive = articleId === selectedArticleId;
                         return (
                             <div
@@ -132,21 +157,45 @@ const Articles = (props) => {
                                 className={`${isActive ? 'bg-slate-100 ' : ''}flex justify-between p-2`}
                             >
                                 <div className="grid grow-cols-12">
-                                    <div className="truncate ...">{title}</div>
-                                    <p className="text-sm">{moment.utc(createdAt).format('L')}</p>
-                                </div>
-                                <div className="flex items-center">
+                                    <div className={`${responsiveTextSize} truncate ...`}>{title}</div>
+                                    <p className={responsiveTextSize}>Created: {moment.utc(createdAt).format('L')}</p>
+                                    <p className={responsiveTextSize}>Status: {state}</p>
                                     <button
                                         onClick={() => {
-                                            if (window.confirm('Delete Project?')) {
+                                            if (window.confirm('Delete Article?')) {
                                                 deleteArticle(article);
                                             }
                                         }}
                                         className="rounded hover:bg-red-600 hover:text-white px-1 h-fit"
                                     >
-                                        Delete
+                                        <span className={responsiveTextSize}>Delete</span>
                                     </button>
+                                    {state == 'Published' && (
+                                        <button
+                                            onClick={() => {
+                                                if (window.confirm('Set Article to Draft?')) {
+                                                    setArticleState(articleId, ArticleState.Draft);
+                                                }
+                                            }}
+                                            className="rounded hover:bg-purple-600 hover:text-white px-1 h-fit"
+                                        >
+                                            <span className={responsiveTextSize}>Set as Draft</span>
+                                        </button>
+                                    )}
+                                    {state == 'Draft' && (
+                                        <button
+                                            onClick={() => {
+                                                if (window.confirm('Publish Article?')) {
+                                                    setArticleState(articleId, ArticleState.Published);
+                                                }
+                                            }}
+                                            className="rounded hover:bg-green-600 hover:text-white px-1 h-fit"
+                                        >
+                                            <span className={responsiveTextSize}>Publish</span>
+                                        </button>
+                                    )}
                                 </div>
+                                <div className="block lg:grid items-end"></div>
                             </div>
                         );
                     })}

@@ -213,7 +213,7 @@ const ProjectsForm = (props) => {
                                 onClick={onSnippetLanguageClick}
                             >
                                 {selectOptions.map((option, index) => {
-                                    return <option value={option.value} label={option.label} />;
+                                    return <option value={option.value} label={option.label} key={index} />;
                                 })}
                             </Field>
                             <ErrorMessage name="codeSnippetLanguage">

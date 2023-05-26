@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import moment from 'moment';
 import DOMPurify from 'isomorphic-dompurify';
 import { marked } from 'marked';
+import { ArticleState } from '@prisma/client';
 const Blog = ({ user }) => {
     const { articles } = user;
     const router = useRouter();
@@ -42,6 +43,7 @@ export async function getServerSideProps(context) {
             articles: {
                 where: {
                     deletedAt: null,
+                    state: ArticleState.Published,
                 },
             },
         },
