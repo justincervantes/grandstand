@@ -38,7 +38,7 @@ const ArticleEditor = ({ article, updateStateArticles }) => {
     }, [article]);
 
     const updateArticle = async () => {
-        if (slug.match(/^[-, A-Za-z0-9]+$/)) {
+        if (slug.match(/^[-, a-z]+$/)) {
             try {
                 await axios.post('/api/articles/updateArticle', {
                     articleId: id,
@@ -100,7 +100,7 @@ const ArticleEditor = ({ article, updateStateArticles }) => {
                 className="m-2 w-5/6 text-xl"
             />
             <SlugInput
-                placeholder="Enter your article's *unique* Url (no spaces or punctuations other than hyphens allowed)"
+                placeholder="Enter a unique Url for your article (composed only of lowercase letters and hyphens)"
                 value={slug}
                 setValue={setSlug}
                 className="m-2 w-5/6 text-xl"

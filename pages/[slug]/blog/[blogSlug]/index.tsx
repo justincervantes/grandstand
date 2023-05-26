@@ -54,6 +54,18 @@ export async function getServerSideProps(context) {
             redirect: { destination: '/404' },
         };
     }
+
+    await prisma.article.update({
+        where: {
+            id: article.id,
+        },
+        data: {
+            views: {
+                increment: 1,
+            },
+        },
+    });
+
     return {
         props: {
             article: JSON.parse(JSON.stringify(article)),
