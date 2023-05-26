@@ -2,13 +2,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import React, { useState, useEffect } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import { programmingLanguageOptions } from '../../lib/programmingLanguageOptions';
 
-const ProjectsForm = (props) => {
+const ProjectsForm = ({ handleSubmit, ...projectDetails }) => {
     const {
-        handleSubmit,
-        setUpdateExisting,
-        updateExisting,
-        clearFormStateValues,
         title,
         description,
         dateRange,
@@ -23,8 +20,7 @@ const ProjectsForm = (props) => {
         codeSnippet,
         codeSnippetLanguage,
         codeSnippetPreview,
-        setCodeSnippetPreview,
-    } = props;
+    } = projectDetails;
 
     useEffect(() => {
         setCodeSnippetPreview(codeSnippet);
@@ -62,7 +58,9 @@ const ProjectsForm = (props) => {
             whyBuilt: yup.string().trim().min(5, 'Must be greater than 5 characters'),
             techStack: yup.string().trim().min(5, 'Must be greater than 5 characters'),
             codeSnippet: yup.string().trim().min(5, 'Must be greater than 5 characters'),
+            codeSnippetLanguage: yup.string(),
         });
+
     const fields = [
         { label: 'Title', name: 'title' },
         { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
@@ -91,27 +89,6 @@ const ProjectsForm = (props) => {
         { label: 'What motivated you to build this project?', name: 'whyBuilt', component: 'textarea', rows: 2 },
         { label: 'Project Tech Stack:', name: 'techStack' },
     ];
-    const selectOptions = [
-        { value: '', label: 'Select a language' },
-        { value: 'c', label: 'C' },
-        { value: 'cLike', label: 'CLike' },
-        { value: 'css', label: 'CSS' },
-        { value: 'go', label: 'Go' },
-        { value: 'html', label: 'HTML' },
-        { value: 'java', label: 'Java' },
-        { value: 'javascript', label: 'Javascript' },
-        { value: 'kotlin', label: 'Kotlin' },
-        { value: 'matlab', label: 'MatLab' },
-        { value: 'other', label: 'Other' },
-        { value: 'perl', label: 'Perl' },
-        { value: 'php', label: 'PHP' },
-        { value: 'python', label: 'Python' },
-        { value: 'r', label: 'R' },
-        { value: 'ruby', label: 'Ruby' },
-        { value: 'rust', label: 'Rust' },
-        { value: 'sql', label: 'SQL' },
-        { value: 'swift', label: 'Swift' },
-    ];
 
     return (
         <Formik
@@ -138,34 +115,7 @@ const ProjectsForm = (props) => {
                 return (
                     <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 mx-auto md:w-[28rem] md:ml-[calc(202px+((100vw-696px)/2))] lg:w-[32rem] lg:ml-[calc(202px+((100vw-730px)/2))]">
                         <h1 className="font-medium text-xl pl-2 mb-2 text-center">Project Entry Form</h1>
-                        {updateExisting && <p className="text-center font-medium text-m">Editing Existing Project</p>}
-                        {!updateExisting && <p className="text-center font-medium text-m">Creating New Project</p>}
-                        <div className="flex justify-center">
-                            {updateExisting && (
-                                <button
-                                    className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50 text-gray-700 shadow-sm justify-center items-center border-gray-300 bg-white"
-                                    type="reset"
-                                    onClick={() => {
-                                        setUpdateExisting(false);
-                                        clearFormStateValues();
-                                        resetForm();
-                                    }}
-                                >
-                                    Create New Project
-                                </button>
-                            )}
-                            {!updateExisting && (
-                                <button
-                                    className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50 text-gray-700 shadow-sm justify-center items-center border-gray-300 bg-white"
-                                    type="reset"
-                                    onClick={() => {
-                                        setUpdateExisting(false);
-                                    }}
-                                >
-                                    Reset Form
-                                </button>
-                            )}
-                        </div>
+
                         {fields.map((field, index) => {
                             const { label, name, component, rows } = field ?? {};
                             return (
@@ -212,7 +162,7 @@ const ProjectsForm = (props) => {
                                 className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 onClick={onSnippetLanguageClick}
                             >
-                                {selectOptions.map((option, index) => {
+                                {programmingLanguageOptions.map((option, index) => {
                                     return <option value={option.value} label={option.label} key={index} />;
                                 })}
                             </Field>

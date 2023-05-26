@@ -32,7 +32,7 @@ export default function Header() {
                                 <div className="flex md:hidden text-center items-center">
                                     <DropdownMenu
                                         placeholder=""
-                                        options={['About Me', 'Projects', 'Blog']}
+                                        options={['About Me', 'Projects', 'Blog', 'Preview']}
                                         onOptionClick={(option) => {
                                             router.push(`/${option.replace(/ /, '-').toLowerCase()}`);
                                         }}
