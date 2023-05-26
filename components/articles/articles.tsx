@@ -125,6 +125,9 @@ const Articles = (props) => {
         setIsLoading(false);
     };
 
+    const sideBarButtonStyling =
+        'text-white h-fit whitespace-nowrap rounded-md border border-transparent bg-gray-600 px-1';
+
     if (isLoading) return <Loading />;
 
     return (
@@ -156,46 +159,47 @@ const Articles = (props) => {
                                 }}
                                 className={`${isActive ? 'bg-slate-100 ' : ''}flex justify-between p-2`}
                             >
-                                <div className="grid grow-cols-12">
+                                <div className="grid grow-cols-12 ">
                                     <div className={`${responsiveTextSize} truncate ...`}>{title}</div>
                                     <p className={responsiveTextSize}>Created: {moment.utc(createdAt).format('L')}</p>
                                     <p className={responsiveTextSize}>Status: {state}</p>
-                                    <button
-                                        onClick={() => {
-                                            if (window.confirm('Delete Article?')) {
-                                                deleteArticle(article);
-                                            }
-                                        }}
-                                        className="rounded hover:bg-red-600 hover:text-white px-1 h-fit"
-                                    >
-                                        <span className={responsiveTextSize}>Delete</span>
-                                    </button>
-                                    {state == 'Published' && (
+                                    <div className="grid grow-cols-12 justify-items-center">
                                         <button
                                             onClick={() => {
-                                                if (window.confirm('Set Article to Draft?')) {
-                                                    setArticleState(articleId, ArticleState.Draft);
+                                                if (window.confirm('Delete Article?')) {
+                                                    deleteArticle(article);
                                                 }
                                             }}
-                                            className="rounded hover:bg-purple-600 hover:text-white px-1 h-fit"
+                                            className={`${sideBarButtonStyling} hover:bg-red-600`}
                                         >
-                                            <span className={responsiveTextSize}>Set as Draft</span>
+                                            <span className={responsiveTextSize}>Delete</span>
                                         </button>
-                                    )}
-                                    {state == 'Draft' && (
-                                        <button
-                                            onClick={() => {
-                                                if (window.confirm('Publish Article?')) {
-                                                    setArticleState(articleId, ArticleState.Published);
-                                                }
-                                            }}
-                                            className="rounded hover:bg-green-600 hover:text-white px-1 h-fit"
-                                        >
-                                            <span className={responsiveTextSize}>Publish</span>
-                                        </button>
-                                    )}
+                                        {state == 'Published' && (
+                                            <button
+                                                onClick={() => {
+                                                    if (window.confirm('Set Article to Draft?')) {
+                                                        setArticleState(articleId, ArticleState.Draft);
+                                                    }
+                                                }}
+                                                className={`${sideBarButtonStyling} hover:bg-purple-600 mt-1`}
+                                            >
+                                                <span className={responsiveTextSize}>Set as Draft</span>
+                                            </button>
+                                        )}
+                                        {state == 'Draft' && (
+                                            <button
+                                                onClick={() => {
+                                                    if (window.confirm('Publish Article?')) {
+                                                        setArticleState(articleId, ArticleState.Published);
+                                                    }
+                                                }}
+                                                className={`${sideBarButtonStyling} hover:bg-green-600 mt-1`}
+                                            >
+                                                <span className={responsiveTextSize}>Publish</span>
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="block lg:grid items-end"></div>
                             </div>
                         );
                     })}
