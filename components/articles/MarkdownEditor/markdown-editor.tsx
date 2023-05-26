@@ -4,11 +4,11 @@ import MarkdownInput from './markdown-input';
 const MarkdownEditor = (props) => {
     const { content, setContent } = props ?? {};
     return (
-        <div className="grid grid-cols-2 max-h-[67.5vh] min-h-[67.5vh] w-full">
-            <div className="col-span-1 max-h-[66.5vh] min-h-[66.5vh] w-full border-r-2 border-dotted">
+        <div className="grid grid-cols-2 max-h-[calc(62vh-165px)] min-h-[calc(62vh-165px)] w-full">
+            <div className="col-span-1 max-h-[calc(62vh-165px)] min-h-[calc(62vh-165px)] w-full border-r-2 border-dotted">
                 <MarkdownInput content={content} setContent={setContent} />
             </div>
-            <div className="col-span-1 max-h-[66.5vh] min-h-[66.5vh] w-full overflow-y-auto">
+            <div className="col-span-1 max-h-[calc(62vh-165px)] min-h-[calc(62vh-165px)] w-full overflow-y-auto">
                 <MarkdownPreview content={content} />
             </div>
         </div>

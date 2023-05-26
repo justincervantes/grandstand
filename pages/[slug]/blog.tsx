@@ -13,13 +13,23 @@ const Blog = ({ user }) => {
                 Return to Profile
             </p>
             {articles.map((article, index) => {
-                const { title, createdAt } = article;
+                const { title, imageUrl, createdAt } = article;
                 return (
-                    <div className="border bg-gray-50 shadow-lg rounded-3xl max-w-3xl mx-auto p-2 my-4" key={index}>
-                        <div className="text-xl my-2 font-bold md:text-2xl" key={index}>
-                            <a href={`blog/${title}`}>{title}</a>
+                    <div
+                        className="grid grid-cols-2 border bg-gray-50 shadow-lg rounded-3xl max-w-xs sm:max-w-lg lg:max-w-3xl mx-auto p-2 sm:p-3 lg:p-4 my-4"
+                        key={index}
+                    >
+                        <div key={`${index}image`} className="m-auto">
+                            <img className="m-auto rounded-xl h-24 sm:h-36 lg:h-44" src={imageUrl}></img>
                         </div>
-                        <div key={index}>{moment.utc(createdAt).format('L')}</div>
+                        <div key={`${index}title`} className="m-auto">
+                            <a className="text-xl my-2 font-bold md:text-2xl" href={`blog/${title}`}>
+                                {title}
+                            </a>
+                            <br />
+                            {moment.utc(createdAt).format('L')}
+                        </div>
+                        <div key={index}></div>
                     </div>
                 );
             })}
