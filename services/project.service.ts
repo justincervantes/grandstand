@@ -45,11 +45,8 @@ export default class ProjectService extends BaseService {
     };
     public deleteProject = async ({ projectId }: { projectId: string }): Promise<Project> => {
         if (!projectId) throw new Error(ErrorDictionary.INVALID_REQUEST);
-        const userProject = await prisma.project.update({
+        const userProject = await prisma.project.delete({
             where: { id: projectId },
-            data: {
-                deletedAt: moment.utc().toDate(),
-            },
         });
         return userProject;
     };

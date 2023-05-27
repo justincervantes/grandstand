@@ -43,7 +43,7 @@ export async function getServerSideProps(context) {
     const article: Article = await prisma.article.findFirst({
         where: {
             userId: user.id,
-            title: blogSlug,
+            slug: blogSlug,
             deletedAt: null,
             state: ArticleState.Published,
         },

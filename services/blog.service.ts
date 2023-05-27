@@ -90,11 +90,8 @@ export default class ArticleService extends BaseService {
         // Validate
         if (!articleId) throw new Error(ErrorDictionary.INVALID_REQUEST);
         // Action
-        const article = await prisma.article.update({
+        const article = await prisma.article.delete({
             where: { id: articleId },
-            data: {
-                deletedAt: moment.utc().toDate(),
-            },
         });
         return article;
     };
