@@ -28,26 +28,29 @@ export default class ArticleService extends BaseService {
         return article;
     };
 
-    public createNewArticle = async (
-        values: {
-            title: string;
-            slug: string;
-            imageUrl?: string;
-        },
-        content?: string,
-    ): Promise<Article> => {
+    public createNewArticle = async ({
+        title,
+        slug,
+        imageUrl,
+        content,
+    }: {
+        title: string;
+        slug: string;
+        imageUrl?: string;
+        content?: string;
+    }): Promise<Article> => {
         // Validate
-        if (!values.title || !values.slug) throw new Error(ErrorDictionary.INVALID_REQUEST);
+        if (!title || !slug) throw new Error(ErrorDictionary.INVALID_REQUEST);
         // Action
         const article = await prisma.article.create({
             data: {
                 userId: this.sessionUserId,
                 state: ArticleState.Draft,
                 createdAt: moment.utc().format(),
-                title: values.title,
+                title: title,
                 content: content ?? '',
-                slug: values.slug,
-                imageUrl: values.imageUrl ?? '',
+                slug: slug,
+                imageUrl: imageUrl ?? '',
             },
         });
         return article;

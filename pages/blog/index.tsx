@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 const Blog = (props) => {
     const { articles = [] } = props;
     const router = useRouter();
-    console.log('articles', articles);
     return (
         <EditingLayout>
             <div className="w-full m-auto">
