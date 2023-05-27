@@ -1,55 +1,56 @@
 import { useRouter } from 'next/router';
 import moment from 'moment';
-import DOMPurify from 'isomorphic-dompurify';
-import { marked } from 'marked';
-import { ArticleState } from '@prisma/client';
-const Blog = ({ user }) => {
-    const { articles } = user;
-    const { image: userProfileImage } = user;
+const Blog = ({ articles, user, hasProjects }) => {
+    const { image: userProfileImage, name: userName, slug, linkedInUrl, githubUrl } = user ?? {};
     const router = useRouter();
     return (
         <div className="text-center">
-            <p className="text-xl my-2 font-bold md:text-2xl">{`${user.name}`}</p>
-            <div className="flex">
+            <p className="text-xl my-5 font-bold md:text-2xl lg:text-6xl">{userName}</p>
+            <div className="flex justify-center border-b pb-5">
                 <img
                     src={userProfileImage}
-                    className="h-16 w-16 border border-black rounded-full"
+                    className="h-8 w-8 md:w-14 md:h-14 lg:h-12 lg:w-12 border border-black rounded-full mx-2"
                     alt="Home"
                     title="Home"
+                    onClick={() => router.push(`/${slug}`)}
                 />
-                <img
-                    src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
-                    className="h-16 w-16"
-                    alt="Projects"
-                    title="Projects"
-                />
+
+                {hasProjects && (
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
+                        className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2"
+                        alt="Projects"
+                        title="Projects"
+                        onClick={() => router.push(`/${slug}/projects`)}
+                    />
+                )}
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
-                    className="h-16 w-16"
+                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2"
                     alt="Blog"
                     title="Blog"
+                    onClick={() => router.push(`/${slug}/blog`)}
                 />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                    className="h-16 w-16"
+                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  rounded-full mx-2"
                     alt="LinkedIn"
                     title="LinkedIn"
+                    onClick={() => router.push(linkedInUrl)}
                 />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    className="h-16 w-16"
+                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12 rounded-full mx-2"
                     alt="GitHub"
                     title="GitHub"
+                    onClick={() => router.push(githubUrl)}
                 />
             </div>
-            <p className="text-gray-500 text-lg cursor-pointer" onClick={() => router.back()}>
-                Return to Profile
-            </p>
             {articles.map((article, index) => {
                 const { title, imageUrl, createdAt, slug } = article;
                 return (
                     <div
-                        className="grid grid-cols-2 border bg-gray-50 shadow-lg rounded-3xl max-w-xs sm:max-w-lg lg:max-w-3xl mx-auto p-2 sm:p-3 lg:p-4 my-4"
+                        className="grid grid-cols-2 border border-b bg-gray-50 shadow-sm max-w-xs sm:max-w-lg lg:max-w-3xl mx-auto p-2 sm:p-3 lg:p-4 my-4 hover:shadow-2xl"
                         key={index}
                     >
                         <div key={`${index}image`} className="m-auto">
@@ -62,7 +63,7 @@ const Blog = ({ user }) => {
                                 {title}
                             </a>
                             <br />
-                            {moment.utc(createdAt).format('L')}
+                            <p>{moment.utc(createdAt).format('L')}</p>
                         </div>
                         <div key={index}></div>
                     </div>
@@ -75,20 +76,37 @@ export default Blog;
 
 export async function getServerSideProps(context) {
     const slug = context?.query?.slug;
+
     const user = await prisma.user.findFirstOrThrow({
-        where: {
-            slug,
-        },
+        where: { slug },
         include: {
+            projects: {
+                where: {
+                    deletedAt: null,
+                    state: 'Published',
+                },
+            },
             articles: {
                 where: {
                     deletedAt: null,
-                    state: ArticleState.Published,
+                    state: 'Published',
+                },
+                orderBy: {
+                    createdAt: 'desc',
                 },
             },
         },
     });
+
+    const { projects, articles } = user;
+
+    const hasProjects = projects.length > 0;
+
     return {
-        props: { user: JSON.parse(JSON.stringify(user)) },
+        props: {
+            articles: JSON.parse(JSON.stringify(articles)),
+            hasProjects,
+            user: JSON.parse(JSON.stringify(user)),
+        },
     };
 }

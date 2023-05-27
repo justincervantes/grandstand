@@ -8,8 +8,6 @@ import { useToast } from '../../context/ToastContext';
 import ArticlePreviewModal from '../../components/articles/preview-modal';
 import * as yup from 'yup';
 const Article = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [content, setContent] = useState('');
     const { addToast } = useToast();
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +15,7 @@ const Article = () => {
         try {
             await axios.post('/api/articles/createNewArticle', { ...values });
             addToast('Successfully created article', 'Success');
-            router.reload();
+            router.push('/blog');
         } catch (error) {
             addToast(error?.response?.data?.errorMessage, 'Error');
         }
@@ -83,7 +81,7 @@ const Article = () => {
             rows: 15,
         },
     ];
-    if (isLoading) return <Loading />;
+
     return (
         <EditingLayout>
             <div className="flex whitespace-nowrap mb-3"></div>
