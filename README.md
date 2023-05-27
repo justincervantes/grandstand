@@ -15,9 +15,9 @@ Contributions are welcome, in order to contribute you'll need developer configur
 ## To do
 
 -   Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
-
-Validation
-- On projects and blogs, add validation for publishing state changes (use your judgement)
+- New pages for each project based on user, redirect if not found
+- 404 page (memeish yet sleek)
+- Validation on projects and blogs, add validation for publishing state changes (use your judgement)
 
 
 Projects
