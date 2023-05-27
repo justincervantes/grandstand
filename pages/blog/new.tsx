@@ -30,11 +30,12 @@ const Article = () => {
             title: yup.string().trim().min(2, 'Must be greater than 2 chars').required('Please enter a title'),
             slug: yup
                 .string()
-                .trim()
-                .min(2, 'Must be greater than 2 chars')
-                .max(26, 'Cannot be more than 26 chars')
-                .matches(/^[-, a-z]+$/, 'Slug may only contain lowercase letters and hyphens (-)')
-                .required('Please enter a slug (url path) for the article'),
+                .matches(
+                    /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+                    'Only lowercase letters and numbers allowed, spaces should be replaced with hyphens',
+                )
+                .min(2, 'Must be greater than 2 characters')
+                .required('Please enter a slug'),
             imageUrl: yup.string().trim().url('Please provide a full http/https URL'),
         });
 

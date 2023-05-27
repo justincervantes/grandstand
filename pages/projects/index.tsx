@@ -23,7 +23,7 @@ const Projects = (props) => {
                     </button>
                 </div>
                 {projects.map(({ id, title, description, state }) => (
-                    <div className="hover:bg-gray-50" onClick={(e) => router.push(`/projects/${id}`)}>
+                    <div className="hover:bg-gray-50" onClick={() => router.push(`/projects/${id}`)}>
                         <div className="w-full border-b border-gray-400 flex leading-normal">
                             <div className="mb-4 w-full">
                                 <div className="text-gray-900 font-bold text-xl mb-1">{title}</div>

@@ -46,7 +46,7 @@ const validationSchema = () =>
             .string()
             .matches(
                 /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-                'Only lowercase letters and numbers allowed, spaced should be replaced with hyphens',
+                'Only lowercase letters and numbers allowed, spaces should be replaced with hyphens',
             )
             .min(2, 'Must be greater than 2 characters')
             .required('Please enter a slug'),
@@ -204,12 +204,20 @@ export async function getServerSideProps(context) {
     const user = await prisma.user.findFirstOrThrow({
         where: { email: currentUserEmail },
     });
-    const project = await prisma.project.findFirstOrThrow({
+    const project = await prisma.project.findFirst({
         where: {
             id: projectId.toString(),
             userId: user.id,
         },
     });
+
+    if (!project) {
+        return {
+            redirect: {
+                destination: '/404',
+            },
+        };
+    }
 
     return {
         props: { project: JSON.parse(JSON.stringify(project)) },

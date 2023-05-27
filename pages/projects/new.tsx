@@ -45,7 +45,7 @@ const validationSchema = () =>
             .string()
             .matches(
                 /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-                'Only lowercase letters and numbers allowed, spaced should be replaced with hyphens',
+                'Only lowercase letters and numbers allowed, spaces should be replaced with hyphens',
             )
             .min(2, 'Must be greater than 2 characters')
             .required('Please enter a slug'),

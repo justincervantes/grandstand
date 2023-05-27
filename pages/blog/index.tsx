@@ -1,35 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { getSession } from 'next-auth/react';
-import Loading from '../../components/loading';
-import Articles from '../../components/articles/articles';
 import prisma from '../../lib/prismadb';
 import EditingLayout from '../../components/layout';
-import { QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
-
+import { useRouter } from 'next/router';
 const Blog = (props) => {
     const { articles = [] } = props;
-    const [isLoading, setIsLoading] = useState(false);
-
-    if (isLoading) return <Loading />;
-
+    const router = useRouter();
+    console.log('articles', articles);
     return (
         <EditingLayout>
-            <div className="flex whitespace-nowrap mb-3">
-                <h1 className="font-medium text-xl pl-2">Blog</h1>
-                <div className="group flex relative">
-                    <a href="https://www.npmjs.com/package/marked" target="_blank" rel="noopener noreferrer">
-                        <QuestionMarkCircleIcon className="h-7 w-7 ml-4" />
-                    </a>
-                    <span
-                        className="group-hover:opacity-100 transition-opacity bg-gray-900 px-1 text-sm text-gray-100 rounded-md absolute left-1/2 
-                -translate-x-1/2 -translate-y-12 opacity-0 m-4 mx-auto"
+            <div className="w-full m-auto">
+                <div className="flex justify-between w-full mb-6">
+                    <p className="text-3xl bold">Blog</p>
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            router.push('/blog/new');
+                        }}
+                        className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border-black border-2 bg-white px-4 py-2 text-base font-medium text-black shadow-sm hover:bg-indigo-700"
                     >
-                        Markdown Documentation
-                    </span>
+                        New
+                    </button>
                 </div>
-            </div>
-            <div className="min-h-[60vh]">
-                <Articles userArticles={articles} />
+                {articles.map(({ id, title, description, state }) => (
+                    <div className="hover:bg-gray-50" onClick={() => router.push(`/blog/${id}`)}>
+                        <div className="w-full border-b border-gray-400 flex leading-normal">
+                            <div className="mb-4 w-full">
+                                <div className="text-gray-900 font-bold text-xl mb-1">{title}</div>
+                                <p className="text-gray-700 text-base">{description}</p>
+                                <p
+                                    className={`text-center text-base text-white p-1 my-1 ${
+                                        state === 'Published' ? 'bg-green-700' : 'bg-gray-500'
+                                    }`}
+                                >
+                                    {state}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
         </EditingLayout>
     );
@@ -47,7 +56,7 @@ export async function getServerSideProps(context) {
         };
     }
     const currentUserEmail = session.user.email;
-    const articles = await prisma.user.findFirst({
+    const { articles } = await prisma.user.findFirst({
         where: {
             email: currentUserEmail,
         },
