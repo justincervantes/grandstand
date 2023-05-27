@@ -5,10 +5,43 @@ import { marked } from 'marked';
 import { ArticleState } from '@prisma/client';
 const Blog = ({ user }) => {
     const { articles } = user;
+    const { image: userProfileImage } = user;
     const router = useRouter();
     return (
         <div className="text-center">
-            <p className="text-xl my-2 font-bold md:text-2xl">{`${user.name}'s Blog`}</p>
+            <p className="text-xl my-2 font-bold md:text-2xl">{`${user.name}`}</p>
+            <div className="flex">
+                <img
+                    src={userProfileImage}
+                    className="h-16 w-16 border border-black rounded-full"
+                    alt="Home"
+                    title="Home"
+                />
+                <img
+                    src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
+                    className="h-16 w-16"
+                    alt="Projects"
+                    title="Projects"
+                />
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
+                    className="h-16 w-16"
+                    alt="Blog"
+                    title="Blog"
+                />
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
+                    className="h-16 w-16"
+                    alt="LinkedIn"
+                    title="LinkedIn"
+                />
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                    className="h-16 w-16"
+                    alt="GitHub"
+                    title="GitHub"
+                />
+            </div>
             <p className="text-gray-500 text-lg cursor-pointer" onClick={() => router.back()}>
                 Return to Profile
             </p>

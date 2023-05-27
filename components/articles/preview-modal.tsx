@@ -6,7 +6,7 @@ import { marked } from 'marked';
 const ArticlePreviewModal = ({ content = '', isOpen, setIsOpen }) => {
     return (
         <Transition.Root show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-10 h-full w-full" onClose={() => setIsOpen(false)}>
+            <Dialog as="div" className="relative z-10 w-full" onClose={() => setIsOpen(false)}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"

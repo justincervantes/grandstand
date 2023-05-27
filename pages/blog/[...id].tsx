@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import { getSession } from 'next-auth/react';
 import ArticlePreviewModal from '../../components/articles/preview-modal';
 const Article = ({ article }) => {
-    const { id, content, title, imageUrl, slug } = article;
+    const { id: articleId } = article;
     const [isOpen, setIsOpen] = useState(false);
     const { addToast } = useToast();
     const router = useRouter();
@@ -17,7 +17,7 @@ const Article = ({ article }) => {
     const handleSubmit = async (values) => {
         try {
             await axios.post('/api/articles/updateArticle', {
-                articleId: id,
+                articleId,
                 ...values,
             });
             addToast('Successfully updated article', 'Success');

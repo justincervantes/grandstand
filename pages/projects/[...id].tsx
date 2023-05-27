@@ -113,7 +113,7 @@ const NewProject = ({ project }) => {
                             })}
                             <div className="mb-2">
                                 <label htmlFor="codeSnippet" className="block text-gray-700 text-sm font-bold mb-2">
-                                    Favourite code snippet, language, and description:
+                                    Favourite code snippet
                                 </label>
                                 <Field
                                     type="text"
