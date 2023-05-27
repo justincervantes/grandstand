@@ -26,8 +26,7 @@ const Article = ({ article }) => {
                 slug: values.slug,
             });
             addToast('Successfully updated article', 'Success');
-            // router.reload();
-            router.push('/blog');
+            router.reload();
         } catch (error) {
             addToast(error?.response?.data?.errorMessage, 'Error');
         }

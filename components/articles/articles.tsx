@@ -171,10 +171,7 @@ const Articles = (props) => {
                                     <div className="grid justify-items-center">
                                         <button
                                             onClick={() => {
-                                                router.push(
-                                                    { pathname: '/blog/edit', query: { articleId } },
-                                                    '/blog/edit',
-                                                );
+                                                router.push({ pathname: '/blog/edit', query: { articleId } });
                                             }}
                                             className={`${sideBarButtonStyling} hover:bg-yellow-400`}
                                         >
