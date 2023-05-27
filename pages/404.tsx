@@ -1,4 +1,6 @@
+import { useRouter } from 'next/router';
 export default function Custom404() {
+    const router = useRouter();
     return (
         <div className="text-center m-auto align-center">
             <h1 className="font-medium text-xl py-4 block">Error 404: Page Not Found</h1>
@@ -9,11 +11,12 @@ export default function Custom404() {
                 title="Projects"
             />
             <h1 className="font-medium text-xl py-4 block">
-                <a href="https://grandstand.dev">
-                    <span className="underline text-blue-600 hover:text-blue-800 hover:cursor-pointer visited:text-purple-600">
-                        Return to HomePage
-                    </span>
-                </a>
+                <span
+                    onClick={() => router.back()}
+                    className="underline text-blue-600 hover:text-blue-800 hover:cursor-pointer visited:text-purple-600"
+                >
+                    Back
+                </span>
             </h1>
         </div>
     );
