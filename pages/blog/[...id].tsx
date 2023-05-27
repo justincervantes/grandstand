@@ -20,7 +20,7 @@ const Article = ({ article }) => {
                 ...values,
             });
             addToast('Successfully updated article', 'Success');
-            router.reload();
+            router.push('/blog');
         } catch (error) {
             addToast(error?.response?.data?.errorMessage, 'Error');
         }
