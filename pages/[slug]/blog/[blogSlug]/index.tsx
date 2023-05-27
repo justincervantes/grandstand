@@ -4,7 +4,7 @@ import moment from 'moment';
 import { useRouter } from 'next/router';
 import DOMPurify from 'isomorphic-dompurify';
 import { marked } from 'marked';
-const Article = ({ article, user, hasProjects, hasArticles }) => {
+const Article = ({ article, user, hasProjects }) => {
     const router = useRouter();
     const { title, content, imageUrl, createdAt } = article ?? {};
     const { name: userName, image: userProfileImage, slug, linkedInUrl, githubUrl } = user;

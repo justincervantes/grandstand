@@ -12,25 +12,17 @@ const Blog = ({ articles, user, hasProjects }) => {
                     className="h-8 w-8 md:w-14 md:h-14 lg:h-12 lg:w-12 border border-black rounded-full mx-2"
                     alt="Home"
                     title="Home"
-                    onClick={() => router.push(`/${slug}`)}
+                    onClick={() => router.push(`/${userSlug}`)}
                 />
-
                 {hasProjects && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
                         className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2"
                         alt="Projects"
                         title="Projects"
-                        onClick={() => router.push(`/${slug}/projects`)}
+                        onClick={() => router.push(`/${userSlug}/projects`)}
                     />
                 )}
-                <img
-                    src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2"
-                    alt="Blog"
-                    title="Blog"
-                    onClick={() => router.push(`/${slug}/blog`)}
-                />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
                     className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  rounded-full mx-2"
