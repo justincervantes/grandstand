@@ -41,7 +41,14 @@ const fields = [
 const validationSchema = () =>
     yup.object().shape({
         title: yup.string().trim().min(2, 'Must be greater than 2 chars').required('Please enter a title'),
-        slug: yup.string().lowercase().min(2, 'Must be greater than 2 characters').required('Please enter a slug'),
+        slug: yup
+            .string()
+            .matches(
+                /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+                'Only lowercase letters and numbers allowed, spaced should be replaced with hyphens',
+            )
+            .min(2, 'Must be greater than 2 characters')
+            .required('Please enter a slug'),
         description: yup
             .string()
             .trim()
@@ -58,6 +65,7 @@ const validationSchema = () =>
         techStack: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippet: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippetLanguage: yup.string(),
+        state: yup.string(),
     });
 
 const initialValues = () => ({
@@ -119,7 +127,7 @@ const NewProject = () => {
                             })}
                             <div className="mb-2">
                                 <label htmlFor="codeSnippet" className="block text-gray-700 text-sm font-bold mb-2">
-                                    Favourite code snippet, language, and description:
+                                    Favourite code snippet
                                 </label>
                                 <Field
                                     type="text"
@@ -164,6 +172,18 @@ const NewProject = () => {
                                     {values.codeSnippet}
                                 </SyntaxHighlighter>
                             </div>
+                            <label htmlFor="state" className="block text-gray-700 text-sm font-bold mb-2">
+                                State (only published projects are visible)
+                            </label>
+                            <Field
+                                name="state"
+                                as="select"
+                                className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                onClick={(e) => setFieldValue('state', e.target.value)}
+                            >
+                                <option value="Published" label="Published" />;
+                                <option value="Draft" label="Draft" />;
+                            </Field>
                             <div className="flex justify-end">
                                 <button
                                     type="submit"

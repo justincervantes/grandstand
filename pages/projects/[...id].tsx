@@ -36,13 +36,20 @@ const fields = [
         rows: 2,
     },
     { label: 'What motivated you to build this project?', name: 'whyBuilt', component: 'textarea', rows: 2 },
-    { label: 'Project Tech Stack:', name: 'techStack' },
+    { label: 'Project Tech Stack', name: 'techStack' },
 ];
 
 const validationSchema = () =>
     yup.object().shape({
         title: yup.string().trim().min(2, 'Must be greater than 2 chars').required('Please enter a title'),
-        slug: yup.string().lowercase().min(2, 'Must be greater than 2 characters').required('Please enter a slug'),
+        slug: yup
+            .string()
+            .matches(
+                /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+                'Only lowercase letters and numbers allowed, spaced should be replaced with hyphens',
+            )
+            .min(2, 'Must be greater than 2 characters')
+            .required('Please enter a slug'),
         description: yup
             .string()
             .trim()
@@ -59,29 +66,13 @@ const validationSchema = () =>
         techStack: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippet: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippetLanguage: yup.string(),
+        state: yup.string(),
     });
-
-const initialValues = () => ({
-    title: '',
-    description: '',
-    dateRange: '',
-    imageUrl: '',
-    applicationUrl: '',
-    gitHubUrl: '',
-    mostProudOf: '',
-    mostInteresting: '',
-    mostUnique: '',
-    whyBuilt: '',
-    techStack: '',
-    codeSnippet: '',
-    codeSnippetLanguage: '',
-});
 
 const NewProject = ({ project }) => {
     const { addToast } = useToast();
     const router = useRouter();
     const { id: projectId } = project ?? {};
-    console.log('project', project);
 
     const handleSubmit = async (values) => {
         axios
@@ -140,7 +131,7 @@ const NewProject = ({ project }) => {
                                     htmlFor="codeSnippetLanguage"
                                     className="block text-gray-700 text-sm font-bold mb-2"
                                 >
-                                    Favourite code snippet, language, and description:
+                                    Favourite code snippet
                                 </label>
                                 <Field
                                     name="codeSnippetLanguage"
@@ -167,6 +158,18 @@ const NewProject = ({ project }) => {
                                     {values.codeSnippet}
                                 </SyntaxHighlighter>
                             </div>
+                            <label htmlFor="state" className="block text-gray-700 text-sm font-bold mb-2">
+                                State (only published projects are visible)
+                            </label>
+                            <Field
+                                name="state"
+                                as="select"
+                                className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                onClick={(e) => setFieldValue('state', e.target.value)}
+                            >
+                                <option value="Published" label="Published" />;
+                                <option value="Draft" label="Draft" />;
+                            </Field>
                             <div className="flex justify-end">
                                 <button
                                     type="submit"

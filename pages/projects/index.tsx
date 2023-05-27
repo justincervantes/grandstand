@@ -1,59 +1,11 @@
-import axios from 'axios';
-import { get } from 'lodash';
 import { getSession } from 'next-auth/react';
-import { useToast } from '../../context/ToastContext';
-import React, { useState } from 'react';
-import ProjectsSidebar from '../../components/projects/projects-sidebar';
-import ProjectsForm from '../../components/projects/projects-form';
+import React from 'react';
 import EditingLayout from '../../components/layout';
 import { useRouter } from 'next/router';
 
 const Projects = (props) => {
     const { projects = [] } = props;
     const router = useRouter();
-
-    const handleSubmit = async (values, actions) => {
-        let projectId = selectedProjectId;
-        if (!updateExisting) {
-            await axios
-                .post('/api/projects/createProject', values)
-                .then(() => {
-                    addToast('Successfully created project', 'Success');
-                })
-                .catch((error) => {
-                    const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
-                    addToast(errorMessage, 'Error');
-                });
-            await axios
-                .post('/api/projects/getProjects', {})
-                .then((response) => setProjectsSidebar(response.data.projects))
-                .catch((error) => {
-                    const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
-                    addToast(errorMessage, 'Error');
-                });
-            clearFormStateValues();
-            actions.resetForm();
-        } else {
-            await axios
-                .post('/api/projects/updateProject', { projectId, values })
-                .then((response) => {
-                    addToast('Successfully updated project', 'Success');
-                })
-                .catch((error) => {
-                    const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
-                    addToast(errorMessage, 'Error');
-                });
-            await axios
-                .post('/api/projects/getProjects', {})
-                .then((response) => setProjectsSidebar(response.data.projects))
-                .catch((error) => {
-                    const errorMessage = get(error, 'response.data.errorMessage', 'Something went wrong!');
-                    addToast(errorMessage, 'Error');
-                });
-            clearFormStateValues();
-            actions.resetForm();
-        }
-    };
 
     return (
         <EditingLayout>
@@ -70,8 +22,8 @@ const Projects = (props) => {
                         New
                     </button>
                 </div>
-                {projects.map(({ title, description, state }) => (
-                    <div className="hover:bg-gray-50">
+                {projects.map(({ id, title, description, state }) => (
+                    <div className="hover:bg-gray-50" onClick={(e) => router.push(`/projects/${id}`)}>
                         <div className="w-full border-b border-gray-400 flex leading-normal">
                             <div className="mb-4 w-full">
                                 <div className="text-gray-900 font-bold text-xl mb-1">{title}</div>
