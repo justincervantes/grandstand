@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 
 const Projects = ({ projects, user, hasArticles }) => {
-    const { slug: userSlug, name: userName, image: userProfileImage, linkedInUrl, githubUrl } = user;
+    const { slug: userSlug, name: userName, image: userProfileImage, linkedInUrl, gitHubUrl } = user;
     const router = useRouter();
 
     return (
@@ -38,7 +38,7 @@ const Projects = ({ projects, user, hasArticles }) => {
                     className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12 rounded-full mx-2"
                     alt="GitHub"
                     title="GitHub"
-                    onClick={() => router.push(githubUrl)}
+                    onClick={() => router.push(gitHubUrl)}
                 />
             </div>
             {projects.map((project, index) => {
