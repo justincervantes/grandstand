@@ -33,11 +33,13 @@ export default class ArticleService extends BaseService {
         slug,
         imageUrl,
         content,
+        state,
     }: {
         title: string;
         slug: string;
         imageUrl?: string;
         content?: string;
+        state: ArticleState;
     }): Promise<Article> => {
         // Validate
         if (!title || !slug) throw new Error(ErrorDictionary.INVALID_REQUEST);
@@ -45,7 +47,7 @@ export default class ArticleService extends BaseService {
         const article = await prisma.article.create({
             data: {
                 userId: this.sessionUserId,
-                state: ArticleState.Draft,
+                state: state,
                 createdAt: moment.utc().format(),
                 title: title,
                 content: content ?? '',
@@ -72,12 +74,14 @@ export default class ArticleService extends BaseService {
         imageUrl,
         content,
         slug,
+        state,
     }: {
         articleId: string;
         articleTitle: string;
         imageUrl: string;
         slug: string;
         content: string;
+        state: ArticleState;
     }): Promise<Article> => {
         const article = await prisma.article.update({
             where: {
@@ -89,6 +93,7 @@ export default class ArticleService extends BaseService {
                 imageUrl,
                 slug,
                 updatedAt: moment.utc().format(),
+                state,
             },
         });
         return article;
