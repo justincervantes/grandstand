@@ -19,11 +19,6 @@ Contributions are welcome, in order to contribute you'll need developer configur
 Blog
 
 -   Style a table of content in the customer side (reference Monica Lent and Medium)
--   Each blog article must be its own page
--   Work on rendering blog content in the customer side so that we use Tailwind Typography plugin
--   slugs to be lowercase-trim (not set, we do this on the backend on update), need a slug column
--   We need to enforce title, slug, picture link, etc and validate in order to publish
--   In the getServerSide props of the article page, we need to increment views whenever the page loads
 
 Projects
 
