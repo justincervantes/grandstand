@@ -9,17 +9,17 @@ import Button from '../button';
 import { localStorageKeys, setLocalStorageSelectedArticle } from '../../lib/localStorageKeys';
 import { useToast } from '../../context/ToastContext';
 import { ArticleState } from '@prisma/client';
-
+import { useRouter } from 'next/router';
 const Articles = (props) => {
     const { userArticles } = props ?? {};
-
+    const router = useRouter();
     const [articles, setArticles] = useState([userArticles]);
     const [selectedArticleId, setSelectedArticleId] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [createArticleModalIsOpen, setCreateArticleModalIsOpen] = useState(false);
     const [newArticleTitle, setNewArticleTitle] = useState('');
     const { addToast } = useToast();
-    const responsiveTextSize = 'lg:text-base sm:text-sm text-xs';
+    const responsiveTextSize = 'lg:text-lg sm:text-base text-sm';
 
     const updateArticles = (updatedArticleId, content, title, image, slug) => {
         const articlesCopy = articles;
@@ -143,10 +143,12 @@ const Articles = (props) => {
                 onCancel={() => setCreateArticleModalIsOpen(false)}
                 setArticleTitle={setNewArticleTitle}
             />
-            <div className="grid grid-flow-col grid-cols-12 p-1 h-full">
-                <div className="col-span-2 border-l border-y rounded-tl-lg rounded-bl-lg flex flex-col overflow-y-auto h-[73vh] scrollbar-thin scrollbar-h-1.5 scrollbar-thumb-gray-200 scrollbar-thumb-rounded">
+            <div className="w-full p-1 h-full">
+                <div className="border rounded-lg flex flex-col overflow-y-auto h-max items-center scrollbar-thin scrollbar-h-1.5 scrollbar-thumb-gray-200 scrollbar-thumb-rounded">
                     <div className="p-2">
-                        <Button handleClick={() => setCreateArticleModalIsOpen(true)}>Create Article</Button>
+                        <div>
+                            <Button handleClick={() => router.push('/blog/new')}>Create New Article</Button>
+                        </div>
                     </div>
 
                     {articles.map((article, index) => {
@@ -160,22 +162,20 @@ const Articles = (props) => {
                                     setSelectedArticleId(articleId);
                                     setLocalStorageSelectedArticle(articleId);
                                 }}
-                                className={`${isActive ? 'bg-slate-100 ' : ''}flex justify-between p-2`}
+                                className="flex justify-between p-2"
                             >
-                                <div className="grid grow-cols-12 ">
+                                <div className="grid text-center border p-1 rounded-md">
                                     <div className={`${responsiveTextSize} truncate ...`}>{title}</div>
                                     <p className={responsiveTextSize}>Created: {moment.utc(createdAt).format('L')}</p>
                                     <p className={responsiveTextSize}>Status: {state}</p>
-                                    <div className="grid grow-cols-12 justify-items-center">
+                                    <div className="grid justify-items-center">
                                         <button
                                             onClick={() => {
-                                                if (window.confirm('Delete Article?')) {
-                                                    deleteArticle(article);
-                                                }
+                                                router.push({ pathname: '/blog/edit', query: { articleId } });
                                             }}
-                                            className={`${sideBarButtonStyling} hover:bg-red-600`}
+                                            className={`${sideBarButtonStyling} hover:bg-yellow-400`}
                                         >
-                                            <span className={responsiveTextSize}>Delete</span>
+                                            <span className={responsiveTextSize}>Edit</span>
                                         </button>
                                         {state == 'Published' && (
                                             <button
@@ -184,7 +184,7 @@ const Articles = (props) => {
                                                         setArticleState(articleId, ArticleState.Draft);
                                                     }
                                                 }}
-                                                className={`${sideBarButtonStyling} hover:bg-purple-600 mt-1`}
+                                                className={`${sideBarButtonStyling} hover:bg-purple-600 my-1`}
                                             >
                                                 <span className={responsiveTextSize}>Set as Draft</span>
                                             </button>
@@ -196,7 +196,7 @@ const Articles = (props) => {
                                                         setArticleState(articleId, ArticleState.Published);
                                                     }
                                                 }}
-                                                className={`${sideBarButtonStyling} hover:bg-green-600 mt-1`}
+                                                className={`${sideBarButtonStyling} hover:bg-green-600 my-1`}
                                             >
                                                 <span className={responsiveTextSize}>Publish</span>
                                             </button>
@@ -206,24 +206,26 @@ const Articles = (props) => {
                                                 onClick={() => {
                                                     addToast('Valid url and image are required to publish', 'Error');
                                                 }}
-                                                className={`${sideBarButtonStyling} hover:bg-red-600 mt-1`}
+                                                className={`${sideBarButtonStyling} hover:bg-red-600 my-1`}
                                             >
                                                 <span className={responsiveTextSize}>Publish</span>
                                             </button>
                                         )}
+                                        <button
+                                            onClick={() => {
+                                                if (window.confirm('Delete Article?')) {
+                                                    deleteArticle(article);
+                                                }
+                                            }}
+                                            className={`${sideBarButtonStyling} hover:bg-red-600`}
+                                        >
+                                            <span className={responsiveTextSize}>Delete</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         );
                     })}
-                </div>
-                <div className="col-span-10 border w-full min-h-[73vh] max-h-[73h] grid">
-                    {selectedArticleId && (
-                        <ArticleEditor
-                            article={articles.find(({ id }) => id === selectedArticleId)}
-                            updateStateArticles={updateArticles}
-                        />
-                    )}
                 </div>
             </div>
         </div>

@@ -13,8 +13,6 @@ export default class ArticleService extends BaseService {
         // Validate
         if (!articleTitle) throw new Error(ErrorDictionary.INVALID_REQUEST);
 
-        console.log(articleTitle);
-
         // Action
         const article = await prisma.article.create({
             data: {
@@ -25,6 +23,31 @@ export default class ArticleService extends BaseService {
                 createdAt: moment.utc().format(),
                 userId: this.sessionUserId,
                 state: ArticleState.Draft,
+            },
+        });
+        return article;
+    };
+
+    public createNewArticle = async (
+        values: {
+            title: string;
+            slug: string;
+            imageUrl?: string;
+        },
+        content?: string,
+    ): Promise<Article> => {
+        // Validate
+        if (!values.title || !values.slug) throw new Error(ErrorDictionary.INVALID_REQUEST);
+        // Action
+        const article = await prisma.article.create({
+            data: {
+                userId: this.sessionUserId,
+                state: ArticleState.Draft,
+                createdAt: moment.utc().format(),
+                title: values.title,
+                content: content ?? '',
+                slug: values.slug,
+                imageUrl: values.imageUrl ?? '',
             },
         });
         return article;
