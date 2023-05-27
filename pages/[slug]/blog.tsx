@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import moment from 'moment';
 const Blog = ({ articles, user, hasProjects }) => {
-    const { image: userProfileImage, name: userName, slug, linkedInUrl, githubUrl } = user ?? {};
+    const { image: userProfileImage, name: userName, slug: userSlug, linkedInUrl, githubUrl } = user ?? {};
     const router = useRouter();
     return (
         <div className="text-center">
@@ -52,11 +52,10 @@ const Blog = ({ articles, user, hasProjects }) => {
                     <div
                         className="grid grid-cols-2 border border-b bg-gray-50 shadow-sm max-w-xs sm:max-w-lg lg:max-w-3xl mx-auto p-2 sm:p-3 lg:p-4 my-4 hover:shadow-2xl"
                         key={index}
+                        onClick={() => router.push(`/${userSlug}/blog/${slug}`)}
                     >
                         <div key={`${index}image`} className="m-auto">
-                            <a href={`blog/${slug}`}>
-                                <img className="m-auto rounded-xl h-24 sm:h-36 lg:h-44" src={imageUrl}></img>
-                            </a>
+                            <img className="m-auto rounded-xl h-24 sm:h-36 lg:h-44" src={imageUrl}></img>
                         </div>
                         <div key={`${index}title`} className="m-auto">
                             <a className="text-xl my-2 font-bold md:text-2xl" href={`blog/${slug}`}>
