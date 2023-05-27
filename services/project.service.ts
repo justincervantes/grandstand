@@ -22,7 +22,6 @@ export default class ProjectService extends BaseService {
         codeSnippet?: string;
         codeSnippetLanguage?: string;
     }): Promise<Project> => {
-        console.log(values);
         const userProject = await prisma.project.create({
             data: {
                 userId: this.sessionUserId,
