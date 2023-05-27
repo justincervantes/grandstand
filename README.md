@@ -16,9 +16,9 @@ Contributions are welcome, in order to contribute you'll need developer configur
 
 -   Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
 
-Blog
+Validation
+- On projects and blogs, add validation for publishing state changes (use your judgement)
 
--   Style a table of content in the customer side (reference Monica Lent and Medium)
 
 Projects
 
