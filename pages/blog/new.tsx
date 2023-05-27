@@ -35,6 +35,7 @@ const Article = () => {
                 .min(2, 'Must be greater than 2 characters')
                 .required('Please enter a slug'),
             imageUrl: yup.string().trim().url('Please provide a full http/https URL'),
+            state: yup.string(),
         });
 
     const fields = [
@@ -91,7 +92,7 @@ const Article = () => {
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema()}
             >
-                {({ values }) => {
+                {({ setFieldValue, values }) => {
                     return (
                         <Form className="bg-gray-50 shadow-lg rounded px-8 py-2 my-4 max-w-3xl mx-auto">
                             <h1 className="font-medium text-xl pl-2 mb-2 text-center">Article Entry Form</h1>
@@ -120,6 +121,18 @@ const Article = () => {
                                         </div>
                                     );
                                 })}
+                                <label htmlFor="state" className="block text-gray-700 text-sm font-bold mb-2">
+                                    State (only published projects are visible)
+                                </label>
+                                <Field
+                                    name="state"
+                                    as="select"
+                                    className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    onClick={(e) => setFieldValue('state', e.target.value)}
+                                >
+                                    <option value="Published" label="Published" />;
+                                    <option value="Draft" label="Draft" />;
+                                </Field>
                                 <div className="flex justify-end">
                                     <button
                                         type="submit"
