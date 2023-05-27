@@ -26,10 +26,13 @@ const Projects = ({ user }) => {
                     techStack,
                     codeSnippet,
                     codeSnippetLanguage,
+                    slug,
                 } = project;
                 return (
                     <div className="border bg-gray-50 shadow-lg rounded-3xl max-w-3xl mx-auto p-2 my-4" key={index}>
-                        <p className="text-xl my-2 font-bold md:text-2xl">{title}</p>
+                        <p className="text-xl my-2 font-bold md:text-2xl">
+                            <a href={`projects/${slug}`}>{title}</a>
+                        </p>
                         {description && <p className="text-gray-500 text-lg">{description}</p>}
                         {dateRange && (
                             <p className="text-gray-500 text-lg">
@@ -38,10 +41,10 @@ const Projects = ({ user }) => {
                             </p>
                         )}
                         {imageUrl && (
-                            <img
+                            <a href={`projects/${slug}`}><img
                                 className="mx-auto my-2 rounded border-gray-400 w-48 h-48 md:w-72 md:h-72 border-4"
                                 src={imageUrl}
-                            ></img>
+                            ></img></a>
                         )}
                         <p className="flex justify-center items-center text-gray-500 text-lg">
                             {applicationUrl && <a href={applicationUrl}>{applicationUrl}</a>}
