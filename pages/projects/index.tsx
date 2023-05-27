@@ -57,7 +57,7 @@ const Projects = (props) => {
 
     return (
         <EditingLayout>
-            <div className="w-11/12 m-auto">
+            <div className="w-full m-auto">
                 <div className="flex justify-between w-full mb-6">
                     <p className="text-3xl bold">Projects</p>
                     <button
