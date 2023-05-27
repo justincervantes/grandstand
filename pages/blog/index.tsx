@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { getSession } from 'next-auth/react';
-import Loading from '../components/loading';
-import Articles from '../components/articles/articles';
-import prisma from '../lib/prismadb';
-import EditingLayout from '../components/layout';
+import Loading from '../../components/loading';
+import Articles from '../../components/articles/articles';
+import prisma from '../../lib/prismadb';
+import EditingLayout from '../../components/layout';
 import { QuestionMarkCircleIcon } from '@heroicons/react/20/solid';
 
 const Blog = (props) => {
@@ -28,7 +28,7 @@ const Blog = (props) => {
                     </span>
                 </div>
             </div>
-            <div className="max-h-[73npm run decoration-violet-50vh] min-h-[73vh]">
+            <div className="min-h-[60vh]">
                 <Articles userArticles={articles} />
             </div>
         </EditingLayout>
