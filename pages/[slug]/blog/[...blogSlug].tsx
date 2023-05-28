@@ -15,7 +15,7 @@ const Article = ({ article, user, hasProjects }) => {
             <div className="flex justify-center border-b pb-5">
                 <img
                     src={userProfileImage}
-                    className="h-8 w-8 md:w-14 md:h-14 lg:h-12 lg:w-12 border border-black rounded-full mx-2"
+                    className="h-8 w-8 md:w-14 md:h-14 lg:h-12 lg:w-12 border border-black rounded-full mx-2 hover:cursor-pointer"
                     alt="Home"
                     title="Home"
                     onClick={() => router.push(`/${slug}`)}
@@ -24,7 +24,7 @@ const Article = ({ article, user, hasProjects }) => {
                 {hasProjects && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
-                        className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2"
+                        className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2 hover:cursor-pointer"
                         alt="Projects"
                         title="Projects"
                         onClick={() => router.push(`/${slug}/projects`)}
@@ -32,21 +32,21 @@ const Article = ({ article, user, hasProjects }) => {
                 )}
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2"
+                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2 hover:cursor-pointer"
                     alt="Blog"
                     title="Blog"
                     onClick={() => router.push(`/${slug}/blog`)}
                 />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  rounded-full mx-2"
+                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  rounded-full mx-2 hover:cursor-pointer"
                     alt="LinkedIn"
                     title="LinkedIn"
                     onClick={() => router.push(linkedInUrl)}
                 />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12 rounded-full mx-2"
+                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12 rounded-full mx-2 hover:cursor-pointer"
                     alt="GitHub"
                     title="GitHub"
                     onClick={() => router.push(githubUrl)}
@@ -75,9 +75,9 @@ export default Article;
 
 export async function getServerSideProps(context) {
     const slug = context?.query?.slug;
-    const blogSlug = context?.query?.blogSlug;
+    const blogSlug = context?.query?.blogSlug.toString();
 
-    const user: User = await prisma.user.findFirstOrThrow({
+    const user = await prisma.user.findFirstOrThrow({
         where: {
             slug,
         },
@@ -100,7 +100,7 @@ export async function getServerSideProps(context) {
         },
     });
 
-    const article: Article = await prisma.article.findFirst({
+    const article: Article = await prisma.article.findFirstOrThrow({
         where: {
             userId: user.id,
             slug: blogSlug,

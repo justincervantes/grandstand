@@ -21,12 +21,10 @@ const Project = ({ project, user }: { project: Project; user: User }) => {
         codeSnippetLanguage,
     } = project ?? {};
     return (
-        <div className="text-center h-full">
+        <div className="text-center">
             <div className="m-auto max-w-4xl h-full bg-gray-100 bg-fixed">
                 <p className="text-xl my-2 font-bold md:text-2xl">{`${user.name}'s Blog`}</p>
-                <p className="text-gray-500 text-lg cursor-pointer" onClick={() => router.back()}>
-                    Return
-                </p>
+
                 <p className="text-3xl font-bold md:text-4xl">{title}</p>
                 {description && <p className="text-gray-500 text-lg">{description}</p>}
                 {dateRange && (
@@ -94,11 +92,25 @@ export default Project;
 
 export async function getServerSideProps(context) {
     const slug = context?.query?.slug;
-    const projectSlug = context?.query?.projectSlug;
+    const projectSlug = context?.query?.projectSlug.toString();
 
-    const user: User = await prisma.user.findFirst({
+    const user = await prisma.user.findFirstOrThrow({
         where: {
             slug,
+        },
+        include: {
+            projects: {
+                where: {
+                    deletedAt: null,
+                    state: 'Published',
+                },
+            },
+            articles: {
+                where: {
+                    deletedAt: null,
+                    state: 'Published',
+                },
+            },
         },
     });
 
@@ -128,10 +140,15 @@ export async function getServerSideProps(context) {
         },
     });
 
+    const { articles } = user ?? {};
+    const hasArticles = articles.length > 0;
+
     return {
         props: {
             project: JSON.parse(JSON.stringify(project)),
             user: JSON.parse(JSON.stringify(user)),
+            hasProjects: true,
+            hasArticles,
         },
     };
 }

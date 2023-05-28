@@ -11,7 +11,7 @@ const Projects = ({ projects, user, hasArticles }) => {
             <div className="flex justify-center border-b pb-5">
                 <img
                     src={userProfileImage}
-                    className="h-8 w-8 md:w-14 md:h-14 lg:h-12 lg:w-12 border border-black rounded-full mx-2"
+                    className="h-8 w-8 md:w-14 md:h-14 lg:h-12 lg:w-12 border border-black rounded-full mx-2 hover:cursor-pointer"
                     alt="Home"
                     title="Home"
                     onClick={() => router.push(`/${userSlug}`)}
@@ -19,7 +19,7 @@ const Projects = ({ projects, user, hasArticles }) => {
                 {hasArticles && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
-                        className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2"
+                        className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2 hover:cursor-pointer"
                         alt="Blog"
                         title="Blog"
                         onClick={() => router.push(`/${userSlug}/blog`)}
@@ -27,37 +27,34 @@ const Projects = ({ projects, user, hasArticles }) => {
                 )}
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  rounded-full mx-2"
+                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  rounded-full mx-2 hover:cursor-pointer"
                     alt="LinkedIn"
                     title="LinkedIn"
                     onClick={() => router.push(linkedInUrl)}
                 />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12 rounded-full mx-2"
+                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12 rounded-full mx-2 hover:cursor-pointer"
                     alt="GitHub"
                     title="GitHub"
                     onClick={() => router.push(gitHubUrl)}
                 />
             </div>
             {projects.map((project, index) => {
-                const { title, imageUrl, slug, dateRange, description, whyBuilt } = project;
+                const { title, imageUrl, slug, createdAt, description, whyBuilt } = project;
                 return (
                     <div
                         className="flex border border-b bg-gray-50 shadow-sm max-w-xs sm:max-w-lg lg:max-w-3xl mx-auto p-2 sm:p-3 lg:p-4 my-4 hover:shadow-2xl"
                         key={index}
+                        onClick={() => router.push(`/${userSlug}/projects/${slug}`)}
                     >
                         <div key={`${index}image`} className="m-auto mx-3 basis-1/4">
-                            <a href={`projects/${slug}`}>
-                                <img className="m-auto rounded-xl h-24 w-24" src={imageUrl}></img>
-                            </a>
+                            <img className="m-auto rounded-xl h-24 w-24" src={imageUrl}></img>
                         </div>
                         <div key={`${index}title`} className="text-left basis-3/4 px-2">
-                            <a href={`projects/${slug}`}>
-                                <span className="text-xl my-2 font-bold md:text-2xl">{title}</span>
-                            </a>
+                            <span className="text-xl my-2 font-bold md:text-2xl">{title}</span>
                             <br />
-                            <p>{moment.utc(dateRange).format('L')}</p>
+                            <p>{moment.utc(createdAt).format('L')}</p>
                             <p>{description}</p>
                             <p>I built this project because... {whyBuilt}</p>
                         </div>
