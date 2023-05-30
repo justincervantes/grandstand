@@ -2,42 +2,17 @@
 
 A tool web application that builds and hosts developer portfolio pages.
 
-## Setup and Contributing
-
-### Setup
-
-Preferably set up your own MySQL server locally, I've set up an AWS RDS instance for beginners to get started faster. To get started, clone the repo, run `npm install`, `npx prisma generate` then `npm run dev`. You should now see the application running at localhost:3000. Create a file called .env.local in the root of the project, and email Justin (below) for the configuration keys.
-
-### Contributing
-
-Contributions are welcome, in order to contribute you'll need developer configurations which can be obtained by emailing Justin (contact details below). The prod branch is main, and the development branch is dev. Do not touch main. When working on features, cut a branch off of dev called feat/name_of_feature_you_are_working_on. When you are done, make a pull request and tag Justin Cervantes or Evan Morrow to review your work. Do not push commits directly to dev. Once a feature is complete put an x in the todo item [X] to mark it off. Also, if starting a work item, put your name beside it in the readme.
-
 ## To do
 
--   Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
-- New pages for each project based on user, redirect if not found
+- Reset the cloud password for AWS RDS root (Justin) and provide contributors with a getting started MySQL local guide (see kakoandmirai readme)
 - 404 page (memeish yet sleek)
 - Validation on projects and blogs, add validation for publishing state changes (use your judgement)
-
-
-Projects
-
--   Style into a table format (again look at Monica Lent and Medium) and highlight name, description, tech stack, what you're proud of, thumbnail?
--   Style the code snippets using Typography in customer side
--   Add a slug for each project (title should be unique on each project to a user) (new col)
--   Each project should be its own page
--   Dropdown to select on mobile UI in admin side
--   Review on UX of sidebar in admin side
-
-NavBar
-
--   Better UI for navigating home or to other pages for customer page
+- Deploy to grandstand.dev
 
 ## Parking lot
 
 -   [ ] Change the stack text input to a chip input (array of strings in the backend)
 -   [ ] Drag and drop or up/down arrows to prioritize project display order
--   [ ] Carousel for displaying projects for higher resolution viewers - https://www.material-tailwind.com/docs/react/carousel
 
 Contact Information
 Justin Cervantes
