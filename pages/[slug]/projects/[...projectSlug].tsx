@@ -23,8 +23,6 @@ const Project = ({ project, user }: { project: Project; user: User }) => {
     return (
         <div className="text-center">
             <div className="m-auto max-w-4xl h-full bg-gray-100 bg-fixed">
-                <p className="text-xl my-2 font-bold md:text-2xl">{`${user.name}'s Blog`}</p>
-
                 <p className="text-3xl font-bold md:text-4xl">{title}</p>
                 {description && <p className="text-gray-500 text-lg">{description}</p>}
                 {dateRange && (

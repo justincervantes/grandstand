@@ -40,7 +40,7 @@ const ArticlePreviewModal = ({ content = '', isOpen, setIsOpen }) => {
                                             >
                                                 Article Preview
                                             </Dialog.Title>
-                                            <div className=" prose mt-2">
+                                            <div className="text-left prose mt-2">
                                                 <div
                                                     dangerouslySetInnerHTML={{
                                                         __html: DOMPurify.sanitize(marked(content)),
@@ -53,7 +53,7 @@ const ArticlePreviewModal = ({ content = '', isOpen, setIsOpen }) => {
                                 <div className="w-full flex justify-center bg-gray-50 px-4 py-3  sm:px-6">
                                     <button
                                         type="button"
-                                        className="w-full inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:ml-3"
+                                        className="w-full inline-flex justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:ml-3"
                                         onClick={() => setIsOpen(false)}
                                     >
                                         Close
