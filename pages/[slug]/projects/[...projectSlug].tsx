@@ -65,37 +65,33 @@ const Project = ({ project, user, hasArticles }) => {
                 />
             </div>
 
-            <div className="h-full max-w-4xl m-auto mt-5">
+            {/* Content */}
+            <div className="content-center m-auto mt-5 md:w-1/2">
                 <span className="block text-3xl font-bold md:text-4xl">{title}</span>
                 <p className="text-lg text-gray-500">{description}</p>
-                <img
-                    className="px-5 mx-auto my-2 border-gray-400 rounded max-h-48 md:w-72 md:h-72"
-                    src={imageUrl}
-                ></img>
+                <img className="px-5 mx-auto my-2 border-gray-400 rounded max-h-48 md:max-h-72" src={imageUrl}></img>
 
-                <div className="float-left mx-2 mt-5">
-                    <div className="mb-2">
-                        <div className="inline-block w-24 px-2 py-1 mr-2 truncate bg-white border-r border-black nax-w-sm border-3">
+                <div className="px-2 mt-5">
+                    <div className="flex mb-2 flex-nowrap">
+                        <div className="flex flex-no-wrap px-2 py-1 mr-2 bg-white border-r border-black border-3 min-w-[6em]">
                             <img
                                 className="inline mt-[2px] float-left w-5 h-5 mr-1"
                                 src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
                             />
                             <span className="inline font-bold text-black">GitHub</span>
                         </div>
-                        <a className="wrap" href={projectGitHubUrl}>
-                            {projectGitHubUrl}
-                        </a>
+                        <span className="text-ellipsis overflow-hidden ...">{projectGitHubUrl}</span>
                     </div>
 
-                    <div>
-                        <div className="inline-block w-24 px-2 py-1 mr-2 text-left bg-white border-r border-black border-3">
+                    <div className="flex mb-2">
+                        <div className="flex px-2 py-1 mr-2 bg-white border-r border-black flex-nowrap min-w-[6em] border-3">
                             <img
                                 className="inline mt-[2px] float-left w-5 h-5 mr-1"
                                 src="https://cdn-icons-png.flaticon.com/512/1085/1085779.png"
                             />
                             <span className="font-bold text-black">Demo</span>
                         </div>
-                        <span>{projectGitHubUrl}</span>
+                        <span className="text-ellipsis overflow-hidden ...">{projectGitHubUrl}</span>
                     </div>
                 </div>
                 {/* 
