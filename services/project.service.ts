@@ -1,6 +1,6 @@
 import BaseService from './base.service';
 import { Project } from '@prisma/client';
-import prisma from '../lib/prismadb';
+import { prisma } from '../lib/prismadb';
 import ErrorDictionary from '../lib/errorDictionary';
 import moment from 'moment';
 export default class ProjectService extends BaseService {

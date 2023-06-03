@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext';
 import { getSession } from 'next-auth/react';
 import EditingLayout from '../components/layout';
 import { invalidSlugs } from '../lib/slugDictionary';
+import { prisma } from '../lib/prismadb';
 
 const AboutMe = ({ user }) => {
     const { name, slug, description, image, gitHubUrl, linkedInUrl } = user ?? {};
@@ -81,14 +82,14 @@ const AboutMe = ({ user }) => {
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema()}
             >
-                <Form className="bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 max-w-3xl mx-auto">
+                <Form className="max-w-3xl px-8 pt-6 pb-8 mx-auto mb-4 rounded shadow-lg bg-gray-50">
                     <div>
-                        <h1 className="font-medium text-xl pl-2 mb-2 text-center">About Me</h1>
+                        <h1 className="pl-2 mb-2 text-xl font-medium text-center">About Me</h1>
                         {fields.map((field, index) => {
                             const { label, name, component, rows } = field ?? {};
                             return (
                                 <div className="mb-2" key={index}>
-                                    <label htmlFor={name} className="block text-gray-700 text-sm font-bold mb-2">
+                                    <label htmlFor={name} className="block mb-2 text-sm font-bold text-gray-700">
                                         {label}
                                     </label>
                                     <Field
@@ -96,7 +97,7 @@ const AboutMe = ({ user }) => {
                                         name={name}
                                         component={component}
                                         rows={rows}
-                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                     ></Field>
                                     <ErrorMessage name={name}>
                                         {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
@@ -107,7 +108,7 @@ const AboutMe = ({ user }) => {
                         <div className="flex justify-end">
                             <button
                                 type="submit"
-                                className="mt-2 px-4 py-2 rounded bg-black text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:shadow-outline"
+                                className="px-4 py-2 mt-2 text-base font-medium text-white bg-black rounded shadow-sm hover:bg-indigo-700 focus:outline-none focus:shadow-outline"
                             >
                                 Submit
                             </button>

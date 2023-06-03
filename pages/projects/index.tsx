@@ -2,6 +2,7 @@ import { getSession } from 'next-auth/react';
 import React from 'react';
 import EditingLayout from '../../components/layout';
 import { useRouter } from 'next/router';
+import { prisma } from '../../lib/prismadb';
 
 const Projects = (props) => {
     const { projects = [] } = props;
@@ -17,17 +18,17 @@ const Projects = (props) => {
                             e.preventDefault();
                             router.push('/projects/new');
                         }}
-                        className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border-black border-2 bg-white px-4 py-2 text-base font-medium text-black shadow-sm hover:bg-indigo-700"
+                        className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-black bg-white border-2 border-black rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-700"
                     >
                         New
                     </button>
                 </div>
                 {projects.map(({ id, title, description, state }) => (
                     <div className="hover:bg-gray-50" onClick={() => router.push(`/projects/${id}`)}>
-                        <div className="w-full border-b border-gray-400 flex leading-normal">
-                            <div className="mb-4 w-full">
-                                <div className="text-gray-900 font-bold text-xl mb-1">{title}</div>
-                                <p className="text-gray-700 text-base">{description}</p>
+                        <div className="flex w-full leading-normal border-b border-gray-400">
+                            <div className="w-full mb-4">
+                                <div className="mb-1 text-xl font-bold text-gray-900">{title}</div>
+                                <p className="text-base text-gray-700">{description}</p>
                                 <p
                                     className={`text-center text-base text-white p-1 my-1 ${
                                         state === 'Published' ? 'bg-green-700' : 'bg-gray-500'

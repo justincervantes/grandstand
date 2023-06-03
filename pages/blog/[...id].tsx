@@ -7,6 +7,8 @@ import { useToast } from '../../context/ToastContext';
 import * as yup from 'yup';
 import { getSession } from 'next-auth/react';
 import ArticlePreviewModal from '../../components/articles/preview-modal';
+import { prisma } from '../../lib/prismadb';
+
 const Article = ({ article }) => {
     const { id: articleId } = article;
     const [isOpen, setIsOpen] = useState(false);
