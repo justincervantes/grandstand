@@ -4,7 +4,7 @@ import UserService from '../../../services/user.service';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const projectService = await establishService(UserService, req.cookies['next-auth.session-token']);
+        const projectService = await establishService(UserService, req.cookies['__Secure-next-auth.session-token']);
         const project = await projectService.updateUser(req.body.values);
         res.json({ status: '200', project });
     } catch ({ message }) {
