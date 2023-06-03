@@ -49,20 +49,24 @@ const Project = ({ project, user, hasArticles }) => {
                         onClick={() => router.push(`/${slug}/blog`)}
                     />
                 )}
-                <img
-                    src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                    className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                    alt="LinkedIn"
-                    title="LinkedIn"
-                    onClick={() => router.push(linkedInUrl)}
-                />
-                <img
-                    src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                    alt="GitHub"
-                    title="GitHub"
-                    onClick={() => router.push(gitHubUrl)}
-                />
+                {gitHubUrl && (
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12"
+                        alt="GitHub"
+                        title="GitHub"
+                        onClick={() => router.push(gitHubUrl)}
+                    />
+                )}
+                {linkedInUrl && (
+                    <img
+                        src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
+                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12"
+                        alt="LinkedIn"
+                        title="LinkedIn"
+                        onClick={() => router.push(linkedInUrl)}
+                    />
+                )}
             </div>
 
             {/* Content */}
