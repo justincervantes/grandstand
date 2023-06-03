@@ -39,17 +39,19 @@ model Session {
 }
 
 model User {
-  id              String               @id @default(cuid())
-  name            String?
-  email           String?              @unique
-  emailVerified   DateTime?
-  image           String?
-  accounts        Account[]
-  sessions        Session[]
-  articleActions  ArticleUserActions[]
-  createdArticles Article[]            @relation("ArticleCreatedBy")
-  updatedArticles Article[]            @relation("ArticleUpdatedBy")
-  deletedArticles Article[]            @relation("ArticleDeletedBy")
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  slug          String?   @unique
+  image         String?
+  description   String?   @db.Text
+  gitHubUrl     String?
+  linkedInUrl   String?
+  accounts      Account[]
+  sessions      Session[]
+  projects      Project[]
+  articles      Article[]
 
   @@map("user")
 }
@@ -64,38 +66,55 @@ model VerificationToken {
 }
 
 model Article {
-  id              String               @id @default(cuid())
-  title           String?
-  content         String               @db.Text
-  createdByUserId String
-  createdAt       DateTime
-  updatedByUserId String?
-  updatedAt       DateTime?
-  deletedByUserId String?
-  deletedAt       DateTime?
-  history         ArticleUserActions[]
-  createdBy       User                 @relation(name: "ArticleCreatedBy", fields: [createdByUserId], references: [id])
-  updatedBy       User?                @relation(name: "ArticleUpdatedBy", fields: [updatedByUserId], references: [id])
-  deletedBy       User?                @relation(name: "ArticleDeletedBy", fields: [deletedByUserId], references: [id])
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id])
+  title     String?
+  imageUrl  String?
+  slug      String?
+  content   String       @db.Text
+  state     ArticleState @default(Published)
+  views     Int?         @default(0)
+  createdAt DateTime
+  updatedAt DateTime?
+  deletedAt DateTime?
 
+  @@unique([userId, slug])
   @@map("article")
 }
 
-model ArticleUserActions {
-  id              String              @id @default(cuid())
-  articleId       String
-  userId          String
-  date            DateTime            @default(now())
-  action          ModifyArticleAction
-  contentSnapshot String?
-  article         Article             @relation(fields: [articleId], references: [id])
-  user            User                @relation(fields: [userId], references: [id])
+model Project {
+  id                  String       @id @default(cuid())
+  userId              String
+  user                User         @relation(fields: [userId], references: [id])
+  title               String
+  slug                String?
+  description         String?      @db.Text
+  dateRange           String?
+  imageUrl            String?
+  applicationUrl      String?
+  gitHubUrl           String?
+  mostProudOf         String?      @db.Text
+  mostInteresting     String?      @db.Text
+  mostUnique          String?      @db.Text
+  whyBuilt            String?      @db.Text
+  techStack           String?      @db.Text
+  codeSnippet         String?      @db.Text
+  codeSnippetLanguage String?
+  views               Int?         @default(0)
+  state               ProjectState @default(Published)
+  deletedAt           DateTime?
 
-  @@map("article_action")
+  @@unique([userId, slug])
+  @@map("project")
 }
 
-enum ModifyArticleAction {
-  create
-  update
-  delete
+enum ArticleState {
+  Draft
+  Published
+}
+
+enum ProjectState {
+  Draft
+  Published
 }

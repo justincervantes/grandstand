@@ -1,4 +1,4 @@
-import { Article, ModifyArticleAction } from '@prisma/client';
+import { Article, ArticleState } from '@prisma/client';
 import moment from 'moment';
 import ErrorDictionary from '../lib/errorDictionary';
 import BaseService from './base.service';
@@ -9,12 +9,7 @@ export default class ArticleService extends BaseService {
         super(sessionToken);
     }
 
-    public createArticle = async ({
-        articleTitle,
-    }: {
-        articleTitle: string;
-        organizationId: string;
-    }): Promise<Article> => {
+    public createArticle = async ({ articleTitle }: { articleTitle: string }): Promise<Article> => {
         // Validate
         if (!articleTitle) throw new Error(ErrorDictionary.INVALID_REQUEST);
 
@@ -23,11 +18,41 @@ export default class ArticleService extends BaseService {
             data: {
                 title: articleTitle,
                 content: '',
+                slug: '',
+                imageUrl: '',
                 createdAt: moment.utc().format(),
-                createdBy: { connect: { id: this.sessionUserId } },
-                history: {
-                    create: [{ action: ModifyArticleAction.create, user: { connect: { id: this.sessionUserId } } }],
-                },
+                userId: this.sessionUserId,
+                state: ArticleState.Draft,
+            },
+        });
+        return article;
+    };
+
+    public createNewArticle = async ({
+        title,
+        slug,
+        imageUrl,
+        content,
+        state,
+    }: {
+        title: string;
+        slug: string;
+        imageUrl?: string;
+        content?: string;
+        state: ArticleState;
+    }): Promise<Article> => {
+        // Validate
+        if (!title || !slug) throw new Error(ErrorDictionary.INVALID_REQUEST);
+        // Action
+        const article = await prisma.article.create({
+            data: {
+                userId: this.sessionUserId,
+                state: state,
+                createdAt: moment.utc().format(),
+                title: title,
+                content: content ?? '',
+                slug: slug,
+                imageUrl: imageUrl ?? '',
             },
         });
         return article;
@@ -36,8 +61,8 @@ export default class ArticleService extends BaseService {
     getArticles = async (): Promise<Article[]> => {
         const articles = await prisma.article.findMany({
             where: {
-                deletedBy: null,
-                createdByUserId: this.sessionUserId,
+                deletedAt: null,
+                userId: this.sessionUserId,
             },
         });
         return articles;
@@ -46,11 +71,17 @@ export default class ArticleService extends BaseService {
     updateArticle = async ({
         articleId,
         articleTitle,
+        imageUrl,
         content,
+        slug,
+        state,
     }: {
         articleId: string;
         articleTitle: string;
+        imageUrl: string;
+        slug: string;
         content: string;
+        state: ArticleState;
     }): Promise<Article> => {
         const article = await prisma.article.update({
             where: {
@@ -59,11 +90,28 @@ export default class ArticleService extends BaseService {
             data: {
                 content: content,
                 title: articleTitle,
+                imageUrl,
+                slug,
                 updatedAt: moment.utc().format(),
-                updatedBy: { connect: { id: this.sessionUserId } },
-                history: {
-                    create: [{ action: ModifyArticleAction.update, user: { connect: { id: this.sessionUserId } } }],
-                },
+                state,
+            },
+        });
+        return article;
+    };
+
+    setArticleState = async ({
+        articleId,
+        articleState,
+    }: {
+        articleId: string;
+        articleState: ArticleState;
+    }): Promise<Article> => {
+        const article = await prisma.article.update({
+            where: {
+                id: articleId,
+            },
+            data: {
+                state: articleState,
             },
         });
         return article;
@@ -73,15 +121,8 @@ export default class ArticleService extends BaseService {
         // Validate
         if (!articleId) throw new Error(ErrorDictionary.INVALID_REQUEST);
         // Action
-        const article = await prisma.article.update({
+        const article = await prisma.article.delete({
             where: { id: articleId },
-            data: {
-                deletedAt: moment.utc().toDate(),
-                deletedBy: { connect: { id: this.sessionUserId } },
-                history: {
-                    create: [{ action: ModifyArticleAction.delete, user: { connect: { id: this.sessionUserId } } }],
-                },
-            },
         });
         return article;
     };
