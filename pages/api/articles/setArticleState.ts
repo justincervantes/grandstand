@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import establishService from '../../../lib/establishService';
 import ArticleService from '../../../services/blog.service';
+import { sessionToken } from '../../../lib/sessionToken';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-        const articleService = await establishService(ArticleService, req.cookies['next-auth.session-token']);
+        const articleService = await establishService(ArticleService, req.cookies[sessionToken]);
         const article = await articleService.setArticleState(req.body);
         res.json({ article });
     } catch ({ message }) {
