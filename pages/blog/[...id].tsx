@@ -37,8 +37,8 @@ const Article = ({ article }) => {
                 )
                 .min(2, 'Must be greater than 2 characters')
                 .required('Please enter a slug'),
-            imageUrl: yup.string().trim().url('Please provide a full http/https URL'),
-            state: yup.string(),
+            imageUrl: yup.string().trim().url('Please provide a full http/https URL').required('An image is required.'),
+            state: yup.string().required('A state is required.'),
         });
 
     const fields = [
@@ -50,17 +50,14 @@ const Article = ({ article }) => {
                 <div className="flex justify-between">
                     <div>Content (markdown enabled)</div>
                     <div className="flex">
-                        <div className="group flex relative mr-2" onClick={() => setIsOpen(true)}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/1185/1185279.png" className="h-4 w-4" />
+                        <div className="relative flex mr-2 group" onClick={() => setIsOpen(true)}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/1185/1185279.png" className="w-4 h-4" />
 
-                            <span
-                                className="group-hover:opacity-100 transition-opacity bg-gray-900 px-1 text-sm text-gray-100 rounded-md absolute  
-                    -translate-x-5 opacity-0 m-4 mx-auto"
-                            >
+                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-5 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
                                 Preview
                             </span>
                         </div>
-                        <div className="group flex relative">
+                        <div className="relative flex group">
                             <a
                                 href="https://www.markdownguide.org/basic-syntax/"
                                 target="_blank"
@@ -68,13 +65,10 @@ const Article = ({ article }) => {
                             >
                                 <img
                                     src="https://cdn-icons-png.flaticon.com/512/8988/8988962.png"
-                                    className="h-4 w-4"
+                                    className="w-4 h-4"
                                 />
                             </a>
-                            <span
-                                className="group-hover:opacity-100 transition-opacity bg-gray-900 px-1 text-sm text-gray-100 rounded-md absolute  
-                    -translate-x-20 opacity-0 m-4 mx-auto"
-                            >
+                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-20 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
                                 Markdown Documentation
                             </span>
                         </div>
@@ -92,8 +86,8 @@ const Article = ({ article }) => {
             <Formik initialValues={article} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (
-                        <Form className="bg-gray-50 shadow-lg rounded px-1 md:px-8 py-2 my-4 max-w-3xl mx-auto">
-                            <h1 className="font-medium text-xl pl-2 mb-2 text-center">Article Entry Form</h1>
+                        <Form className="max-w-3xl px-1 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50 md:px-8">
+                            <h1 className="pl-2 mb-2 text-xl font-medium text-center">Article Entry Form</h1>
                             <div>
                                 {fields.map((field, index) => {
                                     const { label, name, component, rows } = field ?? {};
@@ -101,7 +95,7 @@ const Article = ({ article }) => {
                                         <div className="mb-2" key={index}>
                                             <label
                                                 htmlFor={name}
-                                                className="block text-gray-700 text-sm font-bold mb-2"
+                                                className="block mb-2 text-sm font-bold text-gray-700"
                                             >
                                                 {label}
                                             </label>
@@ -111,7 +105,7 @@ const Article = ({ article }) => {
                                                 name={name}
                                                 component={component}
                                                 rows={rows}
-                                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             ></Field>
                                             <ErrorMessage name={name}>
                                                 {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
@@ -119,13 +113,13 @@ const Article = ({ article }) => {
                                         </div>
                                     );
                                 })}
-                                <label htmlFor="state" className="block text-gray-700 text-sm font-bold mb-2">
+                                <label htmlFor="state" className="block mb-2 text-sm font-bold text-gray-700">
                                     State (only published projects are visible)
                                 </label>
                                 <Field
                                     name="state"
                                     as="select"
-                                    className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="px-3 py-2 leading-tight text-gray-700 border rounded shadow focus:outline-none focus:shadow-outline"
                                     onClick={(e) => setFieldValue('state', e.target.value)}
                                 >
                                     <option value="Published" label="Published" />;
@@ -134,7 +128,7 @@ const Article = ({ article }) => {
                                 <div className="flex justify-end mb-3">
                                     <button
                                         type="submit"
-                                        className="mt-2 px-4 py-2 rounded bg-black text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:shadow-outline"
+                                        className="px-4 py-2 mt-2 text-base font-medium text-white bg-black rounded shadow-sm hover:bg-indigo-700 focus:outline-none focus:shadow-outline"
                                     >
                                         Submit
                                     </button>
