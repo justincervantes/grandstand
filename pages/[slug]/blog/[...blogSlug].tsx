@@ -10,12 +10,12 @@ const Article = ({ article, user, hasProjects }) => {
     const { name: userName, image: userProfileImage, slug, linkedInUrl, githubUrl } = user;
 
     return (
-        <div className="text-center">
-            <p className="text-xl my-5 font-bold md:text-2xl lg:text-6xl">{userName}</p>
-            <div className="flex justify-center border-b pb-5">
+        <div className="mb-8 text-center">
+            <p className="my-5 text-xl font-bold md:text-2xl lg:text-6xl">{userName}</p>
+            <div className="flex justify-center pb-5 border-b">
                 <img
                     src={userProfileImage}
-                    className="h-8 w-8 md:w-14 md:h-14 lg:h-12 lg:w-12 border border-black rounded-full mx-2 hover:cursor-pointer"
+                    className="w-8 h-8 mx-2 border border-black rounded-full md:w-14 md:h-14 lg:h-12 lg:w-12 hover:cursor-pointer"
                     alt="Home"
                     title="Home"
                     onClick={() => router.push(`/${slug}`)}
@@ -24,7 +24,7 @@ const Article = ({ article, user, hasProjects }) => {
                 {hasProjects && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
-                        className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2 hover:cursor-pointer"
+                        className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                         alt="Projects"
                         title="Projects"
                         onClick={() => router.push(`/${slug}/projects`)}
@@ -32,21 +32,21 @@ const Article = ({ article, user, hasProjects }) => {
                 )}
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2 hover:cursor-pointer"
+                    className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                     alt="Blog"
                     title="Blog"
                     onClick={() => router.push(`/${slug}/blog`)}
                 />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  rounded-full mx-2 hover:cursor-pointer"
+                    className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                     alt="LinkedIn"
                     title="LinkedIn"
                     onClick={() => router.push(linkedInUrl)}
                 />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12 rounded-full mx-2 hover:cursor-pointer"
+                    className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                     alt="GitHub"
                     title="GitHub"
                     onClick={() => router.push(githubUrl)}
@@ -55,14 +55,14 @@ const Article = ({ article, user, hasProjects }) => {
 
             <div className="m-auto mt-5">
                 <div className="mb-5">
-                    <img className="mx-auto mb-5 rounded-md w-64 h-64 lg:hidden" src={imageUrl}></img>
+                    <img className="w-64 h-64 mx-auto mb-5 rounded-md lg:hidden" src={imageUrl}></img>
                     <p className="text-xl font-bold md:text-4xl">{title}</p>
-                    <p className="text-gray-500 text-lg">{moment.utc(createdAt).format('L')}</p>
+                    <p className="text-lg text-gray-500">{moment.utc(createdAt).format('L')}</p>
                 </div>
 
                 <div className="flex justify-center">
                     <div
-                        className="text-left prose w-11/12 prose-gray p-1 max-h-full min-h-full overflow-y-auto max-w-full"
+                        className="w-11/12 max-w-full max-h-full min-h-full p-1 overflow-y-auto prose text-left prose-gray"
                         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(content)) }}
                     />
                 </div>

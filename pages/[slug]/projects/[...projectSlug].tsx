@@ -22,7 +22,7 @@ const Project = ({ project, user, hasArticles }) => {
         codeSnippetLanguage,
     } = project ?? {};
     return (
-        <div>
+        <div className="mb-8">
             <p className="my-5 text-xl font-bold text-center md:text-2xl lg:text-6xl">{userName}</p>
             <div className="flex justify-center pb-5 border-b">
                 <img
@@ -193,53 +193,6 @@ const Project = ({ project, user, hasArticles }) => {
                         </div>
                     )}
                 </div>
-
-                {/* 
-                {dateRange && <p className="text-lg text-gray-500">{dateRange}</p>}
-                <p className="flex items-center justify-center text-lg text-gray-500">
-                    {applicationUrl && <a href={applicationUrl}>{applicationUrl}</a>}
-                    {gitHubUrl && (
-                        <a href={gitHubUrl}>
-                            <img
-                                className="w-8 h-8 mx-3"
-                                src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                            ></img>
-                        </a>
-                    )}
-                </p>
-                {mostProudOf && (
-                    <p className="text-lg text-gray-500">
-                        <span className="font-bold">I'm most proud of:</span> {mostProudOf}
-                    </p>
-                )}
-                {mostInteresting && (
-                    <p className="text-lg text-gray-500">
-                        <span className="font-bold">The most interesting part of the project:</span> {mostInteresting}
-                    </p>
-                )}
-                {mostUnique && (
-                    <p className="text-lg text-gray-500">
-                        <span className="font-bold">The most unique part of the project:</span> {mostUnique}
-                    </p>
-                )}
-                {whyBuilt && (
-                    <p className="text-lg text-gray-500">
-                        <span className="font-bold">The project was built because:</span> {whyBuilt}
-                    </p>
-                )}
-                {codeSnippet && (
-                    <div>
-                        <p className="text-lg text-gray-500">
-                            <span className="font-bold">Project code snippet:</span>
-                        </p>
-                        
-                    </div>
-                )}
-                {techStack && (
-                    <p className="text-lg text-gray-500">
-                        <span className="font-bold">Project tech stack:</span> {techStack}
-                    </p>
-                )} */}
             </div>
         </div>
     );
