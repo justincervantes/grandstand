@@ -1,6 +1,6 @@
 import BaseService from './base.service';
 import { User } from '@prisma/client';
-import prisma from '../lib/prismadb';
+import { prisma } from '../lib/prismadb';
 import ErrorDictionary from '../lib/errorDictionary';
 import { invalidSlugs } from '../lib/slugDictionary';
 

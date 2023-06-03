@@ -2,7 +2,7 @@ import { Article, ArticleState } from '@prisma/client';
 import moment from 'moment';
 import ErrorDictionary from '../lib/errorDictionary';
 import BaseService from './base.service';
-import prisma from '../lib/prismadb';
+import { prisma } from '../lib/prismadb';
 
 export default class ArticleService extends BaseService {
     constructor(sessionToken) {

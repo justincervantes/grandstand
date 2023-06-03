@@ -1,5 +1,5 @@
 import ErrorDictionary from '../lib/errorDictionary';
-import prisma from '../lib/prismadb';
+import { prisma } from '../lib/prismadb';
 
 class BaseService {
     sessionToken: string;

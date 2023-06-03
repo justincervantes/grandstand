@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useToast } from '../../context/ToastContext';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
+import { prisma } from '../../lib/prismadb';
 
 const fields = [
     { label: 'Title', name: 'title' },
