@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -8,7 +9,6 @@ import DropdownMenu from './dropdown';
 
 export default function Header() {
     const { data: session } = useSession();
-
     const router = useRouter();
     const heading = 'text-base font-medium text-gray-500 hover:text-gray-900';
     const activeHeading = `${heading} text-gray-900 bold`;
@@ -18,18 +18,18 @@ export default function Header() {
             <title>Grandstand</title>
             <link rel="icon" type="image/png" href="/favicon.ico" />
             <div className="relative bg-white">
-                <div className="mx-auto w-full px-4 sm:px-6">
-                    <div className="flex items-center justify-between border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-                        <div className="justify-start lg:w-0 lg:flex-1 order-2 hidden md:flex md:order-first">
+                <div className="w-full px-4 mx-auto sm:px-6">
+                    <div className="flex items-center justify-between py-6 border-b-2 border-gray-100 md:justify-start md:space-x-10">
+                        <div className="justify-start order-2 hidden lg:w-0 lg:flex-1 md:flex md:order-first">
                             <a href="/">
                                 <span className="sr-only">Grandstand</span>
-                                <Image className="h-12 w-auto" src={logo} alt="Logo" />
+                                <Image className="w-auto h-12" src={logo} alt="Logo" />
                             </a>
                         </div>
 
                         {session && (
-                            <div className="block items-center justify-end md:flex order-first">
-                                <div className="flex md:hidden text-center items-center">
+                            <div className="items-center justify-end order-first block md:flex">
+                                <div className="flex items-center text-center md:hidden">
                                     <DropdownMenu
                                         placeholder=""
                                         options={['About Me', 'Projects', 'Blog', 'Preview']}
@@ -39,7 +39,7 @@ export default function Header() {
                                         value={''}
                                     />
                                 </div>
-                                <nav className="space-x-10 hidden md:flex">
+                                <nav className="hidden space-x-10 md:flex">
                                     <Link
                                         href="/about-me"
                                         className={router.pathname === '/about-me' ? activeHeading : heading}
@@ -68,13 +68,13 @@ export default function Header() {
                             </div>
                         )}
                         {!session && (
-                            <div className="items-center justify-center md:justify-end flex flex-1 lg:w-0 order-last">
+                            <div className="flex items-center justify-center flex-1 order-last md:justify-end lg:w-0">
                                 <button
                                     onClick={(e) => {
                                         e.preventDefault();
                                         signIn();
                                     }}
-                                    className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-black px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                                    className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-white bg-black border border-transparent rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-700"
                                 >
                                     Access with Github
                                     <img
@@ -92,7 +92,7 @@ export default function Header() {
                                         e.preventDefault();
                                         signOut();
                                     }}
-                                    className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-black px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                                    className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-white bg-black border border-transparent rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-700"
                                 >
                                     Sign Out
                                 </button>

@@ -55,8 +55,12 @@ const validationSchema = () =>
             .trim()
             .min(5, 'Must be greater than 5 characters')
             .required('Please enter a description about your project'),
-        dateRange: yup.string().trim().min(3, 'Must be greater than 3 characters'),
-        imageUrl: yup.string().trim().url('Please provide a full http/https URL'),
+        imageUrl: yup.string().trim().url('Please provide a full http/https URL').required('An image is required.'),
+        dateRange: yup
+            .string()
+            .trim()
+            .min(3, 'Must be greater than 3 characters')
+            .required('An apprxomate date range of when you worked on this is required.'),
         applicationUrl: yup.string().trim().url('Please provide a full http/https URL'),
         gitHubUrl: yup.string().trim().url('Please provide a full http/https URL'),
         mostProudOf: yup.string().trim().min(5, 'Must be greater than 5 characters'),
