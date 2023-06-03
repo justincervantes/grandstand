@@ -102,14 +102,14 @@ const NewProject = () => {
             <Formik initialValues={initialValues()} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (
-                        <Form className="w-10/12 bg-gray-50 shadow-lg rounded px-8 pt-6 pb-8 mb-4 mx-auto ">
-                            <h1 className="font-medium text-xl pl-2 mb-2 text-center">Project Entry Form</h1>
+                        <Form className="w-11/12 px-8 pt-6 pb-8 mx-auto mb-4 rounded shadow-lg md:w-10/12 bg-gray-50 ">
+                            <h1 className="pl-2 mb-2 text-xl font-medium text-center">Project Entry Form</h1>
 
                             {fields.map((field, index) => {
                                 const { label, name, component, rows } = field ?? {};
                                 return (
                                     <div className="mb-2" key={index}>
-                                        <label htmlFor={name} className="block text-gray-700 text-sm font-bold mb-2">
+                                        <label htmlFor={name} className="block mb-2 text-sm font-bold text-gray-700">
                                             {label}
                                         </label>
                                         <Field
@@ -117,7 +117,7 @@ const NewProject = () => {
                                             name={name}
                                             component={component}
                                             rows={rows}
-                                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         ></Field>
                                         <ErrorMessage name={name}>
                                             {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
@@ -126,7 +126,7 @@ const NewProject = () => {
                                 );
                             })}
                             <div className="mb-2">
-                                <label htmlFor="codeSnippet" className="block text-gray-700 text-sm font-bold mb-2">
+                                <label htmlFor="codeSnippet" className="block mb-2 text-sm font-bold text-gray-700">
                                     Favourite code snippet
                                 </label>
                                 <Field
@@ -134,7 +134,7 @@ const NewProject = () => {
                                     name="codeSnippet"
                                     component="textarea"
                                     rows={2}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 ></Field>
                                 <ErrorMessage name="codeSnippet">
                                     {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
@@ -143,14 +143,14 @@ const NewProject = () => {
                             <div className="mb-2">
                                 <label
                                     htmlFor="codeSnippetLanguage"
-                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                    className="block mb-2 text-sm font-bold text-gray-700"
                                 >
                                     Favourite code snippet, language, and description:
                                 </label>
                                 <Field
                                     name="codeSnippetLanguage"
                                     as="select"
-                                    className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="px-3 py-2 leading-tight text-gray-700 border rounded shadow focus:outline-none focus:shadow-outline"
                                     onClick={(e) => setFieldValue('codeSnippetLanguage', e.target.value)}
                                 >
                                     {programmingLanguageOptions.map((option, index) => {
@@ -164,7 +164,7 @@ const NewProject = () => {
                             <div className="mb-2">
                                 <label
                                     htmlFor="codeSnippetPreview"
-                                    className="block text-gray-700 text-sm font-bold mb-2"
+                                    className="block mb-2 text-sm font-bold text-gray-700"
                                 >
                                     Code Snippet Preview
                                 </label>
@@ -172,13 +172,13 @@ const NewProject = () => {
                                     {values.codeSnippet}
                                 </SyntaxHighlighter>
                             </div>
-                            <label htmlFor="state" className="block text-gray-700 text-sm font-bold mb-2">
+                            <label htmlFor="state" className="block mb-2 text-sm font-bold text-gray-700">
                                 State (only published projects are visible)
                             </label>
                             <Field
                                 name="state"
                                 as="select"
-                                className="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="px-3 py-2 leading-tight text-gray-700 border rounded shadow focus:outline-none focus:shadow-outline"
                                 onClick={(e) => setFieldValue('state', e.target.value)}
                             >
                                 <option value="Published" label="Published" />;
@@ -187,7 +187,7 @@ const NewProject = () => {
                             <div className="flex justify-end">
                                 <button
                                     type="submit"
-                                    className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                    className="px-4 py-2 mt-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                                 >
                                     Submit
                                 </button>

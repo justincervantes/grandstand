@@ -7,11 +7,11 @@ const Projects = ({ projects, user, hasArticles }) => {
 
     return (
         <div className="text-center">
-            <p className="text-xl my-5 font-bold md:text-2xl lg:text-6xl">{userName}</p>
-            <div className="flex justify-center border-b pb-5">
+            <p className="my-5 text-xl font-bold md:text-2xl lg:text-6xl">{userName}</p>
+            <div className="flex justify-center pb-5 border-b">
                 <img
                     src={userProfileImage}
-                    className="h-8 w-8 md:w-14 md:h-14 lg:h-12 lg:w-12 border border-black rounded-full mx-2 hover:cursor-pointer"
+                    className="w-8 h-8 mx-2 border border-black rounded-full md:w-14 md:h-14 lg:h-12 lg:w-12 hover:cursor-pointer"
                     alt="Home"
                     title="Home"
                     onClick={() => router.push(`/${userSlug}`)}
@@ -19,7 +19,7 @@ const Projects = ({ projects, user, hasArticles }) => {
                 {hasArticles && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
-                        className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2 hover:cursor-pointer"
+                        className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                         alt="Blog"
                         title="Blog"
                         onClick={() => router.push(`/${userSlug}/blog`)}
@@ -27,14 +27,14 @@ const Projects = ({ projects, user, hasArticles }) => {
                 )}
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  rounded-full mx-2 hover:cursor-pointer"
+                    className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                     alt="LinkedIn"
                     title="LinkedIn"
                     onClick={() => router.push(linkedInUrl)}
                 />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12 rounded-full mx-2 hover:cursor-pointer"
+                    className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                     alt="GitHub"
                     title="GitHub"
                     onClick={() => router.push(gitHubUrl)}
@@ -44,19 +44,18 @@ const Projects = ({ projects, user, hasArticles }) => {
                 const { title, imageUrl, slug, createdAt, description, whyBuilt } = project;
                 return (
                     <div
-                        className="flex border border-b bg-gray-50 shadow-sm max-w-xs sm:max-w-lg lg:max-w-3xl mx-auto p-2 sm:p-3 lg:p-4 my-4 hover:shadow-2xl"
+                        className="flex w-11/12 p-2 mx-auto my-4 border border-b shadow-sm bg-gray-50 lg:max-w-3xl sm:p-3 lg:p-4 hover:shadow-2xl"
                         key={index}
                         onClick={() => router.push(`/${userSlug}/projects/${slug}`)}
                     >
                         <div key={`${index}image`} className="m-auto mx-3 basis-1/4">
-                            <img className="m-auto rounded-xl h-24 w-24" src={imageUrl}></img>
+                            <img className="m-auto h-26 lg:h-44 rounded-xl" src={imageUrl}></img>
                         </div>
-                        <div key={`${index}title`} className="text-left basis-3/4 px-2">
-                            <span className="text-xl my-2 font-bold md:text-2xl">{title}</span>
+                        <div key={`${index}title`} className="px-2 text-left basis-3/4">
+                            <span className="my-2 text-xl font-bold md:text-2xl">{title}</span>
                             <br />
                             <p>{moment.utc(createdAt).format('L')}</p>
                             <p>{description}</p>
-                            <p>I built this project because... {whyBuilt}</p>
                         </div>
                         <div key={index}></div>
                     </div>

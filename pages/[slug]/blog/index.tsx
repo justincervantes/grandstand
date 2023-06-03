@@ -5,11 +5,11 @@ const Blog = ({ articles, user, hasProjects }) => {
     const router = useRouter();
     return (
         <div className="text-center">
-            <p className="text-xl my-5 font-bold md:text-2xl lg:text-6xl">{userName}</p>
-            <div className="flex justify-center border-b pb-5">
+            <p className="my-5 text-xl font-bold md:text-2xl lg:text-6xl">{userName}</p>
+            <div className="flex justify-center pb-5 border-b">
                 <img
                     src={userProfileImage}
-                    className="h-8 w-8 md:w-14 md:h-14 lg:h-12 lg:w-12 border border-black rounded-full mx-2"
+                    className="w-8 h-8 mx-2 border border-black rounded-full md:w-14 md:h-14 lg:h-12 lg:w-12"
                     alt="Home"
                     title="Home"
                     onClick={() => router.push(`/${userSlug}`)}
@@ -17,7 +17,7 @@ const Blog = ({ articles, user, hasProjects }) => {
                 {hasProjects && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
-                        className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  mx-2"
+                        className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12"
                         alt="Projects"
                         title="Projects"
                         onClick={() => router.push(`/${userSlug}/projects`)}
@@ -25,32 +25,33 @@ const Blog = ({ articles, user, hasProjects }) => {
                 )}
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12  rounded-full mx-2"
+                    className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12"
                     alt="LinkedIn"
                     title="LinkedIn"
                     onClick={() => router.push(linkedInUrl)}
                 />
                 <img
                     src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    className="h-8 w-8 md:w-12 md:h-12 lg:h-12 lg:w-12 rounded-full mx-2"
+                    className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12"
                     alt="GitHub"
                     title="GitHub"
                     onClick={() => router.push(githubUrl)}
                 />
             </div>
+            <div></div>
             {articles.map((article, index) => {
                 const { title, imageUrl, createdAt, slug } = article;
                 return (
                     <div
-                        className="grid grid-cols-2 border border-b bg-gray-50 shadow-sm max-w-xs sm:max-w-lg lg:max-w-3xl mx-auto p-2 sm:p-3 lg:p-4 my-4 hover:shadow-2xl"
+                        className="grid w-11/12 grid-cols-3 p-2 mx-auto my-4 border border-b shadow-sm bg-gray-50 sm:max-w-lg lg:max-w-3xl sm:p-3 lg:p-4 hover:shadow-2xl"
                         key={index}
                         onClick={() => router.push(`/${userSlug}/blog/${slug}`)}
                     >
-                        <div key={`${index}image`} className="m-auto">
-                            <img className="m-auto rounded-xl h-24 sm:h-36 lg:h-44" src={imageUrl}></img>
+                        <div key={`${index}image`} className="col-span-1 m-auto">
+                            <img className="h-24 m-auto rounded-xl sm:h-36 lg:h-44" src={imageUrl}></img>
                         </div>
-                        <div key={`${index}title`} className="m-auto">
-                            <a className="text-xl my-2 font-bold md:text-2xl" href={`blog/${slug}`}>
+                        <div key={`${index}title`} className="w-11/12 col-span-2 m-auto">
+                            <a className="my-2 text-xl font-bold md:text-2xl" href={`blog/${slug}`}>
                                 {title}
                             </a>
                             <br />

@@ -13,17 +13,17 @@ const Project = ({ project, user, hasArticles }) => {
         imageUrl,
         applicationUrl,
         gitHubUrl: projectGitHubUrl,
+        whyBuilt,
         mostProudOf,
         mostInteresting,
         mostUnique,
-        whyBuilt,
         techStack,
         codeSnippet,
         codeSnippetLanguage,
     } = project ?? {};
     return (
-        <div className="text-center">
-            <p className="my-5 text-xl font-bold md:text-2xl lg:text-6xl">{userName}</p>
+        <div>
+            <p className="my-5 text-xl font-bold text-center md:text-2xl lg:text-6xl">{userName}</p>
             <div className="flex justify-center pb-5 border-b">
                 <img
                     src={userProfileImage}
@@ -66,34 +66,134 @@ const Project = ({ project, user, hasArticles }) => {
             </div>
 
             {/* Content */}
-            <div className="content-center m-auto mt-5 md:w-1/2">
-                <span className="block text-3xl font-bold md:text-4xl">{title}</span>
-                <p className="text-lg text-gray-500">{description}</p>
+            <div className="content-center m-auto mt-5 md:w-2/3 lg:w-1/2">
+                <span className="block text-3xl font-bold text-center md:text-4xl">{title}</span>
+                <p className="text-lg text-center text-gray-500">{description}</p>
                 <img className="px-5 mx-auto my-2 border-gray-400 rounded max-h-48 md:max-h-72" src={imageUrl}></img>
 
-                <div className="px-2 mt-5">
-                    <div className="flex mb-2 flex-nowrap">
-                        <div className="flex flex-no-wrap px-2 py-1 mr-2 bg-white border-r border-black border-3 min-w-[6em]">
-                            <img
-                                className="inline mt-[2px] float-left w-5 h-5 mr-1"
-                                src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                            />
-                            <span className="inline font-bold text-black">GitHub</span>
+                <div className="flex flex-col mt-5 mb-2 flex-nowrap">
+                    {projectGitHubUrl && (
+                        <div>
+                            <div className="flex mb-2">
+                                <div className="flex px-2 py-1 mr-2 bg-white border-r border-black flex-nowrap min-w-[6em] border-3">
+                                    <img
+                                        className="inline mt-[2px] float-left w-5 h-5 mr-1"
+                                        src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                                    />
+                                    <span className="font-bold text-black ">GitHub</span>
+                                </div>
+                                <span className="mt-1 text-ellipsis overflow-hidden ...">{projectGitHubUrl}</span>
+                            </div>
                         </div>
-                        <span className="text-ellipsis overflow-hidden ...">{projectGitHubUrl}</span>
-                    </div>
+                    )}
 
-                    <div className="flex mb-2">
-                        <div className="flex px-2 py-1 mr-2 bg-white border-r border-black flex-nowrap min-w-[6em] border-3">
-                            <img
-                                className="inline mt-[2px] float-left w-5 h-5 mr-1"
-                                src="https://cdn-icons-png.flaticon.com/512/1085/1085779.png"
-                            />
-                            <span className="font-bold text-black">Demo</span>
+                    {applicationUrl && (
+                        <div className="flex mb-2">
+                            <div className="flex px-2 py-1 mr-2 bg-white border-r border-black flex-nowrap min-w-[6em] border-3">
+                                <img
+                                    className="inline mt-[2px] float-left w-5 h-5 mr-1"
+                                    src="https://cdn-icons-png.flaticon.com/512/1085/1085779.png"
+                                />
+                                <span className="font-bold text-black">Demo</span>
+                            </div>
+                            <span className="mt-1 text-ellipsis overflow-hidden ...">{applicationUrl}</span>
                         </div>
-                        <span className="text-ellipsis overflow-hidden ...">{projectGitHubUrl}</span>
-                    </div>
+                    )}
+
+                    {dateRange && (
+                        <div className="flex mb-2">
+                            <div className="flex px-2 py-1 mr-2 bg-white border-r border-black flex-nowrap min-w-[6em] border-3">
+                                <img
+                                    className="inline mt-[2px] float-left w-5 h-5 mr-1"
+                                    src="https://cdn-icons-png.flaticon.com/512/3652/3652191.png"
+                                />
+                                <span className="font-bold text-black">Dates</span>
+                            </div>
+                            <span className="mt-1 text-ellipsis overflow-hidden ...">{dateRange}</span>
+                        </div>
+                    )}
+
+                    {techStack && (
+                        <div className="flex mb-2">
+                            <div className="flex px-2 py-1 mr-2 bg-white border-r border-black flex-nowrap min-w-[6em] border-3">
+                                <img
+                                    className="inline mt-[2px] float-left w-5 h-5 mr-1"
+                                    src="https://cdn-icons-png.flaticon.com/512/6214/6214248.png"
+                                />
+                                <span className="font-bold text-black">Stack</span>
+                            </div>
+                            <span className="mt-1 text-ellipsis overflow-hidden ...">{techStack}</span>
+                        </div>
+                    )}
+
+                    {whyBuilt && (
+                        <div className="flex flex-col mt-3">
+                            <div className="flex px-2 py-1 mr-2 bg-white mb-2 border-black flex-nowrap min-w-[6em] border-3">
+                                <img
+                                    className="inline mt-[2px] float-left w-5 h-5 mr-1"
+                                    src="https://cdn-icons-png.flaticon.com/512/1930/1930048.png"
+                                />
+                                <span className="font-bold text-black">Motivation</span>
+                            </div>
+                            <span className="w-11/12 p-0 m-auto md:w-full">{whyBuilt}</span>
+                        </div>
+                    )}
+
+                    {mostProudOf && (
+                        <div className="flex flex-col mt-3">
+                            <div className="flex px-2 py-1 mr-2 bg-white mb-2 border-black flex-nowrap min-w-[6em] border-3">
+                                <img
+                                    className="inline mt-[2px] float-left w-5 h-5 mr-1"
+                                    src="https://cdn-icons-png.flaticon.com/512/6746/6746354.png"
+                                />
+                                <span className="font-bold text-black">What I'm Most Proud Of</span>
+                            </div>
+                            <span className="w-11/12 p-0 m-auto md:w-full">{mostProudOf}</span>
+                        </div>
+                    )}
+
+                    {mostInteresting && (
+                        <div className="flex flex-col mt-3">
+                            <div className="flex px-2 py-1 mr-2 bg-white mb-2 border-black flex-nowrap min-w-[6em] border-3">
+                                <img
+                                    className="inline mt-[2px] float-left w-5 h-5 mr-1"
+                                    src="https://cdn-icons-png.flaticon.com/512/2339/2339820.png"
+                                />
+                                <span className="font-bold text-black">Most Interesting Aspect of This Project</span>
+                            </div>
+                            <span className="w-11/12 p-0 m-auto md:w-full">{mostInteresting}</span>
+                        </div>
+                    )}
+
+                    {mostUnique && (
+                        <div className="flex flex-col mt-3">
+                            <div className="flex px-2 py-1 mr-2 bg-white mb-2 border-black flex-nowrap min-w-[6em] border-3">
+                                <img
+                                    className="inline mt-[2px] float-left w-5 h-5 mr-1"
+                                    src="https://cdn-icons-png.flaticon.com/512/5171/5171334.png"
+                                />
+                                <span className="font-bold text-black">What Makes This Unique</span>
+                            </div>
+                            <span className="w-11/12 p-0 m-auto md:w-full">{mostUnique}</span>
+                        </div>
+                    )}
+
+                    {codeSnippet && codeSnippetLanguage && (
+                        <div className="flex flex-col mt-3">
+                            <div className="flex px-2 py-1 mr-2 bg-white mb-2 border-black flex-nowrap min-w-[6em] border-3">
+                                <img
+                                    className="inline mt-[2px] float-left w-5 h-5 mr-1"
+                                    src="https://cdn-icons-png.flaticon.com/512/59/59118.png"
+                                />
+                                <span className="font-bold text-black">Favourite Code Snippet</span>
+                            </div>
+                            <SyntaxHighlighter className="w-11/12 p-0 m-auto md:w-full" language={codeSnippetLanguage}>
+                                {codeSnippet}
+                            </SyntaxHighlighter>
+                        </div>
+                    )}
                 </div>
+
                 {/* 
                 {dateRange && <p className="text-lg text-gray-500">{dateRange}</p>}
                 <p className="flex items-center justify-center text-lg text-gray-500">
@@ -132,7 +232,7 @@ const Project = ({ project, user, hasArticles }) => {
                         <p className="text-lg text-gray-500">
                             <span className="font-bold">Project code snippet:</span>
                         </p>
-                        <SyntaxHighlighter language={codeSnippetLanguage}>{codeSnippet}</SyntaxHighlighter>
+                        
                     </div>
                 )}
                 {techStack && (
