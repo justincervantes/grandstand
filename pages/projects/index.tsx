@@ -23,23 +23,26 @@ const Projects = (props) => {
                         New
                     </button>
                 </div>
-                {projects.map(({ id, title, description, state }) => (
-                    <div className="hover:bg-gray-50 cursor-pointer" onClick={() => router.push(`/projects/${id}`)}>
-                        <div className="flex w-full leading-normal border-b border-gray-400">
-                            <div className="w-full mb-4">
-                                <div className="mb-1 text-xl font-bold text-gray-900">{title}</div>
-                                <p className="text-base text-gray-700">{description}</p>
-                                <p
-                                    className={`text-center text-base text-white p-1 my-1 ${
-                                        state === 'Published' ? 'bg-green-700' : 'bg-gray-500'
-                                    }`}
-                                >
-                                    {state}
-                                </p>
+                {projects.map((project, index) => {
+                    const { id, title, description, state } = project;
+                    return (
+                        <div className="hover:bg-gray-50 cursor-pointer" key={index} onClick={() => router.push(`/projects/${id}`)}>
+                            <div className="flex w-full leading-normal border-b border-gray-400" key={index}>
+                                <div className="w-full mb-4" key={index}>
+                                    <div className="mb-1 text-xl font-bold text-gray-900" key={`${index}-title`}>{title}</div>
+                                    <p className="text-base text-gray-700" key={`${index}-description`}>{description}</p>
+                                    <p
+                                        className={`text-center text-base text-white p-1 my-1 ${
+                                            state === 'Published' ? 'bg-green-700' : 'bg-gray-500'
+                                        }`} key={`${index}-state`}
+                                    >
+                                        {state}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </EditingLayout>
     );

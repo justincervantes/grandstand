@@ -1,6 +1,7 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { Bars3Icon } from '@heroicons/react/20/solid';
+import { useRouter } from 'next/router';
 
 const DropdownMenu = ({
     placeholder = '',
@@ -16,6 +17,10 @@ const DropdownMenu = ({
     const handleClick = (event) => {
         onOptionClick(event.target.innerHTML);
     };
+    const router = useRouter();
+    const heading =
+        'text-base font-medium text-gray-500 hover:text-gray-900 block px-4 py-2 text-sm w-full text-center';
+    const activeHeading = 'text-base font-medium text-gray-900 bold block px-4 py-2 text-sm w-full text-center';
 
     return (
         <Menu as="div" className="relative inline-block text-left">
@@ -39,16 +44,16 @@ const DropdownMenu = ({
                     <div className="py-1">
                         {options.map((option, index) => (
                             <Menu.Item key={`dropdown-item-${index}`}>
-                                {({ active }) => (
-                                    <button
-                                        onClick={handleClick}
-                                        className={`${
-                                            active ? 'bg-gray-100 text-gray-900 ' : 'text-gray-700 '
-                                        }block px-4 py-2 text-sm w-full text-center`}
-                                    >
-                                        {option}
-                                    </button>
-                                )}
+                                <button
+                                    onClick={handleClick}
+                                    className={
+                                        router.pathname === `/${option.replace(/ /, '-').toLowerCase()}`
+                                            ? activeHeading
+                                            : heading
+                                    }
+                                >
+                                    {option}
+                                </button>
                             </Menu.Item>
                         ))}
                     </div>
