@@ -1,5 +1,5 @@
-import { getSession } from 'next-auth/react';
 import React from 'react';
+import { getSession } from 'next-auth/react';
 import EditingLayout from '../../components/layout';
 import { useRouter } from 'next/router';
 import { prisma } from '../../lib/prismadb';
@@ -11,14 +11,14 @@ const Projects = (props) => {
     return (
         <EditingLayout>
             <div className="w-full m-auto">
-                <div className="grid grid-cols-3 mb-6">
-                    <p className="text-3xl bold">Projects</p>
+                <div className="mb-6">
+                    <p className="inline align-middle text-3xl bold">Projects</p>
                     <button
                         onClick={(e) => {
                             e.preventDefault();
                             router.push('/projects/new');
                         }}
-                        className="justify-self-center px-4 py-2 text-base font-medium text-black bg-white border-2 border-black rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-700"
+                        className="inline ml-6 px-4 py-1 text-base font-medium text-black bg-white border-2 border-black rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-500"
                     >
                         New
                     </button>

@@ -4,6 +4,8 @@ import moment from 'moment';
 import { useRouter } from 'next/router';
 import DOMPurify from 'isomorphic-dompurify';
 import { marked } from 'marked';
+import { prisma } from '../../../lib/prismadb';
+
 const Article = ({ article, user, hasProjects }) => {
     const router = useRouter();
     const { title, content, imageUrl, createdAt } = article ?? {};

@@ -2,6 +2,7 @@ import { Project, User } from '@prisma/client';
 import { ArticleState } from '@prisma/client';
 import { useRouter } from 'next/router';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import { prisma } from '../../../lib/prismadb';
 
 const Project = ({ project, user, hasArticles }) => {
     const router = useRouter();

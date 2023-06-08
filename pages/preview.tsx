@@ -1,5 +1,6 @@
 import { getSession } from 'next-auth/react';
 import EditingLayout from '../components/layout';
+import { prisma } from '../lib/prismadb';
 
 const Preview = ({ slug }) => {
     return (
