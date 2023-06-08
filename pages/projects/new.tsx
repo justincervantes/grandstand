@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 
 const fields = [
     { label: 'Title', name: 'title' },
-    { label: 'Slug', name: 'slug' },
+    { label: 'Project Slug (Path - grandstand.dev/userSlug/projects/projectSlug)', name: 'slug' },
     { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
     { label: 'Date Range', name: 'dateRange' },
     { label: 'Image URL', name: 'imageUrl' },

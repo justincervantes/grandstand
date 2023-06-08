@@ -9,20 +9,20 @@ const Blog = (props) => {
     return (
         <EditingLayout>
             <div className="w-full m-auto">
-                <div className="flex justify-between w-full mb-6">
+                <div className="grid grid-cols-3 mb-6">
                     <p className="text-3xl bold">Blog</p>
                     <button
                         onClick={(e) => {
                             e.preventDefault();
                             router.push('/blog/new');
                         }}
-                        className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-black bg-white border-2 border-black rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-700"
+                        className="justify-self-center px-4 py-2 text-base font-medium text-black bg-white border-2 border-black rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-700"
                     >
                         New
                     </button>
                 </div>
                 {articles.map(({ id, title, description, state }) => (
-                    <div className="hover:bg-gray-50" onClick={() => router.push(`/blog/${id}`)}>
+                    <div className="hover:bg-gray-50 cursor-pointer" onClick={() => router.push(`/blog/${id}`)}>
                         <div className="flex w-full leading-normal border-b border-gray-400">
                             <div className="w-full mb-4">
                                 <div className="mb-1 text-xl font-bold text-gray-900">{title}</div>
