@@ -4,7 +4,6 @@ A tool web application that builds and hosts developer portfolio pages.
 
 ## To do
 
-- [ ] 404 page (memeish yet sleek)
 - [ ] 500 Bug
 - [ ] First time user blog and projects page (prompt them to add something)
 - [ ] Fix width on md+ viewports, the New button is very far away
@@ -17,6 +16,7 @@ A tool web application that builds and hosts developer portfolio pages.
 - [ ] Fix the sizing of the preview modal
 - [ ] Explore Tailwind aspect ratio 
 - [ ] Change the URLs to links in the customer side projects page
+- [X] 404 page (memeish yet sleek)
 
 ## Parking lot
 
