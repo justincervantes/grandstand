@@ -2,6 +2,7 @@ import { Project, User } from '@prisma/client';
 import { ArticleState } from '@prisma/client';
 import { useRouter } from 'next/router';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import { prisma } from '../../../lib/prismadb';
 
 const Project = ({ project, user, hasArticles }) => {
     const router = useRouter();
@@ -15,8 +16,7 @@ const Project = ({ project, user, hasArticles }) => {
         gitHubUrl: projectGitHubUrl,
         whyBuilt,
         mostProudOf,
-        mostInteresting,
-        mostUnique,
+        learningOutcomes,
         techStack,
         codeSnippet,
         codeSnippetLanguage,
@@ -156,29 +156,16 @@ const Project = ({ project, user, hasArticles }) => {
                         </div>
                     )}
 
-                    {mostInteresting && (
+                    {learningOutcomes && (
                         <div className="flex flex-col mt-3">
                             <div className="flex px-2 py-1 mr-2 bg-white mb-2 border-black flex-nowrap min-w-[6em] border-3">
                                 <img
                                     className="inline mt-[2px] float-left w-5 h-5 mr-1"
-                                    src="https://cdn-icons-png.flaticon.com/512/2339/2339820.png"
+                                    src="https://cdn-icons-png.flaticon.com/512/4207/4207247.png"
                                 />
-                                <span className="font-bold text-black">Most Interesting Aspect of This Project</span>
+                                <span className="font-bold text-black">What I Learned</span>
                             </div>
-                            <span className="w-11/12 p-0 m-auto md:w-full">{mostInteresting}</span>
-                        </div>
-                    )}
-
-                    {mostUnique && (
-                        <div className="flex flex-col mt-3">
-                            <div className="flex px-2 py-1 mr-2 bg-white mb-2 border-black flex-nowrap min-w-[6em] border-3">
-                                <img
-                                    className="inline mt-[2px] float-left w-5 h-5 mr-1"
-                                    src="https://cdn-icons-png.flaticon.com/512/5171/5171334.png"
-                                />
-                                <span className="font-bold text-black">What Makes This Unique</span>
-                            </div>
-                            <span className="w-11/12 p-0 m-auto md:w-full">{mostUnique}</span>
+                            <span className="w-11/12 p-0 m-auto md:w-full">{learningOutcomes}</span>
                         </div>
                     )}
 

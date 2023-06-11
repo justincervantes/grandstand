@@ -25,14 +25,8 @@ const fields = [
         rows: 2,
     },
     {
-        label: 'What is the most interesting aspect about this project?',
-        name: 'mostInteresting',
-        component: 'textarea',
-        rows: 2,
-    },
-    {
-        label: 'What is the most unique aspect about this project?',
-        name: 'mostUnique',
+        label: 'What were the key learning outcomes from this project?',
+        name: 'learningOutcomes',
         component: 'textarea',
         rows: 2,
     },
@@ -61,12 +55,11 @@ const validationSchema = () =>
             .string()
             .trim()
             .min(3, 'Must be greater than 3 characters')
-            .required('An apprxomate date range of when you worked on this is required.'),
+            .required('An approximate date range of when you worked on this is required.'),
         applicationUrl: yup.string().trim().url('Please provide a full http/https URL'),
         gitHubUrl: yup.string().trim().url('Please provide a full http/https URL'),
         mostProudOf: yup.string().trim().min(5, 'Must be greater than 5 characters'),
-        mostInteresting: yup.string().trim().min(5, 'Must be greater than 5 characters'),
-        mostUnique: yup.string().trim().min(5, 'Must be greater than 5 characters'),
+        learningOutcomes: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         whyBuilt: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         techStack: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippet: yup.string().trim().min(5, 'Must be greater than 5 characters'),
@@ -100,7 +93,11 @@ const NewProject = ({ project }) => {
                                 const { label, name, component, rows } = field ?? {};
                                 return (
                                     <div className="mb-2" key={index}>
-                                        <label htmlFor={name} className="block mb-2 text-sm font-bold text-gray-700">
+                                        <label
+                                            htmlFor={name}
+                                            key={`label-${index}`}
+                                            className="block mb-2 text-sm font-bold text-gray-700"
+                                        >
                                             {label}
                                         </label>
                                         <Field
@@ -109,8 +106,9 @@ const NewProject = ({ project }) => {
                                             component={component}
                                             rows={rows}
                                             className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                            key={`field-${index}`}
                                         ></Field>
-                                        <ErrorMessage name={name}>
+                                        <ErrorMessage name={name} key={`error-${index}`}>
                                             {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
                                         </ErrorMessage>
                                     </div>
