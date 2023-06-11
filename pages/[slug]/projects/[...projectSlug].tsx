@@ -86,7 +86,9 @@ const Project = ({ project, user, hasArticles }) => {
                                     />
                                     <span className="font-bold text-black ">GitHub</span>
                                 </div>
-                                <span className="mt-1 text-ellipsis overflow-hidden ...">{projectGitHubUrl}</span>
+                                <span className="mt-1 text-ellipsis overflow-hidden ...">
+                                    <a href={projectGitHubUrl}>{projectGitHubUrl}</a>
+                                </span>
                             </div>
                         </div>
                     )}
@@ -100,7 +102,9 @@ const Project = ({ project, user, hasArticles }) => {
                                 />
                                 <span className="font-bold text-black">Demo</span>
                             </div>
-                            <span className="mt-1 text-ellipsis overflow-hidden ...">{applicationUrl}</span>
+                            <span className="mt-1 text-ellipsis overflow-hidden ...">
+                                <a href={applicationUrl}>{applicationUrl}</a>
+                            </span>
                         </div>
                     )}
 
