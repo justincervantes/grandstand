@@ -95,8 +95,7 @@ model Project {
   applicationUrl      String?
   gitHubUrl           String?
   mostProudOf         String?      @db.Text
-  mostInteresting     String?      @db.Text
-  mostUnique          String?      @db.Text
+  learningOutcomes     String?      @db.Text
   whyBuilt            String?      @db.Text
   techStack           String?      @db.Text
   codeSnippet         String?      @db.Text

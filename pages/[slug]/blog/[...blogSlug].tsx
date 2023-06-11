@@ -1,5 +1,4 @@
-import { User, Article } from '@prisma/client';
-import { ArticleState } from '@prisma/client';
+import { User, Article, ArticleState } from '@prisma/client';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import DOMPurify from 'isomorphic-dompurify';

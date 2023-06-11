@@ -24,7 +24,7 @@ const Blog = (props) => {
                     </button>
                 </div>
                 {articles.map((article, index) => {
-                    const { id, title, description, state } = article;
+                    const { id, title, description, state } = article ?? {};
                     return (
                         <div
                             className="hover:bg-gray-50 cursor-pointer"
@@ -33,17 +33,17 @@ const Blog = (props) => {
                         >
                             <div className="flex w-full leading-normal border-b border-gray-400" key={index}>
                                 <div className="w-full mb-4" key={index}>
-                                    <div className="mb-1 text-xl font-bold text-gray-900" key={`${index}-title`}>
+                                    <div className="mb-1 text-xl font-bold text-gray-900" key={index}>
                                         {title}
                                     </div>
-                                    <p className="text-base text-gray-700" key={`${index}-description`}>
+                                    <p className="text-base text-gray-700" key={`descr-${index}`}>
                                         {description}
                                     </p>
                                     <p
                                         className={`text-center text-base text-white p-1 my-1 ${
                                             state === 'Published' ? 'bg-green-700' : 'bg-gray-500'
                                         }`}
-                                        key={`${index}-state`}
+                                        key={`state-${index}`}
                                     >
                                         {state}
                                     </p>

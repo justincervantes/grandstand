@@ -2,7 +2,7 @@ import BaseService from './base.service';
 import { Project } from '@prisma/client';
 import { prisma } from '../lib/prismadb';
 import ErrorDictionary from '../lib/errorDictionary';
-import moment from 'moment';
+
 export default class ProjectService extends BaseService {
     constructor(sessionToken) {
         super(sessionToken);
@@ -15,8 +15,7 @@ export default class ProjectService extends BaseService {
         applicationUrl?: string;
         gitHubUrl?: string;
         mostProudOf?: string;
-        mostInteresting?: string;
-        mostUnique?: string;
+        learningOutcomes?: string;
         whyBuilt?: string;
         techStack?: string;
         codeSnippet?: string;
@@ -62,8 +61,7 @@ export default class ProjectService extends BaseService {
             applicationUrl?: string;
             gitHubUrl?: string;
             mostProudOf?: string;
-            mostInteresting?: string;
-            mostUnique?: string;
+            learningOutcomes?: string;
             whyBuilt?: string;
             techStack?: string;
             codeSnippet?: string;

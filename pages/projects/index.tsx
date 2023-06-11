@@ -12,29 +12,38 @@ const Projects = (props) => {
         <EditingLayout>
             <div className="w-full m-auto">
                 <div className="mb-6">
-                    <p className="inline align-middle text-3xl bold">Projects</p>
+                    <p className="inline text-3xl align-middle bold">Projects</p>
                     <button
                         onClick={(e) => {
                             e.preventDefault();
                             router.push('/projects/new');
                         }}
-                        className="inline ml-6 px-4 py-1 text-base font-medium text-black bg-white border-2 border-black rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-500"
+                        className="inline px-4 py-1 ml-6 text-base font-medium text-black bg-white border-2 border-black rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-500"
                     >
                         New
                     </button>
                 </div>
                 {projects.map((project, index) => {
-                    const { id, title, description, state } = project;
+                    const { id, title, description, state } = project ?? {};
                     return (
-                        <div className="hover:bg-gray-50 cursor-pointer" key={index} onClick={() => router.push(`/projects/${id}`)}>
+                        <div
+                            className="cursor-pointer hover:bg-gray-50"
+                            key={index}
+                            onClick={() => router.push(`/projects/${id}`)}
+                        >
                             <div className="flex w-full leading-normal border-b border-gray-400" key={index}>
-                                <div className="w-full mb-4" key={index}>
-                                    <div className="mb-1 text-xl font-bold text-gray-900" key={`${index}-title`}>{title}</div>
-                                    <p className="text-base text-gray-700" key={`${index}-description`}>{description}</p>
+                                <div className="w-full mb-4">
+                                    <div className="mb-1 text-xl font-bold text-gray-900" key={`title-${index}`}>
+                                        {title}
+                                    </div>
+                                    <p className="text-base text-gray-700" key={`descr-${index}`}>
+                                        {description}
+                                    </p>
                                     <p
                                         className={`text-center text-base text-white p-1 my-1 ${
                                             state === 'Published' ? 'bg-green-700' : 'bg-gray-500'
-                                        }`} key={`${index}-state`}
+                                        }`}
+                                        key={`state-${index}`}
                                     >
                                         {state}
                                     </p>
