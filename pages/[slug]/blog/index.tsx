@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import { prisma } from '../../../lib/prismadb';
+
 const Blog = ({ articles, user, hasProjects }) => {
     const { image: userProfileImage, name: userName, slug: userSlug, linkedInUrl, gitHubUrl } = user ?? {};
     const router = useRouter();
@@ -47,7 +49,7 @@ const Blog = ({ articles, user, hasProjects }) => {
                 const { title, imageUrl, createdAt, slug } = article;
                 return (
                     <div
-                        className="grid w-11/12 grid-cols-3 p-2 mx-auto my-4 border border-b shadow-sm bg-gray-50 sm:max-w-lg lg:max-w-3xl sm:p-3 lg:p-4 hover:shadow-2xl"
+                        className="grid w-11/12 grid-cols-3 p-2 mx-auto my-4 border border-b shadow-sm bg-gray-50 sm:max-w-lg lg:max-w-3xl sm:p-3 lg:p-4 hover:shadow-2xl cursor-pointer"
                         key={index}
                         onClick={() => router.push(`/${userSlug}/blog/${slug}`)}
                     >

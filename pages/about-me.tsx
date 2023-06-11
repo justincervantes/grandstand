@@ -61,7 +61,7 @@ const AboutMe = ({ user }) => {
 
     const fields = [
         { label: 'Display Name', name: 'userName' },
-        { label: 'Grandstand Slug (Path)', name: 'slug' },
+        { label: 'Grandstand User Slug (Path - grandstand.dev/userSlug)', name: 'slug' },
         { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
         { label: 'Image URL', name: 'imageUrl' },
         { label: 'GitHub URL', name: 'gitHubUrl' },

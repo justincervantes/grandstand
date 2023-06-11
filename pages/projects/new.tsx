@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 
 const fields = [
     { label: 'Title', name: 'title' },
-    { label: 'Slug', name: 'slug' },
+    { label: 'Project Slug (Path - grandstand.dev/userSlug/projects/projectSlug)', name: 'slug' },
     { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
     { label: 'Date Range', name: 'dateRange' },
     { label: 'Image URL', name: 'imageUrl' },
@@ -23,14 +23,8 @@ const fields = [
         rows: 2,
     },
     {
-        label: 'What is the most interesting aspect about this project?',
-        name: 'mostInteresting',
-        component: 'textarea',
-        rows: 2,
-    },
-    {
-        label: 'What is the most unique aspect about this project?',
-        name: 'mostUnique',
+        label: 'What were the key learning outcomes from this project?',
+        name: 'learningOutcomes',
         component: 'textarea',
         rows: 2,
     },
@@ -43,6 +37,7 @@ const validationSchema = () =>
         title: yup.string().trim().min(2, 'Must be greater than 2 chars').required('Please enter a title'),
         slug: yup
             .string()
+            .trim()
             .matches(
                 /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
                 'Only lowercase letters and numbers allowed, spaces should be replaced with hyphens',
@@ -54,13 +49,16 @@ const validationSchema = () =>
             .trim()
             .min(5, 'Must be greater than 5 characters')
             .required('Please enter a description about your project'),
-        dateRange: yup.string().trim().min(3, 'Must be greater than 3 characters'),
-        imageUrl: yup.string().trim().url('Please provide a full http/https URL'),
+        dateRange: yup
+            .string()
+            .trim()
+            .min(3, 'Must be greater than 3 characters')
+            .required('An approximate date range of when you worked on this is required.'),
+        imageUrl: yup.string().trim().url('Please provide a full http/https URL').required('An image is required.'),
         applicationUrl: yup.string().trim().url('Please provide a full http/https URL'),
         gitHubUrl: yup.string().trim().url('Please provide a full http/https URL'),
         mostProudOf: yup.string().trim().min(5, 'Must be greater than 5 characters'),
-        mostInteresting: yup.string().trim().min(5, 'Must be greater than 5 characters'),
-        mostUnique: yup.string().trim().min(5, 'Must be greater than 5 characters'),
+        learningOutcomes: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         whyBuilt: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         techStack: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippet: yup.string().trim().min(5, 'Must be greater than 5 characters'),
@@ -70,14 +68,14 @@ const validationSchema = () =>
 
 const initialValues = () => ({
     title: '',
+    slug: '',
     description: '',
     dateRange: '',
     imageUrl: '',
     applicationUrl: '',
     gitHubUrl: '',
     mostProudOf: '',
-    mostInteresting: '',
-    mostUnique: '',
+    learningOutcomes: '',
     whyBuilt: '',
     techStack: '',
     codeSnippet: '',
@@ -89,6 +87,7 @@ const NewProject = () => {
     const router = useRouter();
 
     const handleSubmit = async (values) => {
+        console.log('submitting');
         axios
             .post('/api/projects/createProject', { ...values })
             .then(() => {
@@ -109,17 +108,22 @@ const NewProject = () => {
                                 const { label, name, component, rows } = field ?? {};
                                 return (
                                     <div className="mb-2" key={index}>
-                                        <label htmlFor={name} className="block mb-2 text-sm font-bold text-gray-700">
+                                        <label
+                                            htmlFor={name}
+                                            key={index}
+                                            className="block mb-2 text-sm font-bold text-gray-700"
+                                        >
                                             {label}
                                         </label>
                                         <Field
                                             type="text"
                                             name={name}
+                                            key={index}
                                             component={component}
                                             rows={rows}
                                             className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         ></Field>
-                                        <ErrorMessage name={name}>
+                                        <ErrorMessage name={name} key={index}>
                                             {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
                                         </ErrorMessage>
                                     </div>

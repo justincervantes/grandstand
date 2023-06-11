@@ -1,5 +1,7 @@
 import { User } from '@prisma/client';
 import { ArticleState } from '@prisma/client';
+import { prisma } from '../../lib/prismadb';
+
 const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects: boolean; hasArticles: boolean }) => {
     const { image, name, description, slug, gitHubUrl, linkedInUrl } = user ?? {};
     return (

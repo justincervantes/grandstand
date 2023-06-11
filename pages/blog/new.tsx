@@ -38,7 +38,7 @@ const Article = () => {
 
     const fields = [
         { label: 'Title', name: 'title' },
-        { label: 'Article Slug (Path)', name: 'slug' },
+        { label: 'Article Slug (Path - grandstand.dev/userSlug/blog/articleSlug)', name: 'slug' },
         { label: 'Image URL', name: 'imageUrl' },
         {
             label: (
