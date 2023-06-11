@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import { prisma } from '../../../lib/prismadb';
+
 const Blog = ({ articles, user, hasProjects }) => {
     const { image: userProfileImage, name: userName, slug: userSlug, linkedInUrl, gitHubUrl } = user ?? {};
     const router = useRouter();
