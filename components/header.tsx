@@ -11,7 +11,8 @@ export default function Header() {
     const { data: session } = useSession();
     const router = useRouter();
     const heading = 'text-base font-medium text-gray-500 hover:text-gray-900';
-    const activeHeading = `${heading} text-gray-900 bold`;
+    const activeHeading = 'text-base font-medium text-gray-900 bold';
+
     return (
         <header>
             <ShowToast />

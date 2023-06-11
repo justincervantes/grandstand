@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useRouter } from 'next/router';
+import { prisma } from '../../../lib/prismadb';
 
 const Projects = ({ projects, user, hasArticles }) => {
     const { slug: userSlug, name: userName, image: userProfileImage, linkedInUrl, gitHubUrl } = user;
@@ -48,7 +49,7 @@ const Projects = ({ projects, user, hasArticles }) => {
                 const { title, imageUrl, slug, createdAt, description, whyBuilt } = project;
                 return (
                     <div
-                        className="flex w-11/12 p-2 mx-auto my-4 border border-b shadow-sm bg-gray-50 lg:max-w-3xl sm:p-3 lg:p-4 hover:shadow-2xl cursor-pointer"
+                        className="flex w-11/12 p-2 mx-auto my-4 border border-b shadow-sm cursor-pointer bg-gray-50 lg:max-w-3xl sm:p-3 lg:p-4 hover:shadow-2xl"
                         key={index}
                         onClick={() => router.push(`/${userSlug}/projects/${slug}`)}
                     >
