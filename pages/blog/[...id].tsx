@@ -91,7 +91,7 @@ const Article = ({ article }) => {
             <Formik initialValues={article} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (
-                        <Form className="max-w-3xl px-1 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50 md:px-8">
+                        <Form className="max-w-3xl px-1 md:px-8 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50">
                             <h1 className="pl-2 mb-2 text-xl font-medium text-center">Article Entry Form</h1>
                             <div>
                                 {fields.map((field, index) => {
@@ -130,7 +130,7 @@ const Article = ({ article }) => {
                                     <option value="Published" label="Published" />;
                                     <option value="Draft" label="Draft" />;
                                 </Field>
-                                <div className="flex justify-end mb-3">
+                                <div className="flex justify-end">
                                     <button
                                         type="submit"
                                         className="px-4 py-2 mt-2 text-base font-medium text-white bg-black rounded shadow-sm hover:bg-indigo-700 focus:outline-none focus:shadow-outline"

@@ -7,10 +7,12 @@ import { useRouter } from 'next/router';
 import { useToast } from '../../context/ToastContext';
 import ArticlePreviewModal from '../../components/articles/preview-modal';
 import * as yup from 'yup';
+
 const Article = () => {
     const { addToast } = useToast();
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
+
     const handleSubmit = async (values) => {
         try {
             await axios.post('/api/articles/createNewArticle', { ...values });
@@ -89,7 +91,7 @@ const Article = () => {
             >
                 {({ setFieldValue, values }) => {
                     return (
-                        <Form className="max-w-3xl px-8 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50">
+                        <Form className="max-w-3xl px-1 md:px-8 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50">
                             <h1 className="pl-2 mb-2 text-xl font-medium text-center">Article Entry Form</h1>
                             <div>
                                 {fields.map((field, index) => {
