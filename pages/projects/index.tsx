@@ -10,8 +10,8 @@ const Projects = (props) => {
 
     return (
         <EditingLayout>
-            <div className="w-full m-auto">
-                <div className="mb-6">
+            <div className="w-full h-full m-auto">
+                <div className="flex justify-between m-auto mb-6 md:block">
                     <p className="inline text-3xl align-middle bold">Projects</p>
                     <button
                         onClick={(e) => {
@@ -52,6 +52,14 @@ const Projects = (props) => {
                         </div>
                     );
                 })}
+                {projects.length === 0 && (
+                    <div className="flex items-center justify-center m-auto text-center h-2/3 lg:w-10/12">
+                        <span className="text-2xl">
+                            Add a new project article to get started. If no blog articles are present, this won't appear
+                            as a link in your profile.
+                        </span>
+                    </div>
+                )}
             </div>
         </EditingLayout>
     );

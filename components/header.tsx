@@ -11,10 +11,10 @@ export default function Header() {
     const { data: session } = useSession();
     const router = useRouter();
     const heading = 'text-base font-medium text-gray-500 hover:text-gray-900';
-    const activeHeading = 'text-base font-medium text-gray-900 bold';
+    const activeHeading = 'text-base font-medium font-bold';
 
     return (
-        <header>
+        <header className="mb-5">
             <ShowToast />
             <title>Grandstand</title>
             <link rel="icon" type="image/png" href="/favicon.ico" />

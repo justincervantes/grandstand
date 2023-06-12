@@ -94,7 +94,9 @@ const NewProject = () => {
                 addToast('Project successfully created', 'Success');
                 router.push('/projects');
             })
-            .catch();
+            .catch((error) => {
+                addToast(`Failed to create a project - ${error.message}`, 'Error');
+            });
     };
     return (
         <EditingLayout>
@@ -107,18 +109,13 @@ const NewProject = () => {
                             {fields.map((field, index) => {
                                 const { label, name, component, rows } = field ?? {};
                                 return (
-                                    <div className="mb-2" key={index}>
-                                        <label
-                                            htmlFor={name}
-                                            key={index}
-                                            className="block mb-2 text-sm font-bold text-gray-700"
-                                        >
+                                    <div className="mb-2" key={`field-${index}`}>
+                                        <label htmlFor={name} className="block mb-2 text-sm font-bold text-gray-700">
                                             {label}
                                         </label>
                                         <Field
                                             type="text"
                                             name={name}
-                                            key={index}
                                             component={component}
                                             rows={rows}
                                             className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
@@ -158,7 +155,13 @@ const NewProject = () => {
                                     onClick={(e) => setFieldValue('codeSnippetLanguage', e.target.value)}
                                 >
                                     {programmingLanguageOptions.map((option, index) => {
-                                        return <option value={option.value} label={option.label} key={index} />;
+                                        return (
+                                            <option
+                                                value={option.value}
+                                                label={option.label}
+                                                key={`programming-language-${index}`}
+                                            />
+                                        );
                                     })}
                                 </Field>
                                 <ErrorMessage name="codeSnippetLanguage">
