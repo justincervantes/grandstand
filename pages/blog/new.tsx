@@ -47,7 +47,7 @@ const Article = () => {
                 <div className="flex justify-between">
                     <div>Content (markdown enabled)</div>
                     <div className="flex">
-                        <div className="relative flex mr-6 group" onClick={() => setIsOpen(true)}>
+                        <div className="relative flex mr-3 group" onClick={() => setIsOpen(true)}>
                             <img
                                 src="https://cdn-icons-png.flaticon.com/512/1185/1185279.png"
                                 className="w-6 h-6 cursor-pointer"
@@ -85,13 +85,13 @@ const Article = () => {
         <EditingLayout>
             <div className="flex mb-3 whitespace-nowrap"></div>
             <Formik
-                initialValues={{ title: '', slug: '', imageUrl: '' }}
+                initialValues={{ title: '', slug: '', content: '', imageUrl: '', state: 'Published' }}
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema()}
             >
                 {({ setFieldValue, values }) => {
                     return (
-                        <Form className="max-w-3xl px-1 md:px-8 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50">
+                        <Form className="max-w-3xl px-1 py-2 mx-auto my-4 rounded shadow-lg md:px-8 bg-gray-50">
                             <h1 className="pl-2 mb-2 text-xl font-medium text-center">Article Entry Form</h1>
                             <div>
                                 {fields.map((field, index) => {
@@ -130,6 +130,9 @@ const Article = () => {
                                     <option value="Published" label="Published" />;
                                     <option value="Draft" label="Draft" />;
                                 </Field>
+                                <ErrorMessage name="state">
+                                    {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
+                                </ErrorMessage>
                                 <div className="flex justify-end">
                                     <button
                                         type="submit"

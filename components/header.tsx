@@ -76,7 +76,7 @@ export default function Header({ loading = false }) {
                                         e.preventDefault();
                                         signIn();
                                     }}
-                                    className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-white bg-black border border-transparent rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-700"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white bg-black border border-transparent rounded-md shadow-sm ml whitespace-nowrap hover:bg-indigo-700"
                                 >
                                     Access with Github
                                     <img
