@@ -83,7 +83,7 @@ const Article = ({ userSlug }) => {
     ];
 
     return (
-        <EditingLayout>
+        <EditingLayout userSlug={userSlug}>
             <div className="flex mb-3 whitespace-nowrap"></div>
             <Formik
                 initialValues={{ title: '', slug: '', content: '', imageUrl: '', state: 'Published' }}

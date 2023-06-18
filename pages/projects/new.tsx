@@ -90,7 +90,6 @@ const NewProject = ({ userSlug }) => {
     ];
 
     const handleSubmit = async (values) => {
-        console.log('submitting');
         axios
             .post('/api/projects/createProject', { ...values })
             .then(() => {
@@ -102,7 +101,7 @@ const NewProject = ({ userSlug }) => {
             });
     };
     return (
-        <EditingLayout>
+        <EditingLayout userSlug={userSlug}>
             <Formik initialValues={initialValues()} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (

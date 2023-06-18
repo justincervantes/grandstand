@@ -5,11 +5,11 @@ import { useRouter } from 'next/router';
 import { prisma } from '../../lib/prismadb';
 
 const Blog = (props) => {
-    const { articles = [] } = props;
+    const { articles = [], userSlug } = props;
     const router = useRouter();
 
     return (
-        <EditingLayout>
+        <EditingLayout userSlug={userSlug}>
             <div className="w-full h-full">
                 <div className="flex justify-between mb-6 md:block">
                     <p className="inline text-3xl align-middle bold">Blog</p>
@@ -79,15 +79,16 @@ export async function getServerSideProps(context) {
         };
     }
     const currentUserEmail = session.user.email;
-    const { articles } = await prisma.user.findFirst({
+    const { articles, slug: userSlug } = await prisma.user.findFirst({
         where: {
             email: currentUserEmail,
         },
         select: {
             articles: { where: { deletedAt: null } },
+            slug: true,
         },
     });
     return {
-        props: { articles: JSON.parse(JSON.stringify(articles)) },
+        props: { articles: JSON.parse(JSON.stringify(articles)), userSlug },
     };
 }

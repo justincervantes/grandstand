@@ -82,7 +82,7 @@ const NewProject = ({ project, userSlug }) => {
             .catch();
     };
     return (
-        <EditingLayout>
+        <EditingLayout userSlug={userSlug}>
             <Formik initialValues={project} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (

@@ -8,12 +8,11 @@ import ShowToast from '../components/toast';
 import DropdownMenu from './dropdown';
 import Loading from './loading';
 
-export default function Header({ loading = false }) {
+export default function Header({ loading = false, userSlug }) {
     const { data: session } = useSession();
     const router = useRouter();
     const heading = 'text-base font-medium text-gray-500 hover:text-gray-900';
     const activeHeading = 'text-base font-medium font-bold';
-
     return (
         <header className="mb-5">
             <ShowToast />
@@ -34,9 +33,21 @@ export default function Header({ loading = false }) {
                                 <div className="flex items-center text-center md:hidden">
                                     <DropdownMenu
                                         placeholder=""
-                                        options={['About Me', 'Projects', 'Blog', 'Preview']}
+                                        options={[
+                                            'About Me',
+                                            'Projects',
+                                            'Blog',
+                                            userSlug ? 'Preview' : undefined,
+                                        ].filter(Boolean)}
                                         onOptionClick={(option) => {
-                                            router.push(`/${option.replace(/ /, '-').toLowerCase()}`);
+                                            if (option === 'Preview') {
+                                                window.open(
+                                                    `${process.env.NEXT_PUBLIC_PREVIEW_URL}/${userSlug}`,
+                                                    '_blank',
+                                                );
+                                            } else {
+                                                router.push(`/${option.replace(/ /, '-').toLowerCase()}`);
+                                            }
                                         }}
                                         value={''}
                                     />
@@ -60,12 +71,15 @@ export default function Header({ loading = false }) {
                                     >
                                         Blog
                                     </Link>
-                                    <Link
-                                        href="/preview"
-                                        className={router.pathname === '/preview' ? activeHeading : heading}
-                                    >
-                                        Preview
-                                    </Link>
+                                    {userSlug && (
+                                        <a
+                                            target="_blank"
+                                            href={`${process.env.NEXT_PUBLIC_PREVIEW_URL}/${userSlug}`}
+                                            className={heading}
+                                        >
+                                            Preview 🔗
+                                        </a>
+                                    )}
                                 </nav>
                             </div>
                         )}

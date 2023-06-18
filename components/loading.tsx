@@ -9,7 +9,6 @@ function Loading() {
         const percentageToAdd = halfLife > 20 ? 10 + randomness : halfLife;
         const newPercentage = loadingPercentage + percentageToAdd;
         setLoadingPercentage(newPercentage > 95 ? 97.5 : newPercentage);
-        console.log('loadingPercentage', loadingPercentage);
     };
 
     useEffect(() => {

@@ -87,7 +87,7 @@ const Article = ({ article, userSlug }) => {
     ];
 
     return (
-        <EditingLayout>
+        <EditingLayout userSlug={userSlug}>
             <Formik initialValues={article} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (
