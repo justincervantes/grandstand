@@ -8,9 +8,13 @@ const Home = ({ userSlug }) => {
             <div className="grid grid-flow-col p-1 min-h-[80vh]">
                 <div className="flex flex-col items-center justify-center bg-white rounded-lg">
                     <span className="mb-3 text-4xl font-bold">grandstand.dev</span>
-                    <p className="text-center">A quick tool to get a developer's profile hosted.</p>
-                    <p className="text-sm text-center">
-                        To get started, fill in the About Me section and view your page using Preview.
+                    <p className="w-10/12 text-left md:text-md md:w-1/2">
+                        A tool to get a free developer profile hosted in{' '}
+                        <span className="underline decoration-wavy">under 1 minute</span>, just sign in with GitHub,
+                        fill in your basic details, then check out and share your URL by clicking Preview. Adding{' '}
+                        <span className="underline decoration-dotted">blogs </span>
+                        and <span className="underline decoration-dashed">projects</span> will help you stand out to
+                        guests on your site.
                     </p>
                 </div>
             </div>
