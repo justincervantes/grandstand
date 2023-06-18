@@ -9,9 +9,6 @@ const Home = ({ userSlug }) => {
                 <div className="flex flex-col items-center justify-center bg-white rounded-lg">
                     <span className="mb-3 text-4xl font-bold">grandstand.dev</span>
                     <p className="text-center">A quick tool to get a developer's profile hosted.</p>
-                    <p className="text-sm text-center">
-                        To get started, fill in the About Me section and view your page using Preview.
-                    </p>
                 </div>
             </div>
         </EditingLayout>
