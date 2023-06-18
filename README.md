@@ -4,11 +4,11 @@ A tool web application that builds and hosts developer portfolio pages.
 
 ## To do
 
--   [ ] Remove preview in favour of a link that takes you to your website
--   [ ] Add an asterisk to required fields in all formik forms
--   [ ] Add a loading spinner when moving to a new SSR page
 -   [ ] On errors, focus the field in Formik or toast errors, as some forms are very long and its not clear that something went wrong
 -   [ ] Explore Tailwind aspect ratio
+-   [X] Add an asterisk to required fields in all formik forms
+-   [X] Add a loading spinner when moving to a new SSR page
+-   [X] Remove preview in favour of a link that takes you to your website
 -   [x] Change the URLs to links in the customer side projects page
 -   [x] Replace most interesting and most unique with a column for what someone learned 'learningOutcomes' and change the form to a picture of books and label 'What I learned'
 -   [x] 404 page (memeish yet sleek)
