@@ -13,7 +13,7 @@ A tool web application that builds and hosts developer portfolio pages.
 -   [ ] On errors, focus the field in Formik or toast errors, as some forms are very long and its not clear that something went wrong
 -   [ ] Fix the sizing of the preview modal
 -   [ ] Explore Tailwind aspect ratio
--   [ ] Change the URLs to links in the customer side projects page
+-   [x] Change the URLs to links in the customer side projects page
 -   [x] Replace most interesting and most unique with a column for what someone learned 'learningOutcomes' and change the form to a picture of books and label 'What I learned'
 -   [x] 404 page (memeish yet sleek)
 -   [x] Change pointer so that it is more intuitive that the divs are clickable (blogs and projects, admin and customer)

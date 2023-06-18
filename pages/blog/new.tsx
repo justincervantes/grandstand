@@ -7,10 +7,12 @@ import { useRouter } from 'next/router';
 import { useToast } from '../../context/ToastContext';
 import ArticlePreviewModal from '../../components/articles/preview-modal';
 import * as yup from 'yup';
+
 const Article = () => {
     const { addToast } = useToast();
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
+
     const handleSubmit = async (values) => {
         try {
             await axios.post('/api/articles/createNewArticle', { ...values });
@@ -45,10 +47,13 @@ const Article = () => {
                 <div className="flex justify-between">
                     <div>Content (markdown enabled)</div>
                     <div className="flex">
-                        <div className="relative flex mr-2 group" onClick={() => setIsOpen(true)}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/1185/1185279.png" className="w-4 h-4" />
+                        <div className="relative flex mr-6 group" onClick={() => setIsOpen(true)}>
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/1185/1185279.png"
+                                className="w-6 h-6 cursor-pointer"
+                            />
 
-                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-5 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
+                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-5 -translate-y-10 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
                                 Preview
                             </span>
                         </div>
@@ -60,10 +65,10 @@ const Article = () => {
                             >
                                 <img
                                     src="https://cdn-icons-png.flaticon.com/512/8988/8988962.png"
-                                    className="w-4 h-4"
+                                    className="w-6 h-6"
                                 />
                             </a>
-                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-20 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
+                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-20 translate-y-3 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
                                 Markdown Documentation
                             </span>
                         </div>
@@ -86,7 +91,7 @@ const Article = () => {
             >
                 {({ setFieldValue, values }) => {
                     return (
-                        <Form className="max-w-3xl px-8 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50">
+                        <Form className="max-w-3xl px-1 md:px-8 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50">
                             <h1 className="pl-2 mb-2 text-xl font-medium text-center">Article Entry Form</h1>
                             <div>
                                 {fields.map((field, index) => {
