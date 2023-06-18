@@ -10,30 +10,6 @@ import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import { prisma } from '../../lib/prismadb';
 
-const fields = [
-    { label: 'Title', name: 'title' },
-    { label: 'Slug', name: 'slug' },
-    { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
-    { label: 'Date Range', name: 'dateRange' },
-    { label: 'Image URL', name: 'imageUrl' },
-    { label: 'Application URL', name: 'applicationUrl' },
-    { label: 'GitHub URL', name: 'gitHubUrl' },
-    {
-        label: 'What are you most proud of about this project?',
-        name: 'mostProudOf',
-        component: 'textarea',
-        rows: 2,
-    },
-    {
-        label: 'What were the key learning outcomes from this project?',
-        name: 'learningOutcomes',
-        component: 'textarea',
-        rows: 2,
-    },
-    { label: 'What motivated you to build this project?', name: 'whyBuilt', component: 'textarea', rows: 2 },
-    { label: 'Project Tech Stack', name: 'techStack' },
-];
-
 const validationSchema = () =>
     yup.object().shape({
         title: yup.string().trim().min(2, 'Must be greater than 2 chars').required('Please enter a title'),
@@ -64,13 +40,37 @@ const validationSchema = () =>
         techStack: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippet: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippetLanguage: yup.string(),
-        state: yup.string(),
+        state: yup.string().required(),
     });
 
-const NewProject = ({ project }) => {
+const NewProject = ({ project, userSlug }) => {
     const { addToast } = useToast();
     const router = useRouter();
     const { id: projectId } = project ?? {};
+
+    const fields = [
+        { label: 'Title *', name: 'title' },
+        { label: `Project Slug (Path - grandstand.dev/${userSlug ?? '[userSlug]'}/projects/[slug]) *`, name: 'slug' },
+        { label: 'Description *', name: 'description', component: 'textarea', rows: 2 },
+        { label: 'Date Range *', name: 'dateRange' },
+        { label: 'Image URL *', name: 'imageUrl' },
+        { label: 'Application URL', name: 'applicationUrl' },
+        { label: 'GitHub URL', name: 'gitHubUrl' },
+        {
+            label: 'What are you most proud of about this project?',
+            name: 'mostProudOf',
+            component: 'textarea',
+            rows: 2,
+        },
+        {
+            label: 'What were the key learning outcomes from this project?',
+            name: 'learningOutcomes',
+            component: 'textarea',
+            rows: 2,
+        },
+        { label: 'What motivated you to build this project?', name: 'whyBuilt', component: 'textarea', rows: 2 },
+        { label: 'Project Tech Stack', name: 'techStack' },
+    ];
 
     const handleSubmit = async (values) => {
         axios
@@ -162,7 +162,7 @@ const NewProject = ({ project }) => {
                                 </SyntaxHighlighter>
                             </div>
                             <label htmlFor="state" className="block mb-2 text-sm font-bold text-gray-700">
-                                State (only published projects are visible)
+                                State (only published projects are visible) *
                             </label>
                             <Field
                                 name="state"
@@ -223,6 +223,6 @@ export async function getServerSideProps(context) {
     }
 
     return {
-        props: { project: JSON.parse(JSON.stringify(project)) },
+        props: { project: JSON.parse(JSON.stringify(project)), userSlug: user.slug },
     };
 }
