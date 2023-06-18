@@ -7,30 +7,8 @@ import { programmingLanguageOptions } from '../../lib/programmingLanguageOptions
 import axios from 'axios';
 import { useToast } from '../../context/ToastContext';
 import { useRouter } from 'next/router';
-
-const fields = [
-    { label: 'Title', name: 'title' },
-    { label: 'Project Slug (Path - grandstand.dev/userSlug/projects/projectSlug)', name: 'slug' },
-    { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
-    { label: 'Date Range', name: 'dateRange' },
-    { label: 'Image URL', name: 'imageUrl' },
-    { label: 'Application URL', name: 'applicationUrl' },
-    { label: 'GitHub URL', name: 'gitHubUrl' },
-    {
-        label: 'What are you most proud of about this project?',
-        name: 'mostProudOf',
-        component: 'textarea',
-        rows: 2,
-    },
-    {
-        label: 'What were the key learning outcomes from this project?',
-        name: 'learningOutcomes',
-        component: 'textarea',
-        rows: 2,
-    },
-    { label: 'What motivated you to build this project?', name: 'whyBuilt', component: 'textarea', rows: 2 },
-    { label: 'Project Tech Stack:', name: 'techStack' },
-];
+import { getSession } from 'next-auth/react';
+import { prisma } from '../../lib/prismadb';
 
 const validationSchema = () =>
     yup.object().shape({
@@ -63,7 +41,7 @@ const validationSchema = () =>
         techStack: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippet: yup.string().trim().min(5, 'Must be greater than 5 characters'),
         codeSnippetLanguage: yup.string(),
-        state: yup.string(),
+        state: yup.string().required(),
     });
 
 const initialValues = () => ({
@@ -80,24 +58,50 @@ const initialValues = () => ({
     techStack: '',
     codeSnippet: '',
     codeSnippetLanguage: '',
+    state: 'Published',
 });
 
-const NewProject = () => {
+const NewProject = ({ userSlug }) => {
     const { addToast } = useToast();
     const router = useRouter();
 
+    const fields = [
+        { label: 'Title *', name: 'title' },
+        { label: `Project Slug (Path - grandstand.dev/${userSlug ?? '[userSlug]'}/projects/[slug]) *`, name: 'slug' },
+        { label: 'Description *', name: 'description', component: 'textarea', rows: 2 },
+        { label: 'Date Range *', name: 'dateRange' },
+        { label: 'Image URL *', name: 'imageUrl' },
+        { label: 'Application URL', name: 'applicationUrl' },
+        { label: 'GitHub URL', name: 'gitHubUrl' },
+        {
+            label: 'What are you most proud of about this project?',
+            name: 'mostProudOf',
+            component: 'textarea',
+            rows: 2,
+        },
+        {
+            label: 'What were the key learning outcomes from this project?',
+            name: 'learningOutcomes',
+            component: 'textarea',
+            rows: 2,
+        },
+        { label: 'What motivated you to build this project?', name: 'whyBuilt', component: 'textarea', rows: 2 },
+        { label: 'Project Tech Stack:', name: 'techStack' },
+    ];
+
     const handleSubmit = async (values) => {
-        console.log('submitting');
         axios
             .post('/api/projects/createProject', { ...values })
             .then(() => {
                 addToast('Project successfully created', 'Success');
                 router.push('/projects');
             })
-            .catch();
+            .catch((error) => {
+                addToast(`Failed to create a project - ${error.message}`, 'Error');
+            });
     };
     return (
-        <EditingLayout>
+        <EditingLayout userSlug={userSlug}>
             <Formik initialValues={initialValues()} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (
@@ -107,18 +111,13 @@ const NewProject = () => {
                             {fields.map((field, index) => {
                                 const { label, name, component, rows } = field ?? {};
                                 return (
-                                    <div className="mb-2" key={index}>
-                                        <label
-                                            htmlFor={name}
-                                            key={index}
-                                            className="block mb-2 text-sm font-bold text-gray-700"
-                                        >
+                                    <div className="mb-2" key={`field-${index}`}>
+                                        <label htmlFor={name} className="block mb-2 text-sm font-bold text-gray-700">
                                             {label}
                                         </label>
                                         <Field
                                             type="text"
                                             name={name}
-                                            key={index}
                                             component={component}
                                             rows={rows}
                                             className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
@@ -158,7 +157,13 @@ const NewProject = () => {
                                     onClick={(e) => setFieldValue('codeSnippetLanguage', e.target.value)}
                                 >
                                     {programmingLanguageOptions.map((option, index) => {
-                                        return <option value={option.value} label={option.label} key={index} />;
+                                        return (
+                                            <option
+                                                value={option.value}
+                                                label={option.label}
+                                                key={`programming-language-${index}`}
+                                            />
+                                        );
                                     })}
                                 </Field>
                                 <ErrorMessage name="codeSnippetLanguage">
@@ -205,3 +210,23 @@ const NewProject = () => {
 };
 
 export default NewProject;
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/home',
+            },
+        };
+    }
+    const currentUserEmail = session.user.email;
+    const user = await prisma.user.findFirst({
+        where: {
+            email: currentUserEmail,
+        },
+    });
+    return {
+        props: { userSlug: user.slug },
+    };
+}

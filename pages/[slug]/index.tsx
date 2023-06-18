@@ -5,11 +5,11 @@ import { prisma } from '../../lib/prismadb';
 const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects: boolean; hasArticles: boolean }) => {
     const { image, name, description, slug, gitHubUrl, linkedInUrl } = user ?? {};
     return (
-        <div className="text-center flex h-screen">
+        <div className="flex h-screen text-center">
             <div className="m-auto">
-                <img className="mx-auto mb-5 rounded-full w-64 h-64" src={image}></img>
+                <img className="w-64 h-64 mx-auto mb-5 rounded-full" src={image}></img>
                 <p className="text-3xl font-bold md:text-4xl">{name}</p>
-                <p className="text-gray-500 text-lg">{description}</p>
+                <p className="text-lg text-gray-500">{description}</p>
                 <div className="flex justify-center">
                     {hasProjects && (
                         <a href={`${slug}/projects`}>

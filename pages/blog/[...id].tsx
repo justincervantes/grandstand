@@ -9,7 +9,7 @@ import { getSession } from 'next-auth/react';
 import ArticlePreviewModal from '../../components/articles/preview-modal';
 import { prisma } from '../../lib/prismadb';
 
-const Article = ({ article }) => {
+const Article = ({ article, userSlug }) => {
     const { id: articleId } = article;
     const [isOpen, setIsOpen] = useState(false);
     const { addToast } = useToast();
@@ -44,18 +44,21 @@ const Article = ({ article }) => {
         });
 
     const fields = [
-        { label: 'Title', name: 'title' },
-        { label: 'Article Slug (Path)', name: 'slug' },
-        { label: 'Image URL', name: 'imageUrl' },
+        { label: 'Title *', name: 'title' },
+        { label: `Article Slug (Path - grandstand.dev/${userSlug ?? '[userSlug]'}/blog/[slug]) *`, name: 'slug' },
+        { label: 'Image URL *', name: 'imageUrl' },
         {
             label: (
                 <div className="flex justify-between">
-                    <div>Content (markdown enabled)</div>
+                    <div>Content (markdown enabled) *</div>
                     <div className="flex">
-                        <div className="relative flex mr-2 group" onClick={() => setIsOpen(true)}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/1185/1185279.png" className="w-4 h-4" />
+                        <div className="relative flex mr-3 group" onClick={() => setIsOpen(true)}>
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/1185/1185279.png"
+                                className="w-6 h-6 cursor-pointer"
+                            />
 
-                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-5 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
+                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-5 -translate-y-10 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
                                 Preview
                             </span>
                         </div>
@@ -67,10 +70,10 @@ const Article = ({ article }) => {
                             >
                                 <img
                                     src="https://cdn-icons-png.flaticon.com/512/8988/8988962.png"
-                                    className="w-4 h-4"
+                                    className="w-6 h-6"
                                 />
                             </a>
-                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-20 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
+                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-20 translate-y-3 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
                                 Markdown Documentation
                             </span>
                         </div>
@@ -84,11 +87,11 @@ const Article = ({ article }) => {
     ];
 
     return (
-        <EditingLayout>
+        <EditingLayout userSlug={userSlug}>
             <Formik initialValues={article} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (
-                        <Form className="max-w-3xl px-1 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50 md:px-8">
+                        <Form className="max-w-3xl px-1 py-2 mx-auto my-4 rounded shadow-lg md:px-8 bg-gray-50">
                             <h1 className="pl-2 mb-2 text-xl font-medium text-center">Article Entry Form</h1>
                             <div>
                                 {fields.map((field, index) => {
@@ -116,7 +119,7 @@ const Article = ({ article }) => {
                                     );
                                 })}
                                 <label htmlFor="state" className="block mb-2 text-sm font-bold text-gray-700">
-                                    State (only published projects are visible)
+                                    State (only published projects are visible) *
                                 </label>
                                 <Field
                                     name="state"
@@ -127,7 +130,7 @@ const Article = ({ article }) => {
                                     <option value="Published" label="Published" />;
                                     <option value="Draft" label="Draft" />;
                                 </Field>
-                                <div className="flex justify-end mb-3">
+                                <div className="flex justify-end">
                                     <button
                                         type="submit"
                                         className="px-4 py-2 mt-2 text-base font-medium text-white bg-black rounded shadow-sm hover:bg-indigo-700 focus:outline-none focus:shadow-outline"
@@ -177,6 +180,6 @@ export async function getServerSideProps(context) {
         };
     }
     return {
-        props: { article: JSON.parse(JSON.stringify(article)) },
+        props: { article: JSON.parse(JSON.stringify(article)), userSlug: user.slug },
     };
 }

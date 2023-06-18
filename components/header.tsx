@@ -6,15 +6,15 @@ import Image from 'next/image';
 import logo from '../public/logo.png';
 import ShowToast from '../components/toast';
 import DropdownMenu from './dropdown';
+import Loading from './loading';
 
-export default function Header() {
+export default function Header({ loading = false, userSlug }) {
     const { data: session } = useSession();
     const router = useRouter();
     const heading = 'text-base font-medium text-gray-500 hover:text-gray-900';
-    const activeHeading = 'text-base font-medium text-gray-900 bold';
-
+    const activeHeading = 'text-base font-medium font-bold';
     return (
-        <header>
+        <header className="mb-5">
             <ShowToast />
             <title>Grandstand</title>
             <link rel="icon" type="image/png" href="/favicon.ico" />
@@ -33,9 +33,21 @@ export default function Header() {
                                 <div className="flex items-center text-center md:hidden">
                                     <DropdownMenu
                                         placeholder=""
-                                        options={['About Me', 'Projects', 'Blog', 'Preview']}
+                                        options={[
+                                            'About Me',
+                                            'Projects',
+                                            'Blog',
+                                            userSlug ? 'Preview' : undefined,
+                                        ].filter(Boolean)}
                                         onOptionClick={(option) => {
-                                            router.push(`/${option.replace(/ /, '-').toLowerCase()}`);
+                                            if (option === 'Preview') {
+                                                window.open(
+                                                    `${process.env.NEXT_PUBLIC_PREVIEW_URL}/${userSlug}`,
+                                                    '_blank',
+                                                );
+                                            } else {
+                                                router.push(`/${option.replace(/ /, '-').toLowerCase()}`);
+                                            }
                                         }}
                                         value={''}
                                     />
@@ -59,12 +71,15 @@ export default function Header() {
                                     >
                                         Blog
                                     </Link>
-                                    <Link
-                                        href="/preview"
-                                        className={router.pathname === '/preview' ? activeHeading : heading}
-                                    >
-                                        Preview
-                                    </Link>
+                                    {userSlug && (
+                                        <a
+                                            target="_blank"
+                                            href={`${process.env.NEXT_PUBLIC_PREVIEW_URL}/${userSlug}`}
+                                            className={heading}
+                                        >
+                                            Preview 🔗
+                                        </a>
+                                    )}
                                 </nav>
                             </div>
                         )}
@@ -75,7 +90,7 @@ export default function Header() {
                                         e.preventDefault();
                                         signIn();
                                     }}
-                                    className="inline-flex items-center justify-center px-4 py-2 ml-8 text-base font-medium text-white bg-black border border-transparent rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-700"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-base font-medium text-white bg-black border border-transparent rounded-md shadow-sm ml whitespace-nowrap hover:bg-indigo-700"
                                 >
                                     Access with Github
                                     <img
@@ -100,6 +115,7 @@ export default function Header() {
                             </div>
                         )}
                     </div>
+                    <div className="w-full h-1 rounded-full">{loading && <Loading />}</div>
                 </div>
             </div>
         </header>

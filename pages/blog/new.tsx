@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Loading from '../../components/loading';
 import EditingLayout from '../../components/layout';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
@@ -7,10 +6,14 @@ import { useRouter } from 'next/router';
 import { useToast } from '../../context/ToastContext';
 import ArticlePreviewModal from '../../components/articles/preview-modal';
 import * as yup from 'yup';
-const Article = () => {
+import { prisma } from '../../lib/prismadb';
+import { getSession } from 'next-auth/react';
+
+const Article = ({ userSlug }) => {
     const { addToast } = useToast();
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
+
     const handleSubmit = async (values) => {
         try {
             await axios.post('/api/articles/createNewArticle', { ...values });
@@ -37,18 +40,21 @@ const Article = () => {
         });
 
     const fields = [
-        { label: 'Title', name: 'title' },
-        { label: 'Article Slug (Path - grandstand.dev/userSlug/blog/articleSlug)', name: 'slug' },
-        { label: 'Image URL', name: 'imageUrl' },
+        { label: 'Title *', name: 'title' },
+        { label: `Article Slug (Path - grandstand.dev/${userSlug ?? '[userSlug]'}/blog/[slug]) *`, name: 'slug' },
+        { label: 'Image URL *', name: 'imageUrl' },
         {
             label: (
                 <div className="flex justify-between">
-                    <div>Content (markdown enabled)</div>
+                    <div>Content (markdown enabled) *</div>
                     <div className="flex">
-                        <div className="relative flex mr-2 group" onClick={() => setIsOpen(true)}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/1185/1185279.png" className="w-4 h-4" />
+                        <div className="relative flex mr-3 group" onClick={() => setIsOpen(true)}>
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/1185/1185279.png"
+                                className="w-6 h-6 cursor-pointer"
+                            />
 
-                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-5 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
+                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-5 -translate-y-10 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
                                 Preview
                             </span>
                         </div>
@@ -60,10 +66,10 @@ const Article = () => {
                             >
                                 <img
                                     src="https://cdn-icons-png.flaticon.com/512/8988/8988962.png"
-                                    className="w-4 h-4"
+                                    className="w-6 h-6"
                                 />
                             </a>
-                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-20 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
+                            <span className="absolute px-1 m-4 mx-auto text-sm text-gray-100 transition-opacity -translate-x-20 translate-y-3 bg-gray-900 rounded-md opacity-0 group-hover:opacity-100">
                                 Markdown Documentation
                             </span>
                         </div>
@@ -77,16 +83,16 @@ const Article = () => {
     ];
 
     return (
-        <EditingLayout>
+        <EditingLayout userSlug={userSlug}>
             <div className="flex mb-3 whitespace-nowrap"></div>
             <Formik
-                initialValues={{ title: '', slug: '', imageUrl: '' }}
+                initialValues={{ title: '', slug: '', content: '', imageUrl: '', state: 'Published' }}
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema()}
             >
                 {({ setFieldValue, values }) => {
                     return (
-                        <Form className="max-w-3xl px-8 py-2 mx-auto my-4 rounded shadow-lg bg-gray-50">
+                        <Form className="max-w-3xl px-1 py-2 mx-auto my-4 rounded shadow-lg md:px-8 bg-gray-50">
                             <h1 className="pl-2 mb-2 text-xl font-medium text-center">Article Entry Form</h1>
                             <div>
                                 {fields.map((field, index) => {
@@ -114,7 +120,7 @@ const Article = () => {
                                     );
                                 })}
                                 <label htmlFor="state" className="block mb-2 text-sm font-bold text-gray-700">
-                                    State (only published projects are visible)
+                                    State (only published projects are visible) *
                                 </label>
                                 <Field
                                     name="state"
@@ -125,6 +131,9 @@ const Article = () => {
                                     <option value="Published" label="Published" />;
                                     <option value="Draft" label="Draft" />;
                                 </Field>
+                                <ErrorMessage name="state">
+                                    {(errorMessage) => <div className="text-red-500">{errorMessage}</div>}
+                                </ErrorMessage>
                                 <div className="flex justify-end">
                                     <button
                                         type="submit"
@@ -143,3 +152,23 @@ const Article = () => {
     );
 };
 export default Article;
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/home',
+            },
+        };
+    }
+    const currentUserEmail = session.user.email;
+    const user = await prisma.user.findFirst({
+        where: {
+            email: currentUserEmail,
+        },
+    });
+    return {
+        props: { userSlug: user.slug },
+    };
+}

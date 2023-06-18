@@ -5,53 +5,63 @@ import { useRouter } from 'next/router';
 import { prisma } from '../../lib/prismadb';
 
 const Blog = (props) => {
-    const { articles = [] } = props;
+    const { articles = [], userSlug } = props;
     const router = useRouter();
 
     return (
-        <EditingLayout>
-            <div className="w-full m-auto">
-                <div className="mb-6">
-                    <p className="inline align-middle text-3xl bold">Blog</p>
+        <EditingLayout userSlug={userSlug}>
+            <div className="w-full h-full">
+                <div className="flex justify-between mb-6 md:block">
+                    <p className="inline text-3xl align-middle bold">Blog</p>
                     <button
                         onClick={(e) => {
                             e.preventDefault();
                             router.push('/blog/new');
                         }}
-                        className="inline ml-6 px-4 py-1 text-base font-medium text-black bg-white border-2 border-black rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-500"
+                        className="inline px-4 py-1 ml-6 text-base font-medium text-black bg-white border-2 border-black rounded-md shadow-sm whitespace-nowrap hover:bg-indigo-500"
                     >
                         New
                     </button>
                 </div>
-                {articles.map((article, index) => {
-                    const { id, title, description, state } = article ?? {};
-                    return (
-                        <div
-                            className="hover:bg-gray-50 cursor-pointer"
-                            key={index}
-                            onClick={() => router.push(`/blog/${id}`)}
-                        >
-                            <div className="flex w-full leading-normal border-b border-gray-400" key={index}>
-                                <div className="w-full mb-4" key={index}>
-                                    <div className="mb-1 text-xl font-bold text-gray-900" key={index}>
-                                        {title}
+                <div className="divide-y divide-slate-300">
+                    {articles.map((article, index) => {
+                        const { id, title, description, state } = article ?? {};
+                        return (
+                            <div
+                                className="cursor-pointer hover:bg-gray-200"
+                                key={index}
+                                onClick={() => router.push(`/blog/${id}`)}
+                            >
+                                <div className="flex w-full leading-normal border-gray-400" key={index}>
+                                    <div className="w-full mb-4" key={index}>
+                                        <div className="mb-1 text-xl font-bold text-gray-900" key={index}>
+                                            {title}
+                                        </div>
+                                        <p className="text-base text-gray-700" key={`descr-${index}`}>
+                                            {description}
+                                        </p>
+                                        <p
+                                            className={`text-center text-base text-white p-1 my-1 ${
+                                                state === 'Published' ? 'bg-green-700' : 'bg-gray-500'
+                                            }`}
+                                            key={`state-${index}`}
+                                        >
+                                            {state}
+                                        </p>
                                     </div>
-                                    <p className="text-base text-gray-700" key={`descr-${index}`}>
-                                        {description}
-                                    </p>
-                                    <p
-                                        className={`text-center text-base text-white p-1 my-1 ${
-                                            state === 'Published' ? 'bg-green-700' : 'bg-gray-500'
-                                        }`}
-                                        key={`state-${index}`}
-                                    >
-                                        {state}
-                                    </p>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+                </div>
+                {articles.length === 0 && (
+                    <div className="flex items-center justify-center m-auto text-center h-2/3 lg:w-10/12">
+                        <span className="text-2xl">
+                            Add a new blog article to get started. If no blog articles are present, this won't appear as
+                            a link in your profile.
+                        </span>
+                    </div>
+                )}
             </div>
         </EditingLayout>
     );
@@ -69,15 +79,16 @@ export async function getServerSideProps(context) {
         };
     }
     const currentUserEmail = session.user.email;
-    const { articles } = await prisma.user.findFirst({
+    const { articles, slug: userSlug } = await prisma.user.findFirst({
         where: {
             email: currentUserEmail,
         },
         select: {
             articles: { where: { deletedAt: null } },
+            slug: true,
         },
     });
     return {
-        props: { articles: JSON.parse(JSON.stringify(articles)) },
+        props: { articles: JSON.parse(JSON.stringify(articles)), userSlug },
     };
 }

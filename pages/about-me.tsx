@@ -60,16 +60,16 @@ const AboutMe = ({ user }) => {
         });
 
     const fields = [
-        { label: 'Display Name', name: 'userName' },
-        { label: 'Grandstand User Slug (Path - grandstand.dev/userSlug)', name: 'slug' },
-        { label: 'Description', name: 'description', component: 'textarea', rows: 2 },
-        { label: 'Image URL', name: 'imageUrl' },
+        { label: 'Display Name *', name: 'userName' },
+        { label: 'Grandstand User Slug (Path - grandstand.dev/[slug]) *', name: 'slug' },
+        { label: 'Description *', name: 'description', component: 'textarea', rows: 2 },
+        { label: 'Image URL *', name: 'imageUrl' },
         { label: 'GitHub URL', name: 'gitHubUrl' },
         { label: 'LinkedIn URL', name: 'linkedInUrl' },
     ];
 
     return (
-        <EditingLayout>
+        <EditingLayout userSlug={slug}>
             <Formik
                 initialValues={{
                     userName: name,
