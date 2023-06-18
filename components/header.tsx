@@ -6,8 +6,9 @@ import Image from 'next/image';
 import logo from '../public/logo.png';
 import ShowToast from '../components/toast';
 import DropdownMenu from './dropdown';
+import Loading from './loading';
 
-export default function Header() {
+export default function Header({ loading = false }) {
     const { data: session } = useSession();
     const router = useRouter();
     const heading = 'text-base font-medium text-gray-500 hover:text-gray-900';
@@ -100,6 +101,7 @@ export default function Header() {
                             </div>
                         )}
                     </div>
+                    <div className="w-full h-1 rounded-full">{loading && <Loading />}</div>
                 </div>
             </div>
         </header>
