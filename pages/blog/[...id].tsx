@@ -41,6 +41,11 @@ const Article = ({ article, userSlug }) => {
                 .min(2, 'Must be greater than 2 characters')
                 .required('Please enter a slug'),
             imageUrl: yup.string().trim().url('Please provide a full http/https URL').required('An image is required.'),
+            content: yup
+                .string()
+                .trim()
+                .min(5, 'Must be greater than 5 chars')
+                .required('Please enter content (at least 5 chars)'),
             state: yup.string().required('A state is required.'),
         });
 
