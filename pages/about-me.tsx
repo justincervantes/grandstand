@@ -7,6 +7,7 @@ import { getSession } from 'next-auth/react';
 import EditingLayout from '../components/layout';
 import { invalidSlugs } from '../lib/slugDictionary';
 import { prisma } from '../lib/prismadb';
+import FailedSubmissionToast from '../components/failedSubmissionToast';
 
 const AboutMe = ({ user }) => {
     const { name, slug, description, image, gitHubUrl, linkedInUrl } = user ?? {};
@@ -114,6 +115,7 @@ const AboutMe = ({ user }) => {
                             </button>
                         </div>
                     </div>
+                    <FailedSubmissionToast />
                 </Form>
             </Formik>
         </EditingLayout>

@@ -8,6 +8,7 @@ import ArticlePreviewModal from '../../components/articles/preview-modal';
 import * as yup from 'yup';
 import { prisma } from '../../lib/prismadb';
 import { getSession } from 'next-auth/react';
+import FailedSubmissionToast from '../../components/failedSubmissionToast';
 
 const Article = ({ userSlug }) => {
     const { addToast } = useToast();
@@ -144,6 +145,7 @@ const Article = ({ userSlug }) => {
                                 </div>
                             </div>
                             <ArticlePreviewModal content={values.content} isOpen={isOpen} setIsOpen={setIsOpen} />
+                            <FailedSubmissionToast />
                         </Form>
                     );
                 }}

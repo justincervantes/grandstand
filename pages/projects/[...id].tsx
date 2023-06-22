@@ -9,6 +9,7 @@ import { useToast } from '../../context/ToastContext';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import { prisma } from '../../lib/prismadb';
+import FailedSubmissionToast from '../../components/failedSubmissionToast';
 
 const validationSchema = () =>
     yup.object().shape({
@@ -181,6 +182,7 @@ const NewProject = ({ project, userSlug }) => {
                                     Submit
                                 </button>
                             </div>
+                            <FailedSubmissionToast />
                         </Form>
                     );
                 }}
