@@ -1,7 +1,7 @@
 import EditingLayout from '../../components/layout';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-import React from 'react';
+import React, { useEffect } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { programmingLanguageOptions } from '../../lib/programmingLanguageOptions';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import { useToast } from '../../context/ToastContext';
 import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import { prisma } from '../../lib/prismadb';
+import { useFormikContext } from 'formik';
 
 const validationSchema = () =>
     yup.object().shape({
@@ -61,10 +62,30 @@ const initialValues = () => ({
     state: 'Published',
 });
 
+export function SubmissionListener() {
+    const { addToast } = useToast();
+    const { errors, isSubmitting, isValidating } = useFormikContext();
+
+    useEffect(() => {
+        if (Object.keys(errors).length && isSubmitting) {
+            addToast(`Failed to submit project - ${Object.keys(errors).length} errors on form`, 'Error');
+            // let keys = Object.keys(errors);
+            // if (keys.length > 0) {
+            //     const selector = `[name=${keys[0]}]`;
+            //     const errorElement = document.querySelector(selector) as HTMLElement;
+            //     if (errorElement) {
+            //         errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            //         errorElement.focus({ preventScroll: true });
+            //     }
+            // }
+        }
+    }, [isSubmitting]);
+    return null;
+}
+
 const NewProject = ({ userSlug }) => {
     const { addToast } = useToast();
     const router = useRouter();
-
     const fields = [
         { label: 'Title *', name: 'title' },
         { label: `Project Slug (Path - grandstand.dev/${userSlug ?? '[userSlug]'}/projects/[slug]) *`, name: 'slug' },
@@ -201,6 +222,7 @@ const NewProject = ({ userSlug }) => {
                                     Submit
                                 </button>
                             </div>
+                            <SubmissionListener />
                         </Form>
                     );
                 }}
