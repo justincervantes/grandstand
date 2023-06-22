@@ -10,10 +10,10 @@ const Home = ({ userSlug }) => {
                     <span className="mb-3 text-4xl font-bold">grandstand.dev</span>
                     <p className="w-10/12 text-left md:text-md md:w-1/2">
                         A tool to get a free developer profile hosted in{' '}
-                        <span className="underline decoration-wavy">under 1 minute</span>, just sign in with GitHub,
+                        <span className="font-bold">under 1 minute</span>, just sign in with GitHub,
                         fill in your basic details, then check out and share your URL by clicking Preview. Adding{' '}
-                        <span className="underline decoration-dotted">blogs </span>
-                        and <span className="underline decoration-dashed">projects</span> will help you stand out to
+                        <span className="font-bold">Blogs </span>
+                        and <span className="font-bold">Projects</span> will help you stand out to
                         guests on your site.
                     </p>
                 </div>
