@@ -28,7 +28,7 @@ const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects
                         </a>
                     )}
                     {gitHubUrl && (
-                        <a href={gitHubUrl}>
+                        <a href={gitHubUrl} target="_blank" rel="noopener noreferrer">
                             <img
                                 className="w-8 h-8 m-4"
                                 src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
@@ -36,7 +36,7 @@ const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects
                         </a>
                     )}
                     {linkedInUrl && (
-                        <a href={linkedInUrl}>
+                        <a href={linkedInUrl} target="_blank" rel="noopener noreferrer">
                             <img
                                 className="w-8 h-8 m-4"
                                 src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
