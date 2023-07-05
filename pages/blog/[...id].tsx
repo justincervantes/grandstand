@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { getSession } from 'next-auth/react';
 import ArticlePreviewModal from '../../components/articles/preview-modal';
 import { prisma } from '../../lib/prismadb';
+import FailedSubmissionToast from '../../components/failedSubmissionToast';
 
 const Article = ({ article, userSlug }) => {
     const { id: articleId } = article;
@@ -40,6 +41,11 @@ const Article = ({ article, userSlug }) => {
                 .min(2, 'Must be greater than 2 characters')
                 .required('Please enter a slug'),
             imageUrl: yup.string().trim().url('Please provide a full http/https URL').required('An image is required.'),
+            content: yup
+                .string()
+                .trim()
+                .min(5, 'Must be greater than 5 chars')
+                .required('Please enter content (at least 5 chars)'),
             state: yup.string().required('A state is required.'),
         });
 
@@ -140,6 +146,7 @@ const Article = ({ article, userSlug }) => {
                                 </div>
                             </div>
                             <ArticlePreviewModal content={values.content} isOpen={isOpen} setIsOpen={setIsOpen} />
+                            <FailedSubmissionToast />
                         </Form>
                     );
                 }}
