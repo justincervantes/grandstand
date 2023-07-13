@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import logo from '../public/logo.png';
+import logo from '../public/GSLogo.png';
 import ShowToast from '../components/toast';
 import DropdownMenu from './dropdown';
 import Loading from './loading';
@@ -24,7 +24,7 @@ export default function Header({ loading = false, userSlug }) {
                         <div className="justify-start order-2 hidden lg:w-0 lg:flex-1 md:flex md:order-first">
                             <a href="/">
                                 <span className="sr-only">Grandstand</span>
-                                <Image className="w-auto h-12" src={logo} alt="Logo" />
+                                <Image className="w-auto h-14" src={logo} alt="Logo" />
                             </a>
                         </div>
 
