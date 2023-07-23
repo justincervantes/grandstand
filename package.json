@@ -1,7 +1,7 @@
 {
     "scripts": {
         "dev": "next dev",
-        "build": "next build && dotenv -e .env.local prisma migrate dev",
+        "build": "next build",
         "start": "next start",
         "lint": "next lint",
         "prismaDev": "dotenv -e .env.local prisma migrate dev"
