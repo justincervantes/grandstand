@@ -51,6 +51,7 @@ model User {
   sessions      Session[]
   projects      Project[]
   articles      Article[]
+  views         Int?      @default(0)
 
   @@map("user")
 }
