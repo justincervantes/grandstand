@@ -96,7 +96,7 @@ export async function getServerSideProps(context) {
     });
     await prisma.user.update({
         where: {
-            slug,
+            id: user.id,
         },
         data: {
             views: {
