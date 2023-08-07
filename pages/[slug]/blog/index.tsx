@@ -11,7 +11,7 @@ const Blog = ({ articles, user, hasProjects }) => {
             <div className="flex justify-center pb-5 border-b">
                 <img
                     src={userProfileImage}
-                    className="w-8 h-8 mx-2 border border-black rounded-full md:w-14 md:h-14 lg:h-12 lg:w-12"
+                    className="w-8 h-8 mx-2 border border-black rounded-full md:w-14 md:h-14 lg:h-12 lg:w-12 hover:cursor-pointer"
                     alt="Home"
                     title="Home"
                     onClick={() => router.push(`/${userSlug}`)}
@@ -19,7 +19,7 @@ const Blog = ({ articles, user, hasProjects }) => {
                 {hasProjects && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
-                        className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12"
+                        className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                         alt="Projects"
                         title="Projects"
                         onClick={() => router.push(`/${userSlug}/projects`)}
@@ -28,7 +28,7 @@ const Blog = ({ articles, user, hasProjects }) => {
                 {gitHubUrl && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12"
+                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                         alt="GitHub"
                         title="GitHub"
                         onClick={() => router.push(gitHubUrl)}
@@ -37,7 +37,7 @@ const Blog = ({ articles, user, hasProjects }) => {
                 {linkedInUrl && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12"
+                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
                         alt="LinkedIn"
                         title="LinkedIn"
                         onClick={() => router.push(linkedInUrl)}
