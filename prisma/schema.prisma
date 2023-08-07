@@ -1,7 +1,6 @@
 datasource db {
-  provider          = "mysql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // Only needed when using a cloud provider that doesn't support the creation of new databases, like Heroku. Learn more: https://pris.ly/migrate-shadow
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL") // uses connection pooling
 }
 
 generator client {
@@ -52,6 +51,7 @@ model User {
   sessions      Session[]
   projects      Project[]
   articles      Article[]
+  views         Int?      @default(0)
 
   @@map("user")
 }
@@ -95,7 +95,7 @@ model Project {
   applicationUrl      String?
   gitHubUrl           String?
   mostProudOf         String?      @db.Text
-  learningOutcomes     String?      @db.Text
+  learningOutcomes    String?      @db.Text
   whyBuilt            String?      @db.Text
   techStack           String?      @db.Text
   codeSnippet         String?      @db.Text

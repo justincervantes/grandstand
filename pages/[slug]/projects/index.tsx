@@ -94,6 +94,16 @@ export async function getServerSideProps(context) {
             },
         },
     });
+    await prisma.user.update({
+        where: {
+            id: user.id,
+        },
+        data: {
+            views: {
+                increment: 1,
+            },
+        },
+    });
     const { articles, projects } = user;
     const hasArticles = articles.length > 0;
 
