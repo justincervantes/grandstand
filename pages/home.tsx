@@ -31,6 +31,6 @@ export async function getServerSideProps(context) {
         },
     });
     return {
-        props: { userSlug: user?.slug },
+        props: { userSlug: user?.slug ?? null },
     };
 }

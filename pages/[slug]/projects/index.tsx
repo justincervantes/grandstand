@@ -46,7 +46,7 @@ const Projects = ({ projects, user, hasArticles }) => {
                 )}
             </div>
             {projects.map((project, index) => {
-                const { title, imageUrl, slug, createdAt, description, whyBuilt } = project;
+                const { title, imageUrl, slug, createdAt, description } = project;
                 return (
                     <div
                         className="flex w-11/12 p-2 mx-auto my-4 border border-b shadow-sm cursor-pointer bg-gray-50 lg:max-w-3xl sm:p-3 lg:p-4 hover:shadow-2xl"
@@ -54,7 +54,7 @@ const Projects = ({ projects, user, hasArticles }) => {
                         onClick={() => router.push(`/${userSlug}/projects/${slug}`)}
                     >
                         <div key={`${index}image`} className="m-auto mx-3 basis-1/4">
-                            <img className="m-auto h-26 lg:h-44 rounded-xl" src={imageUrl}></img>
+                            <img className="m-auto h-26 lg:h-44 rounded-xl" src={imageUrl} alt={'project picture'}></img>
                         </div>
                         <div key={`${index}title`} className="px-2 text-left basis-3/4">
                             <span className="my-2 text-xl font-bold md:text-2xl">{title}</span>
@@ -91,16 +91,6 @@ export async function getServerSideProps(context) {
                 orderBy: {
                     createdAt: 'desc',
                 },
-            },
-        },
-    });
-    await prisma.user.update({
-        where: {
-            id: user.id,
-        },
-        data: {
-            views: {
-                increment: 1,
             },
         },
     });
