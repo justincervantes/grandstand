@@ -7,7 +7,7 @@ const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects
     return (
         <div className="flex h-screen text-center">
             <div className="m-auto">
-                <img className="w-64 h-64 mx-auto mb-5 rounded-full" src={image}></img>
+                <img className="w-64 h-64 mx-auto mb-5 rounded-full" src={image} alt={'profile picture'}></img>
                 <p className="text-3xl font-bold md:text-4xl">{name}</p>
                 <p className="text-lg text-gray-500">{description}</p>
                 <div className="flex justify-center">
@@ -63,6 +63,16 @@ export async function getServerSideProps(context) {
             redirect: { destination: '/404' },
         };
     }
+    await prisma.user.update({
+        where: {
+            slug,
+        },
+        data: {
+            views: {
+                increment: 1,
+            },
+        },
+    });
     const [projectCount, articlesCount] = await Promise.all([
         prisma.project.count({
             where: {
@@ -81,8 +91,8 @@ export async function getServerSideProps(context) {
     return {
         props: {
             user: JSON.parse(JSON.stringify(user)),
-            hasProjects: projectCount > 0 ? true : false,
-            hasArticles: articlesCount > 0 ? true : false,
+            hasProjects: projectCount > 0,
+            hasArticles: articlesCount > 0,
         },
     };
 }
