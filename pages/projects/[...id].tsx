@@ -44,7 +44,8 @@ const validationSchema = () =>
         state: yup.string().required(),
     });
 
-const NewProject = ({ project, userSlug }) => {
+const Project = ({ user, project }) => {
+    const { slug: userSlug, articles, projects, views } = user ?? {};
     const { addToast } = useToast();
     const router = useRouter();
     const { id: projectId } = project ?? {};
@@ -83,7 +84,12 @@ const NewProject = ({ project, userSlug }) => {
             .catch();
     };
     return (
-        <EditingLayout userSlug={userSlug}>
+        <EditingLayout
+            userSlug={userSlug}
+            articleCount={articles?.length ?? 0}
+            projectCount={projects?.length ?? 0}
+            views={views}
+        >
             <Formik initialValues={project} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (
@@ -191,7 +197,7 @@ const NewProject = ({ project, userSlug }) => {
     );
 };
 
-export default NewProject;
+export default Project;
 
 export async function getServerSideProps(context) {
     const session = await getSession(context);
@@ -208,6 +214,10 @@ export async function getServerSideProps(context) {
 
     const user = await prisma.user.findFirstOrThrow({
         where: { email: currentUserEmail },
+        include: {
+            articles: { where: { deletedAt: null } },
+            projects: { where: { deletedAt: null } },
+        },
     });
     const project = await prisma.project.findFirst({
         where: {
@@ -225,6 +235,6 @@ export async function getServerSideProps(context) {
     }
 
     return {
-        props: { project: JSON.parse(JSON.stringify(project)), userSlug: user.slug },
+        props: { user: JSON.parse(JSON.stringify(user)), project },
     };
 }

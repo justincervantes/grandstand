@@ -10,7 +10,8 @@ import { prisma } from '../../lib/prismadb';
 import { getSession } from 'next-auth/react';
 import FailedSubmissionToast from '../../components/failedSubmissionToast';
 
-const Article = ({ userSlug }) => {
+const Article = ({ user }) => {
+    const { slug: userSlug, articles, projects, views } = user ?? {};
     const { addToast } = useToast();
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
@@ -89,7 +90,12 @@ const Article = ({ userSlug }) => {
     ];
 
     return (
-        <EditingLayout userSlug={userSlug}>
+        <EditingLayout
+            userSlug={userSlug}
+            articleCount={articles?.length ?? 0}
+            projectCount={projects?.length ?? 0}
+            views={views}
+        >
             <div className="flex mb-3 whitespace-nowrap"></div>
             <Formik
                 initialValues={{ title: '', slug: '', content: '', imageUrl: '', state: 'Published' }}
@@ -174,8 +180,12 @@ export async function getServerSideProps(context) {
         where: {
             email: currentUserEmail,
         },
+        include: {
+            articles: { where: { deletedAt: null } },
+            projects: { where: { deletedAt: null } },
+        },
     });
     return {
-        props: { userSlug: user.slug },
+        props: { user: JSON.parse(JSON.stringify(user)) },
     };
 }

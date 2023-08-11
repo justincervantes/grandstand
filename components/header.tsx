@@ -3,16 +3,16 @@ import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import logo from '../public/GSLogo.png';
+import logo from '../public/logo.png';
 import ShowToast from '../components/toast';
 import DropdownMenu from './dropdown';
 import Loading from './loading';
 
-export default function Header({ loading = false, userSlug }) {
+export default function Header({ loading = false, userSlug, articleCount, views, projectCount }) {
     const { data: session } = useSession();
     const router = useRouter();
-    const heading = 'text-base font-medium text-gray-500 hover:text-gray-900';
-    const activeHeading = 'text-base font-medium font-bold';
+    const heading = 'flex text-base font-medium text-gray-500 hover:text-gray-900';
+    const activeHeading = 'flex text-base font-medium font-bold';
     return (
         <header className="mb-5">
             <ShowToast />
@@ -34,19 +34,71 @@ export default function Header({ loading = false, userSlug }) {
                                     <DropdownMenu
                                         placeholder=""
                                         options={[
-                                            'About Me',
-                                            'Projects',
-                                            'Blog',
-                                            userSlug ? 'Preview' : undefined,
+                                            {
+                                                label: (
+                                                    <div className="flex justify-center">
+                                                        <div>About Me</div>
+                                                        {userSlug === 0 && (
+                                                            <span className="relative flex w-3 h-3 ml-1">
+                                                                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                                                <span className="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                ),
+                                                path: '/about-me',
+                                            },
+                                            {
+                                                label: (
+                                                    <div className="flex justify-center">
+                                                        <div>Projects</div>
+                                                        {projectCount === 0 && (
+                                                            <span className="relative flex w-3 h-3 ml-1">
+                                                                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                                                <span className="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                ),
+                                                path: '/projects',
+                                            },
+                                            {
+                                                label: (
+                                                    <div className="flex justify-center">
+                                                        <div>Blog</div>
+                                                        {articleCount === 0 && (
+                                                            <span className="relative flex w-3 h-3 ml-1">
+                                                                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                                                <span className="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                ),
+                                                path: '/blog',
+                                            },
+                                            {
+                                                label: userSlug ? (
+                                                    <div className="flex justify-center">
+                                                        <div>Preview 🔗</div>
+                                                        {views === 0 && (
+                                                            <span className="relative flex w-3 h-3 ml-1">
+                                                                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                                                <span className="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                ) : undefined,
+                                                path: '/preview',
+                                            },
                                         ].filter(Boolean)}
                                         onOptionClick={(option) => {
-                                            if (option === 'Preview') {
+                                            if (option?.path === '/preview') {
                                                 window.open(
                                                     `${process.env.NEXT_PUBLIC_PREVIEW_URL}/${userSlug}`,
                                                     '_blank',
                                                 );
                                             } else {
-                                                router.push(`/${option.replace(/ /, '-').toLowerCase()}`);
+                                                router.push(option?.path);
                                             }
                                         }}
                                         value={''}
@@ -57,19 +109,37 @@ export default function Header({ loading = false, userSlug }) {
                                         href="/about-me"
                                         className={router.pathname === '/about-me' ? activeHeading : heading}
                                     >
-                                        About Me
+                                        <span>About Me</span>
+                                        {!userSlug && (
+                                            <span className="relative flex w-3 h-3">
+                                                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                                <span className="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                                            </span>
+                                        )}
                                     </Link>
                                     <Link
                                         href="/projects"
                                         className={router.pathname === '/projects' ? activeHeading : heading}
                                     >
-                                        Projects
+                                        <span>Projects</span>
+                                        {projectCount === 0 && (
+                                            <span className="relative flex w-3 h-3">
+                                                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                                <span className="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                                            </span>
+                                        )}
                                     </Link>
                                     <Link
                                         href="/blog"
                                         className={router.pathname === '/blog' ? activeHeading : heading}
                                     >
-                                        Blog
+                                        <span>Blog</span>
+                                        {articleCount === 0 && (
+                                            <span className="relative flex w-3 h-3">
+                                                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                                <span className="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                                            </span>
+                                        )}
                                     </Link>
                                     {userSlug && (
                                         <a
@@ -78,6 +148,12 @@ export default function Header({ loading = false, userSlug }) {
                                             className={heading}
                                         >
                                             Preview 🔗
+                                            {views === 0 && (
+                                                <span className="relative flex w-3 h-3">
+                                                    <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-sky-400"></span>
+                                                    <span className="relative inline-flex w-3 h-3 rounded-full bg-sky-500"></span>
+                                                </span>
+                                            )}
                                         </a>
                                     )}
                                 </nav>

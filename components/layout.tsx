@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from './header';
 import { useRouter } from 'next/router';
 
-export default function EditingLayout({ userSlug, children }) {
+export default function EditingLayout({ userSlug, articleCount, projectCount, views, children }) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
@@ -21,7 +21,13 @@ export default function EditingLayout({ userSlug, children }) {
 
     return (
         <div className="flex flex-col h-screen">
-            <Header loading={loading} userSlug={userSlug} />
+            <Header
+                loading={loading}
+                userSlug={userSlug}
+                articleCount={articleCount}
+                projectCount={projectCount}
+                views={views}
+            />
             <main className="flex-1 px-5">{children}</main>
         </div>
     );

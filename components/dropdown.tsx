@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, ReactElement } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { Bars3Icon } from '@heroicons/react/20/solid';
 import { useRouter } from 'next/router';
@@ -10,13 +10,10 @@ const DropdownMenu = ({
     value = '',
 }: {
     placeholder: string;
-    options: string[];
-    onOptionClick: (option: string) => void;
+    options: { label: ReactElement; path: string }[];
+    onOptionClick: (option: { label: ReactElement; path: string }) => void;
     value: string;
 }) => {
-    const handleClick = (event) => {
-        onOptionClick(event.target.innerHTML);
-    };
     const router = useRouter();
     const heading =
         'text-base font-medium text-gray-500 hover:text-gray-900 block px-4 py-2 text-sm w-full text-center';
@@ -45,14 +42,10 @@ const DropdownMenu = ({
                         {options.map((option, index) => (
                             <Menu.Item key={`dropdown-item-${index}`}>
                                 <button
-                                    onClick={handleClick}
-                                    className={
-                                        router.pathname === `/${option.replace(/ /, '-').toLowerCase()}`
-                                            ? activeHeading
-                                            : heading
-                                    }
+                                    onClick={() => onOptionClick(option)}
+                                    className={router.pathname === option?.path ? activeHeading : heading}
                                 >
-                                    {option}
+                                    {option.label}
                                 </button>
                             </Menu.Item>
                         ))}

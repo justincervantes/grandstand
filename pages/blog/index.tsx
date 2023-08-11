@@ -4,12 +4,17 @@ import EditingLayout from '../../components/layout';
 import { useRouter } from 'next/router';
 import { prisma } from '../../lib/prismadb';
 
-const Blog = (props) => {
-    const { articles = [], userSlug } = props;
+const Blog = ({ user }) => {
+    const { slug: userSlug, articles, projects, views } = user ?? {};
     const router = useRouter();
 
     return (
-        <EditingLayout userSlug={userSlug}>
+        <EditingLayout
+            userSlug={userSlug}
+            articleCount={articles?.length ?? 0}
+            projectCount={projects?.length ?? 0}
+            views={views}
+        >
             <div className="w-full h-full">
                 <div className="flex justify-between mb-6 md:block">
                     <p className="inline text-3xl align-middle bold">Blog</p>
@@ -56,10 +61,7 @@ const Blog = (props) => {
                 </div>
                 {articles.length === 0 && (
                     <div className="flex items-center justify-center m-auto text-center h-2/3 lg:w-10/12">
-                        <span className="text-2xl">
-                            Add a new blog article to get started. If no blog articles are present, this won't appear as
-                            a link in your profile.
-                        </span>
+                        <span className="text-2xl">Add a new blog article to get started.</span>
                     </div>
                 )}
             </div>
@@ -79,16 +81,16 @@ export async function getServerSideProps(context) {
         };
     }
     const currentUserEmail = session.user.email;
-    const { articles, slug: userSlug } = await prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
         where: {
             email: currentUserEmail,
         },
-        select: {
+        include: {
             articles: { where: { deletedAt: null } },
-            slug: true,
+            projects: { where: { deletedAt: null } },
         },
     });
     return {
-        props: { articles: JSON.parse(JSON.stringify(articles)), userSlug },
+        props: { user: JSON.parse(JSON.stringify(user)) },
     };
 }
