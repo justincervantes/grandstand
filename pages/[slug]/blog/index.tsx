@@ -1,49 +1,23 @@
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { prisma } from '../../../lib/prismadb';
+import PortfolioLinks, { PortfolioLinkLocations } from '../../../components/portfoliolinks';
 
 const Blog = ({ articles, user, hasProjects }) => {
     const { image: userProfileImage, name: userName, slug: userSlug, linkedInUrl, gitHubUrl } = user ?? {};
     const router = useRouter();
     return (
         <div className="text-center">
-            <p className="my-5 text-xl font-bold md:text-2xl lg:text-6xl">{userName}</p>
-            <div className="flex justify-center pb-5 border-b">
-                <img
-                    src={userProfileImage}
-                    className="w-8 h-8 mx-2 border border-black rounded-full md:w-14 md:h-14 lg:h-12 lg:w-12 hover:cursor-pointer"
-                    alt="Home"
-                    title="Home"
-                    onClick={() => router.push(`/${userSlug}`)}
-                />
-                {hasProjects && (
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
-                        className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                        alt="Projects"
-                        title="Projects"
-                        onClick={() => router.push(`/${userSlug}/projects`)}
-                    />
-                )}
-                {gitHubUrl && (
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                        alt="GitHub"
-                        title="GitHub"
-                        onClick={() => router.push(gitHubUrl)}
-                    />
-                )}
-                {linkedInUrl && (
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                        alt="LinkedIn"
-                        title="LinkedIn"
-                        onClick={() => router.push(linkedInUrl)}
-                    />
-                )}
-            </div>
+            <PortfolioLinks
+                userName={userName}
+                location={PortfolioLinkLocations.Header}
+                userProfileImage={userProfileImage}
+                userSlug={userSlug}
+                hasProjects={hasProjects}
+                hasArticles={true}
+                gitHubUrl={gitHubUrl}
+                linkedInUrl={linkedInUrl}
+            />
             <div></div>
             {articles.map((article, index) => {
                 const { title, imageUrl, createdAt, slug } = article;

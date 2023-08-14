@@ -12,13 +12,18 @@ function Loading() {
     };
 
     useEffect(() => {
-        const intervalId = setInterval(calculateLoadingPercentage, 500);
+        const intervalId = setInterval(calculateLoadingPercentage, 400);
         return () => {
             clearInterval(intervalId);
         };
     });
 
-    return <div className="h-1 bg-gray-700 rounded-full" style={{ width: `${loadingPercentage}%` }}></div>;
+    return (
+        <div
+            className="h-1 transition-all ease-out bg-gray-700 rounded-full "
+            style={{ width: `${loadingPercentage}%` }}
+        ></div>
+    );
 }
 
 export default Loading;

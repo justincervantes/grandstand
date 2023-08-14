@@ -1,6 +1,7 @@
 import { User } from '@prisma/client';
 import { ArticleState } from '@prisma/client';
 import { prisma } from '../../lib/prismadb';
+import PortfolioLinks, { PortfolioLinkLocations } from '../../components/portfoliolinks';
 
 const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects: boolean; hasArticles: boolean }) => {
     const { image, name, description, slug, gitHubUrl, linkedInUrl } = user ?? {};
@@ -10,40 +11,16 @@ const Portfolio = ({ user, hasProjects, hasArticles }: { user: User; hasProjects
                 <img className="w-64 h-64 mx-auto mb-5 rounded-full" src={image} alt={'profile picture'}></img>
                 <p className="text-3xl font-bold md:text-4xl">{name}</p>
                 <p className="text-lg text-gray-500">{description}</p>
-                <div className="flex justify-center">
-                    {hasProjects && (
-                        <a href={`${slug}/projects`}>
-                            <img
-                                className="w-8 h-8 m-4"
-                                src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
-                            ></img>
-                        </a>
-                    )}
-                    {hasArticles && (
-                        <a href={`${slug}/blog`}>
-                            <img
-                                className="w-8 h-8 m-4"
-                                src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
-                            ></img>
-                        </a>
-                    )}
-                    {gitHubUrl && (
-                        <a href={gitHubUrl} target="_blank" rel="noopener noreferrer">
-                            <img
-                                className="w-8 h-8 m-4"
-                                src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                            ></img>
-                        </a>
-                    )}
-                    {linkedInUrl && (
-                        <a href={linkedInUrl} target="_blank" rel="noopener noreferrer">
-                            <img
-                                className="w-8 h-8 m-4"
-                                src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                            ></img>
-                        </a>
-                    )}
-                </div>
+                <PortfolioLinks
+                    location={PortfolioLinkLocations.HomePage}
+                    userProfileImage={image}
+                    userSlug={slug}
+                    hasProjects={hasProjects}
+                    hasArticles={hasArticles}
+                    gitHubUrl={gitHubUrl}
+                    linkedInUrl={linkedInUrl}
+                    userName={name}
+                />
             </div>
         </div>
     );
