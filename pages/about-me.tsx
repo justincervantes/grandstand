@@ -10,7 +10,7 @@ import { prisma } from '../lib/prismadb';
 import FailedSubmissionToast from '../components/failedSubmissionToast';
 
 const AboutMe = ({ user }) => {
-    const { name, slug, description, image, gitHubUrl, linkedInUrl } = user ?? {};
+    const { name, slug, description, image, gitHubUrl, views, linkedInUrl, articles, projects } = user ?? {};
     const { addToast } = useToast();
     const router = useRouter();
 
@@ -70,7 +70,12 @@ const AboutMe = ({ user }) => {
     ];
 
     return (
-        <EditingLayout userSlug={slug}>
+        <EditingLayout
+            userSlug={slug}
+            articleCount={articles?.length ?? 0}
+            projectCount={projects?.length ?? 0}
+            views={views}
+        >
             <Formik
                 initialValues={{
                     userName: name,
@@ -137,6 +142,10 @@ export async function getServerSideProps(context) {
     const user = await prisma.user.findFirstOrThrow({
         where: {
             email: currentUserEmail,
+        },
+        include: {
+            articles: { where: { deletedAt: null } },
+            projects: { where: { deletedAt: null } },
         },
     });
     return {

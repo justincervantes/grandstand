@@ -4,9 +4,15 @@ import { prisma } from '../lib/prismadb';
 import laptopguytext from '../public/laptopguytext.jpg';
 import Image from 'next/image';
 
-const Home = ({ userSlug }) => {
+const Home = ({ user }) => {
+    const { slug: userSlug, articles, projects, views } = user;
     return (
-        <EditingLayout userSlug={userSlug}>
+        <EditingLayout
+            userSlug={userSlug}
+            articleCount={articles?.length ?? 0}
+            projectCount={projects?.length ?? 0}
+            views={views}
+        >
             <div className="grid grid-flow-col py-1 min-h-[80vh]">
                 <div className="flex flex-col items-center justify-center bg-white rounded-lg">
                     <Image
@@ -29,8 +35,12 @@ export async function getServerSideProps(context) {
         where: {
             email: currentUserEmail,
         },
+        include: {
+            articles: { where: { deletedAt: null } },
+            projects: { where: { deletedAt: null } },
+        },
     });
     return {
-        props: { userSlug: user?.slug ?? null },
+        props: { user: JSON.parse(JSON.stringify(user)) },
     };
 }

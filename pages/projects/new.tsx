@@ -62,7 +62,8 @@ const initialValues = () => ({
     state: 'Published',
 });
 
-const NewProject = ({ userSlug }) => {
+const NewProject = ({ user }) => {
+    const { userSlug, articles, projects, views } = user ?? {};
     const { addToast } = useToast();
     const router = useRouter();
     const fields = [
@@ -101,7 +102,12 @@ const NewProject = ({ userSlug }) => {
             });
     };
     return (
-        <EditingLayout userSlug={userSlug}>
+        <EditingLayout
+            userSlug={userSlug}
+            articleCount={articles?.length ?? 0}
+            projectCount={projects?.length ?? 0}
+            views={views}
+        >
             <Formik initialValues={initialValues()} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (
@@ -226,8 +232,12 @@ export async function getServerSideProps(context) {
         where: {
             email: currentUserEmail,
         },
+        include: {
+            articles: { where: { deletedAt: null } },
+            projects: { where: { deletedAt: null } },
+        },
     });
     return {
-        props: { userSlug: user.slug },
+        props: { user: JSON.parse(JSON.stringify(user)) },
     };
 }

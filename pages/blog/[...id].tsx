@@ -10,8 +10,9 @@ import ArticlePreviewModal from '../../components/articles/preview-modal';
 import { prisma } from '../../lib/prismadb';
 import FailedSubmissionToast from '../../components/failedSubmissionToast';
 
-const Article = ({ article, userSlug }) => {
+const Article = ({ article, user }) => {
     const { id: articleId } = article;
+    const { slug: userSlug, articles, projects, views } = user ?? {};
     const [isOpen, setIsOpen] = useState(false);
     const { addToast } = useToast();
     const router = useRouter();
@@ -93,7 +94,12 @@ const Article = ({ article, userSlug }) => {
     ];
 
     return (
-        <EditingLayout userSlug={userSlug}>
+        <EditingLayout
+            userSlug={userSlug}
+            articleCount={articles?.length ?? 0}
+            projectCount={projects?.length ?? 0}
+            views={views}
+        >
             <Formik initialValues={article} onSubmit={handleSubmit} validationSchema={validationSchema()}>
                 {({ setFieldValue, values }) => {
                     return (
@@ -171,6 +177,10 @@ export async function getServerSideProps(context) {
     const currentUserEmail = session.user.email;
     const user = await prisma.user.findFirstOrThrow({
         where: { email: currentUserEmail },
+        include: {
+            articles: { where: { deletedAt: null } },
+            projects: { where: { deletedAt: null } },
+        },
     });
 
     const article = await prisma.article.findFirst({
@@ -187,6 +197,6 @@ export async function getServerSideProps(context) {
         };
     }
     return {
-        props: { article: JSON.parse(JSON.stringify(article)), userSlug: user.slug },
+        props: { user: JSON.parse(JSON.stringify(user)), article },
     };
 }

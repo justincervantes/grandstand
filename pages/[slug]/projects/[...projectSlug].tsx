@@ -3,6 +3,7 @@ import { ArticleState } from '@prisma/client';
 import { useRouter } from 'next/router';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { prisma } from '../../../lib/prismadb';
+import PortfolioLinks, { PortfolioLinkLocations } from '../../../components/portfoliolinks';
 
 const Project = ({ project, user, hasArticles }) => {
     const router = useRouter();
@@ -23,53 +24,17 @@ const Project = ({ project, user, hasArticles }) => {
     } = project ?? {};
     return (
         <div className="mb-8">
-            <p className="my-5 text-xl font-bold text-center md:text-2xl lg:text-6xl">{userName}</p>
-            <div className="flex justify-center pb-5 border-b">
-                <img
-                    src={userProfileImage}
-                    className="w-8 h-8 mx-2 border border-black rounded-full md:w-14 md:h-14 lg:h-12 lg:w-12 hover:cursor-pointer"
-                    alt="Home"
-                    title="Home"
-                    onClick={() => router.push(`/${slug}`)}
-                />
-                <img
-                    src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
-                    className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                    alt="Projects"
-                    title="Projects"
-                    onClick={() => router.push(`/${slug}/projects`)}
-                />
+            <PortfolioLinks
+                userName={userName}
+                location={PortfolioLinkLocations.Header}
+                userProfileImage={userProfileImage}
+                userSlug={slug}
+                hasProjects={true}
+                hasArticles={hasArticles}
+                gitHubUrl={gitHubUrl}
+                linkedInUrl={linkedInUrl}
+            />
 
-                {hasArticles && (
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
-                        className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                        alt="Blog"
-                        title="Blog"
-                        onClick={() => router.push(`/${slug}/blog`)}
-                    />
-                )}
-                {gitHubUrl && (
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12"
-                        alt="GitHub"
-                        title="GitHub"
-                        onClick={() => router.push(gitHubUrl)}
-                    />
-                )}
-                {linkedInUrl && (
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12"
-                        alt="LinkedIn"
-                        title="LinkedIn"
-                        onClick={() => router.push(linkedInUrl)}
-                    />
-                )}
-            </div>
-
-            {/* Content */}
             <div className="content-center m-auto mt-5 md:w-2/3 lg:w-1/2">
                 <span className="block text-3xl font-bold text-center md:text-4xl">{title}</span>
                 <p className="text-lg text-center text-gray-500">{description}</p>

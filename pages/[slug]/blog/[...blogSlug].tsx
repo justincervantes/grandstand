@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import DOMPurify from 'isomorphic-dompurify';
 import { marked } from 'marked';
 import { prisma } from '../../../lib/prismadb';
+import PortfolioLinks, { PortfolioLinkLocations } from '../../../components/portfoliolinks';
 
 const Article = ({ article, user, hasProjects }) => {
     const router = useRouter();
@@ -12,52 +13,16 @@ const Article = ({ article, user, hasProjects }) => {
 
     return (
         <div className="mb-8 text-center">
-            <p className="my-5 text-xl font-bold md:text-2xl lg:text-6xl">{userName}</p>
-            <div className="flex justify-center pb-5 border-b">
-                <img
-                    src={userProfileImage}
-                    className="w-8 h-8 mx-2 border border-black rounded-full md:w-14 md:h-14 lg:h-12 lg:w-12 hover:cursor-pointer"
-                    alt="Home"
-                    title="Home"
-                    onClick={() => router.push(`/${slug}`)}
-                />
-
-                {hasProjects && (
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/256/5129/5129558.png"
-                        className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                        alt="Projects"
-                        title="Projects"
-                        onClick={() => router.push(`/${slug}/projects`)}
-                    />
-                )}
-                <img
-                    src="https://cdn-icons-png.flaticon.com/512/1187/1187544.png"
-                    className="w-8 h-8 mx-2 md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                    alt="Blog"
-                    title="Blog"
-                    onClick={() => router.push(`/${slug}/blog`)}
-                />
-                {gitHubUrl && (
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                        alt="GitHub"
-                        title="GitHub"
-                        onClick={() => router.push(gitHubUrl)}
-                    />
-                )}
-                {linkedInUrl && (
-                    <img
-                        src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
-                        className="w-8 h-8 mx-2 rounded-full md:w-12 md:h-12 lg:h-12 lg:w-12 hover:cursor-pointer"
-                        alt="LinkedIn"
-                        title="LinkedIn"
-                        onClick={() => router.push(linkedInUrl)}
-                    />
-                )}
-            </div>
-
+            <PortfolioLinks
+                userName={userName}
+                location={PortfolioLinkLocations.Header}
+                userProfileImage={userProfileImage}
+                userSlug={slug}
+                hasProjects={hasProjects}
+                hasArticles={true}
+                gitHubUrl={gitHubUrl}
+                linkedInUrl={linkedInUrl}
+            />
             <div className="m-auto mt-5">
                 <div className="mb-5">
                     <img className="w-64 h-64 mx-auto mb-5 rounded-md lg:hidden" src={imageUrl}></img>

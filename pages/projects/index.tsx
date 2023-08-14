@@ -4,12 +4,17 @@ import EditingLayout from '../../components/layout';
 import { useRouter } from 'next/router';
 import { prisma } from '../../lib/prismadb';
 
-const Projects = (props) => {
-    const { projects = [], userSlug } = props;
+const Projects = ({ user }) => {
+    const { slug: userSlug, articles, projects, views } = user ?? {};
     const router = useRouter();
 
     return (
-        <EditingLayout userSlug={userSlug}>
+        <EditingLayout
+            userSlug={userSlug}
+            articleCount={articles?.length ?? 0}
+            projectCount={projects?.length ?? 0}
+            views={views}
+        >
             <div className="w-full h-full m-auto">
                 <div className="flex justify-between m-auto mb-6 md:block">
                     <p className="inline text-3xl align-middle bold">Projects</p>
@@ -23,43 +28,45 @@ const Projects = (props) => {
                         New
                     </button>
                 </div>
-                <div className="divide-y divide-slate-300">
-                    {projects.map((project, index) => {
-                        const { id, title, description, state } = project ?? {};
-                        return (
-                            <div
-                                className="cursor-pointer hover:bg-gray-50"
-                                key={index}
-                                onClick={() => router.push(`/projects/${id}`)}
-                            >
-                                <div className="flex w-full leading-normal" key={index}>
-                                    <div className="w-full mb-4">
-                                        <div className="mb-1 text-xl font-bold text-gray-900" key={`title-${index}`}>
-                                            {title}
+                {!!projects?.length && (
+                    <div className="divide-y divide-slate-300">
+                        {projects.map((project, index) => {
+                            const { id, title, description, state } = project ?? {};
+                            return (
+                                <div
+                                    className="cursor-pointer hover:bg-gray-50"
+                                    key={index}
+                                    onClick={() => router.push(`/projects/${id}`)}
+                                >
+                                    <div className="flex w-full leading-normal" key={index}>
+                                        <div className="w-full mb-4">
+                                            <div
+                                                className="mb-1 text-xl font-bold text-gray-900"
+                                                key={`title-${index}`}
+                                            >
+                                                {title}
+                                            </div>
+                                            <p className="text-base text-gray-700" key={`descr-${index}`}>
+                                                {description}
+                                            </p>
+                                            <p
+                                                className={`text-center text-base text-white p-1 my-1 ${
+                                                    state === 'Published' ? 'bg-green-700' : 'bg-gray-500'
+                                                }`}
+                                                key={`state-${index}`}
+                                            >
+                                                {state}
+                                            </p>
                                         </div>
-                                        <p className="text-base text-gray-700" key={`descr-${index}`}>
-                                            {description}
-                                        </p>
-                                        <p
-                                            className={`text-center text-base text-white p-1 my-1 ${
-                                                state === 'Published' ? 'bg-green-700' : 'bg-gray-500'
-                                            }`}
-                                            key={`state-${index}`}
-                                        >
-                                            {state}
-                                        </p>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                {projects.length === 0 && (
+                            );
+                        })}
+                    </div>
+                )}
+                {projects?.length === 0 && (
                     <div className="flex items-center justify-center m-auto text-center h-2/3 lg:w-10/12">
-                        <span className="text-2xl">
-                            Add a new project article to get started. If no blog articles are present, this won't appear
-                            as a link in your profile.
-                        </span>
+                        <span className="text-2xl">Add a new project to get started.</span>
                     </div>
                 )}
             </div>
@@ -80,21 +87,17 @@ export async function getServerSideProps(context) {
     }
     const currentUserEmail = session.user.email;
 
-    const { projects = [], slug: userSlug } = await prisma.user.findFirstOrThrow({
+    const user = await prisma.user.findFirstOrThrow({
         where: {
             email: currentUserEmail,
         },
-        select: {
-            projects: {
-                where: {
-                    deletedAt: null,
-                },
-            },
-            slug: true,
+        include: {
+            articles: { where: { deletedAt: null } },
+            projects: { where: { deletedAt: null } },
         },
     });
 
     return {
-        props: { projects: JSON.parse(JSON.stringify(projects)), userSlug },
+        props: { user: JSON.parse(JSON.stringify(user)) },
     };
 }
