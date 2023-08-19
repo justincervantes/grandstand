@@ -23,7 +23,7 @@ const Project = ({ project, user, hasArticles }) => {
         codeSnippetLanguage,
     } = project ?? {};
     return (
-        <div className="mb-8">
+        <div className="mb-8 text-center">
             <PortfolioLinks
                 userName={userName}
                 location={PortfolioLinkLocations.Header}
