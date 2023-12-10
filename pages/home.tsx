@@ -5,7 +5,7 @@ import laptopguytext from '../public/laptopguytext.jpg';
 import Image from 'next/image';
 
 const Home = ({ user }) => {
-    const { slug: userSlug, articles, projects, views } = user;
+    const { slug: userSlug, articles, projects, views } = user ?? {};
     return (
         <EditingLayout
             userSlug={userSlug}
@@ -19,6 +19,7 @@ const Home = ({ user }) => {
                         className="w-auto max-h-[75vh]"
                         src={laptopguytext}
                         alt="Easily host your portfolio online"
+                        priority
                     />
                 </div>
             </div>
