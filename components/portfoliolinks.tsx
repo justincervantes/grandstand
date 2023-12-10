@@ -52,7 +52,7 @@ function PortfolioLinks({
     return (
         <>
             {location !== PortfolioLinkLocations.HomePage && (
-                <p className="my-5 text-xl font-bold md:text-2xl lg:text-6xl">{userName}</p>
+                <p className="my-5 text-xl font-bold text-center md:text-2xl lg:text-6xl">{userName}</p>
             )}
             <div className={containerStyles}>
                 {location !== PortfolioLinkLocations.HomePage && (

@@ -1,7 +1,7 @@
 import EditingLayout from '../../components/layout';
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-import React, { useEffect } from 'react';
+import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { programmingLanguageOptions } from '../../lib/programmingLanguageOptions';
 import axios from 'axios';
@@ -63,7 +63,7 @@ const initialValues = () => ({
 });
 
 const NewProject = ({ user }) => {
-    const { userSlug, articles, projects, views } = user ?? {};
+    const { slug: userSlug, articles, projects, views } = user ?? {};
     const { addToast } = useToast();
     const router = useRouter();
     const fields = [
