@@ -2,6 +2,9 @@
 
 A tool web application that builds and hosts developer portfolio pages.
 
+<img width="560" height="497" alt="image" src="https://github.com/user-attachments/assets/866b5bd6-2e27-49c2-b006-cba76b1b066e" />
+
+
 ## Local Setup (Windows)
 
 - Download PostgresSQL using [choco](https://community.chocolatey.org/packages/postgresql). __Save the password from choco as you'll need this to access your local postgres, otherwise follow the troubleshooting guide if you missed this (see choco link). You can also set your own password using choco.__
